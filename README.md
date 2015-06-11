@@ -41,12 +41,23 @@ legend('topleft', legend=latex2exp(sprintf("\\alpha = %d", alpha)), lwd=1, col=a
 Only a subset of LaTeX is supported, and not 100% correctly. The following should be supported:
 
 ``` r
-print(latex2exp.supported())
+print(noquote(latex2exp.supported()))
 ```
+
+    ##  [1] \\pm         \\neq        \\geq        \\leq        \\approx    
+    ##  [6] \\sim        \\propto     \\equiv      \\cong       \\in        
+    ## [11] \\notin      \\cdot       \\times      \\subset     \\subseteq  
+    ## [16] \\nsubset    \\supset     \\supseteq   \\rightarrow \\leftarrow 
+    ## [21] \\Rightarrow \\Leftarrow  \\sqrt       \\sum        \\prod      
+    ## [26] \\int        \\frac       \\text       \\textbf     \\textit    
+    ## [31] \\mathbf     \\mathit     \\mathrm     \\infty      \\partial   
+    ## [36] \\cdots      \\ldots      \\degree     \\prime      \\tilde     
+    ## [41] \\hat        \\widehat    \\widetilde  \\bar        \\dot       
+    ## [46] \\underline  \\,          \\;
 
 are supported. Their rendering depends on R's interpretation of the plotmath expression.
 
-To render normal text or punctuation interspersed in the formula, embed it in \\text{My text}.
+To render text with spaces or punctuation interspersed in the formula, embed it in `\\text{My text}`.
 
 A few examples:
 
@@ -54,7 +65,7 @@ A few examples:
 latex2exp.examples()
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 FAQ
 ---
@@ -65,6 +76,6 @@ This script will get easily confused by even very simple LaTeX formulas (as I me
 
 ### The translation is incorrect/Why is this not a proper R package?
 
-The script, at the present stage, is just a quick hack to let me use LaTeX formulas in my scripts. Therefore, it currently does not handle lots and lots of correct LaTeX formulas.
+The script, at the present stage, is just a quick hack to let me use LaTeX formulas in my scripts.
 
 At some point, I will rewrite this with more sound code and share it as an R package. Stay tuned, and feel free to file bugs.

@@ -1,6 +1,9 @@
 ---
 title: "LaTeX2Exp"
 author: "Stefano Meschiari"
+output:  
+  md_document:
+    variant: markdown_github
 ---
 # LaTeX2Exp
 *latex2exp* is an R function that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque and fiddly; LaTeX is a de-facto standard for mathematical expressions, so this script might be useful to others as well.
