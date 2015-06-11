@@ -1,9 +1,9 @@
 LaTeX2Exp
 =========
 
-*latex2exp* is a super-hacky, quick and dirty, ugly R function to convert LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque and fiddly; LaTeX is a de-facto standard for mathematical expressions, so this script might be useful to others as well.
+*latex2exp* is an R function that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque and fiddly; LaTeX is a de-facto standard for mathematical expressions, so this script might be useful to others as well.
 
-*Note that at the moment, this script is at very early stages; translation is done through a set of regexes. It /will/ fail for even very straightforward LaTeX formulas. It may improve in the future.*
+*Note that at the moment, this script is at very early stages. It /will/ fail for even very straightforward LaTeX formulas. It may improve in the future.*
 
 Usage
 -----
@@ -11,7 +11,7 @@ Usage
 Clone this repository and source the script. The script's only dependence is the stringr package.
 
 ``` r
-source("latex2exp.r")
+source("./latex2exp.r")
 ```
 
 The `latex2exp` function takes a LaTeX string and returns a plotmath expression suitable for use in plotting, e.g.,
@@ -27,7 +27,7 @@ The return value of latex2exp can be used anywhere a plotmath expression is acce
 ``` r
 x <- seq(0, 4, length.out=100)
 alpha <- 1:5
-plot(x, xlim=c(0, 4), ylim=c(0, 10), xlab='x', ylab=latex2exp('\\alpha x^\\alpha\\text{, where }\\alpha \\in \\text{1:5}'), type='n')
+plot(x, xlim=c(0, 4), ylim=c(0, 10), xlab='x', ylab=latex2exp('\\alpha  x^\\alpha\\text{, where }\\alpha \\in \\text{1:5}'), type='n')
 for (a in alpha)
   lines(x, a*x^a, col=a)
 legend('topleft', legend=latex2exp(sprintf("\\alpha = %d", alpha)), lwd=1, col=alpha)
@@ -38,14 +38,10 @@ legend('topleft', legend=latex2exp(sprintf("\\alpha = %d", alpha)), lwd=1, col=a
 "Supported" LaTeX
 -----------------
 
-Only a subset of LaTeX is supported, and not 100% correctly. Greeks, exponentiation, subscript, and the LaTeX commands
+Only a subset of LaTeX is supported, and not 100% correctly. The following should be supported:
 
-``` latex
-\sum, \prod, \int, \cdot, \times, \pm, \eq, \neq, \geq, \leq, 
-\partial, \approx, \sim, \propto, \equiv, \infty, \in, \notin, 
-\sqrt, \left( and \right), \mathbf, \mathit, \mathrm, \textbf, 
-\textit, \text, \frac, \dot, \widehat, \tilde, \hat, 
-\underline
+``` r
+print(latex2exp.supported())
 ```
 
 are supported. Their rendering depends on R's interpretation of the plotmath expression.
