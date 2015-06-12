@@ -164,7 +164,7 @@ toString.latextoken <- function(tok, textmode=FALSE) {
         p <- tok$s
     } else {
         
-        p <- str_c('\'', tok$s, '\'')
+        p <- str_c('\'', str_replace_all(tok$s, '\\\\', '\\\\\\\\'), '\'')
     }
     
     p <- str_c(pre, p)
@@ -241,14 +241,17 @@ toString.latextoken <- function(tok, textmode=FALSE) {
     nextisarg <- 0
     needsnew <- FALSE
 
-    
-    for (i in 1:length(str)) {
+    i <- 0
+    while (i < length(str)) {
+        i <- i + 1
         ch = str[i]
         nextch = if (!is.na(str[i+1])) str[i+1] else ''
         
-        if (token$s != "" && ch == '\\') {
+        if (ch == '\\') {
             # Char is \ (start a new node, unless preceded by another \)
-            if (prevch != '\\') {
+            if (nextch %in% c("[", "]", "{", "}")) {
+                needsnew <- TRUE
+            } else if (prevch != '\\') {
                 old <- token
                 needsnew <- FALSE
                 if (nextisarg == 2) {
@@ -259,8 +262,9 @@ toString.latextoken <- function(tok, textmode=FALSE) {
                     ntoken <- .token(parent=token, s=ch, ch=ch)
                     token$args[[length(token$args)+1]] <- ntoken
                     token <- ntoken
-                } else
+                } else {
                     token <- .token(s='\\', parent=token$parent, prev=old, ch=ch)
+                }
             } else {
                 ch <- ''
             }
@@ -277,7 +281,7 @@ toString.latextoken <- function(tok, textmode=FALSE) {
                     nextisarg <- 0
                 }
             }
-        } else if (ch == "{") {
+        } else if (ch == "{" && !prevch=="\\") {
             # Brace parameter starting, create new child node
                 
             nextisarg <- 0
@@ -288,11 +292,11 @@ toString.latextoken <- function(tok, textmode=FALSE) {
             if (token$parent$s %in% .textmode) {
                 token$parent$textmode <- TRUE
             }
-        } else if (ch == "}" || ch == "]") {
+        } else if (ch == "}" || ch == "]" && !prevch=="\\") {
             # Square or brace parameter ended, return to parent node
             token <- token$parent
             needsnew <- TRUE
-        } else if (ch == "[") {
+        } else if (ch == "[" && !prevch=="\\") {
             # Square parameter started, create new child node, put in $sqarg
             nextisarg <- 0            
             old <- token
