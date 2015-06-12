@@ -8,7 +8,7 @@ LaTeX2Exp
 Usage
 -----
 
-Clone this repository and source the script. The script's only dependence is the stringr package.
+Clone this repository and source the script. The script's only dependence are the stringr and magrittr package.
 
 ``` r
 source("./latex2exp.r")
