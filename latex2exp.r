@@ -13,10 +13,13 @@ print.latextoken <- function(tok, level=0, n=1, ch='') {
         print(tok$succ, level, n+1)
 }
 
-# To test conversion, use plot(latex2token('...'))
-plot.expression <- function(e) {
+# To test conversion, use plot(latex2exp('...'))
+plot.expression <- function(e, ...) {
+    oldpar <- par(no.readonly=TRUE)
+    on.exit(suppressWarnings(par(oldpar)))
+    par(mar=c(0, 0, 0, 0))
     plot(0, 0, type='n', axes=F, xlab='', ylab='')
-    text(0, 0, e)
+    text(0, 0, e, ...)
 }
 
 .tomap <- function(...) {
@@ -96,7 +99,8 @@ plot.expression <- function(e) {
     "\\degree", " degree ",
     "''", " second ",
     "'", " minute ",
-    "\\prime", " second ",
+    "\\prime", " minute ",
+    "\\LaTeX", "L^{phantom()[phantom()[phantom()[scriptstyle(A)]]]}*T[textstyle(E)]*X",
 
     # Decorations
     "\\tilde", "tilde(@1@)",
@@ -361,7 +365,6 @@ toString.latextoken <- function(tok, textmode=FALSE) {
         cat("Parsed expression: ", str, "\n")
         stop(e)
     })
-    exp <- structure(exp, class=c('expression', 'latex2exp'), latex=original)
 
     if (output[1] == 'text') {
         return(str)
@@ -373,11 +376,6 @@ latex2exp <- function(string, output=c('expression', 'text', 'ast')) {
     return(sapply(string, .parseTeX, output=output))
 }
 
-plot.latex2exp <- function(exp, cex=1, font=NULL, ...) {
-    plot(0, 0, type='n', axes=F, xlab='', ylab='')
-    text(0, 0, exp, cex=cex, font=font, ...)
-}
-
 latex2exp.supported <- function() {
     return(names(.subs) %>%
                  Filter(function(d) {
@@ -387,8 +385,12 @@ latex2exp.supported <- function() {
     
 }
 
-latex2exp.examples <- function() {
+latex2exp_examples <- function() {
+    oldpar <- par(no.readonly=TRUE)
+    on.exit(suppressWarnings(par(oldpar)))
+
     plot.new()
+    par(mar=c(0, 0, 0, 0))
     plot.window(xlim=c(0, 1), ylim=c(0, 1))
     examples <- c(
         "\\alpha_{\\beta}^{\\gamma}",
@@ -405,6 +407,6 @@ latex2exp.examples <- function() {
     x <- 0
     y <- seq(0.95, 0.05, length.out=length(examples))
 
-    text(0.5, y, examples, pos=2, cex=0.75)
+    text(0.5, y, sapply(examples, function(e) str_replace_all(e, "\\\\", "\\\\\\\\")), pos=2, cex=0.7, family='mono')
     text(0.5, y, latex2exp(examples), pos=4)
 }

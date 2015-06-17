@@ -1,12 +1,10 @@
 ---
 title: "LaTeX2Exp"
 author: "Stefano Meschiari"
-output:  
-  md_document:
-    variant: markdown_github
+output: html_document
 ---
 # LaTeX2Exp
-*latex2exp* is an R function that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque and fiddly; LaTeX is a de-facto standard for mathematical expressions, so this script might be useful to others as well.
+**latex2exp** is an R function that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque and fiddly; LaTeX is a de-facto standard for mathematical expressions, so this script might be useful to others as well.
 
 *Note that at the moment, this script is at very early stages. It /will/ fail for even very straightforward LaTeX formulas. It may improve in the future.*
 
@@ -23,14 +21,41 @@ latex2exp('\\alpha^\\beta')
 ```
 (note it is *always* necessary to escape the backslash, hence the double backslash).
 
-The return value of latex2exp can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text. For example:
+The return value of latex2exp can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text. 
+
+The following example shows plotting in base graphics:
 ```{r, warning=FALSE}
 x <- seq(0, 4, length.out=100)
 alpha <- 1:5
-plot(x, xlim=c(0, 4), ylim=c(0, 10), xlab='x', ylab=latex2exp('\\alpha  x^\\alpha\\text{, where }\\alpha \\in \\text{1:5}'), type='n')
-for (a in alpha)
-  lines(x, a*x^a, col=a)
+
+plot(x, xlim=c(0, 4), ylim=c(0, 10), xlab='x', ylab=latex2exp('\\alpha  x^\\alpha\\text{, where }\\alpha \\in \\text{1:5}'), type='n', main=latex2exp('\\text{Using }\\LaTeX 2Exp\\text{ for plotting in base graphics}'))
+
+invisible(sapply(alpha, function(a) lines(x, a*x^a, col=a)))
+
 legend('topleft', legend=latex2exp(sprintf("\\alpha = %d", alpha)), lwd=1, col=alpha)
+```
+
+This example shows plotting in [ggplot2](http://ggplot2.org):
+```{r, warning=FALSE}
+library(plyr)
+x <- seq(0, 4, length.out=100)
+alpha <- 1:5
+data <- mdply(alpha, function(a, x) data.frame(v=a*x^a, x=x), x)
+
+p <- ggplot(data, aes(x=x, y=v, color=X1)) +
+    geom_line() + 
+    ylab(latex2exp('\\alpha  x^\\alpha\\text{, where }\\alpha \\in 1\\ldots 5')) +
+    ggtitle(latex2exp('\\text{Using }\\LaTeX 2Exp\\text{ for plotting in ggplot2}')) +
+    coord_cartesian(ylim=c(-1, 10)) +
+    guides(color=guide_legend(title=NULL)) +
+    scale_color_discrete(labels=lapply(sprintf('\\alpha = %d', alpha), latex2exp)) # Note that ggplot2 legend labels must be lists of expressions, not vectors of expressions
+
+print(p)
+```
+
+You can quickly test out what a translated LaTeX string would look like by using `plot`: 
+```{r, fig.width=10, fig.height=2}
+plot(latex2exp("\\text{A }\\LaTeX\\text{ formula: } \\frac{2hc^2}{\\lambda^5}  \\, \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}"), cex=2)
 ```
 
 ## "Supported" LaTeX
@@ -44,8 +69,8 @@ To render text with spaces or punctuation interspersed in the formula, embed it 
 
 A few examples:
 
-```{r, fig.width=9, fig.height=7}
-latex2exp.examples()
+```{r, fig.width=12, fig.height=7}
+latex2exp_examples()
 ```
 
 ## FAQ
