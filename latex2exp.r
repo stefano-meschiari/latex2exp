@@ -231,12 +231,12 @@ toString.latextoken <- function(tok, textmode=FALSE) {
                     str_replace_all('\\\\right\\]', '}\\\\rightBRACE@ ') %>%
                         str_replace_all('\\\\right\\]', '}\\\\rightSQUARE@ ') %>%
                             str_replace_all('\\\\right\\)', '}\\\\rightPAR@ ') %>%
-                                str_replace_all("\\,", "\\\\SPACE1@") %>%
-                                str_replace_all("\\;", "\\\\SPACE2@") %>%
+                                str_replace_all("\\\\,", "\\\\SPACE1@ ") %>%
+                                str_replace_all("\\\\;", "\\\\SPACE2@ ") %>%
                                                                         
-                                str_replace_all(",", "\\\\COMMA@") %>%
-                                str_replace_all(";", "\\\\SEMICOLON@") %>%
-                                str_replace_all("\\.", "\\\\PERIOD@") 
+                                str_replace_all(",", "\\\\COMMA@ ") %>%
+                                str_replace_all(";", "\\\\SEMICOLON@ ") %>%
+                                str_replace_all("\\.", "\\\\PERIOD@ ") 
 
 
     # Split the input into characters
