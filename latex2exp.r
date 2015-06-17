@@ -40,6 +40,12 @@ plot.expression <- function(e) {
 
 .subs <- .tomap(
     # Operators
+    "+", "@P@ + @P@",
+    "-", "@P@ - @P@",
+    "/", "@P@ / @P@",
+    "=", "@P@ == @P@",
+    "\\div", "@P@ %/% @P@",
+    
     "\\pm", "@P@ %+-% @P@",
     "\\neq", "@P@ %!=% @P@",
     "\\geq", "@P@ >= @P@",
@@ -120,7 +126,10 @@ plot.expression <- function(e) {
     "\\leftBRACE@", "bgroup('{', @1@ ",
     "\\rightBRACE@", "'}')",
     "\\leftSQUARE@", "bgroup('[', @1@ ",
-    "\\rightSQUARE@", "']')"
+    "\\rightSQUARE@", "']')",
+    "\\leftPIPE@", "bgroup('|', @1@ ",
+    "\\rightPIPE@", "'|')"
+    
 )
 
 toString.latextoken <- function(tok, textmode=FALSE) {
@@ -352,6 +361,7 @@ toString.latextoken <- function(tok, textmode=FALSE) {
         cat("Parsed expression: ", str, "\n")
         stop(e)
     })
+    exp <- structure(exp, class=c('expression', 'latex2exp'), latex=original)
 
     if (output[1] == 'text') {
         return(str)
@@ -361,6 +371,11 @@ toString.latextoken <- function(tok, textmode=FALSE) {
 
 latex2exp <- function(string, output=c('expression', 'text', 'ast')) {    
     return(sapply(string, .parseTeX, output=output))
+}
+
+plot.latex2exp <- function(exp, cex=1, font=NULL, ...) {
+    plot(0, 0, type='n', axes=F, xlab='', ylab='')
+    text(0, 0, exp, cex=cex, font=font, ...)
 }
 
 latex2exp.supported <- function() {

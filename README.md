@@ -8,7 +8,7 @@ LaTeX2Exp
 Usage
 -----
 
-Clone this repository and source the script. The script's only dependence are the stringr and magrittr package.
+Clone this repository and source the script. The script's only dependence is the stringr package.
 
 ``` r
 source("./latex2exp.r")
@@ -44,16 +44,16 @@ Only a subset of LaTeX is supported, and not 100% correctly. The following shoul
 print(noquote(latex2exp.supported()))
 ```
 
-    ##  [1] \\pm         \\neq        \\geq        \\leq        \\approx    
-    ##  [6] \\sim        \\propto     \\equiv      \\cong       \\in        
-    ## [11] \\notin      \\cdot       \\times      \\subset     \\subseteq  
-    ## [16] \\nsubset    \\supset     \\supseteq   \\rightarrow \\leftarrow 
-    ## [21] \\Rightarrow \\Leftarrow  \\sqrt       \\sum        \\prod      
-    ## [26] \\int        \\frac       \\text       \\textbf     \\textit    
-    ## [31] \\mathbf     \\mathit     \\mathrm     \\infty      \\partial   
-    ## [36] \\cdots      \\ldots      \\degree     \\prime      \\tilde     
-    ## [41] \\hat        \\widehat    \\widetilde  \\bar        \\dot       
-    ## [46] \\underline  \\,          \\;
+    ##  [1] \\div        \\pm         \\neq        \\geq        \\leq       
+    ##  [6] \\approx     \\sim        \\propto     \\equiv      \\cong      
+    ## [11] \\in         \\notin      \\cdot       \\times      \\subset    
+    ## [16] \\subseteq   \\nsubset    \\supset     \\supseteq   \\rightarrow
+    ## [21] \\leftarrow  \\Rightarrow \\Leftarrow  \\sqrt       \\sum       
+    ## [26] \\prod       \\int        \\frac       \\text       \\textbf    
+    ## [31] \\textit     \\mathbf     \\mathit     \\mathrm     \\infty     
+    ## [36] \\partial    \\cdots      \\ldots      \\degree     \\prime     
+    ## [41] \\tilde      \\hat        \\widehat    \\widetilde  \\bar       
+    ## [46] \\dot        \\underline  \\,          \\;
 
 are supported. Their rendering depends on R's interpretation of the plotmath expression.
 
