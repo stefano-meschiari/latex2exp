@@ -202,7 +202,6 @@ toString.latextoken <- function(tok, textmode=FALSE) {
             str_replace_all("@2@", if (length(tok$args) > 1) toString(tok$args[[2]]) else "") %>%
             str_replace_all("@S@", if (length(tok$sqarg) > 0) toString(tok$sqarg[[1]]) else "") %>%
             str_replace_all("@3@", if (length(tok$args) > 2) toString(tok$args[[3]]) else "") 
-        
     } else if (tok$s != '\\' && str_detect(tok$s, '^\\\\') && !tok$textmode) {
         p <- str_replace(tok$s, "\\\\", "")
         
@@ -211,7 +210,6 @@ toString.latextoken <- function(tok, textmode=FALSE) {
     } else if (str_detect(tok$s, "^[0-9]*$")) {
         p <- tok$s
     } else {
-        
         p <- str_c('\'', str_replace_all(tok$s, '\\\\', '\\\\\\\\'), '\'')
     }
     

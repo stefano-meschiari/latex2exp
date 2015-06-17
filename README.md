@@ -1,11 +1,3 @@
--   LaTeX2Exp
-    -   Usage
-    -   Syntax
-    -   "Supported" LaTeX
-    -   FAQ
-        -   It's not working even though my LaTeX string is correct
-        -   The translation is incorrect/Why is this not a proper R package?
-
 LaTeX2Exp
 =========
 
