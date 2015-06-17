@@ -20,14 +20,9 @@ plot.expression <- function(e) {
 }
 
 .tomap <- function(...) {
-    list <- list(...)
-    map <- c()
-    names <- c()
-    for (i in seq(1, length(list), 2)) {
-        names <- c(names, list[[i]])
-        map <- c(map, list[[i+1]])
-    }
-    names(map) <- names
+    dots <- c(...)
+    map <- dots[seq(2, length(dots), 2)]    
+    names(map) <- dots[seq(1, length(dots), 2)]
     return(map)
 }
 
@@ -107,6 +102,8 @@ plot.expression <- function(e) {
     "\\underline", "underline(@1@)",
 
     # Spacing
+    "\\SPACE1@", "paste(' ')",
+    "\\SPACE2@", "phantom(0)",
     "\\,", "phantom(0)",
     "\\;", "phantom() ~~ phantom()",
 
@@ -114,6 +111,7 @@ plot.expression <- function(e) {
     "\\COMMA@", "','",
     "\\SEMICOLON@", "';'",
     "\\PERIOD@", "'.'",
+    
     
     
     # Parentheses
@@ -152,7 +150,7 @@ toString.latextoken <- function(tok, textmode=FALSE) {
             str_replace_all("@P@", 'phantom()') %>%
                 str_replace_all("@1@", if (length(tok$args) > 0) toString(tok$args[[1]]) else "") %>%
                     str_replace_all("@2@", if (length(tok$args) > 1) toString(tok$args[[2]]) else "") %>%
-                        str_replace_all("@S@", if (length(tok$sqarg) > 1) toString(tok$sqarg[[1]]) else "") %>%
+                        str_replace_all("@S@", if (length(tok$sqarg) > 0) toString(tok$sqarg[[1]]) else "") %>%
                             str_replace_all("@3@", if (length(tok$args) > 2) toString(tok$args[[3]]) else "") 
         
     } else if (tok$s != '\\' && str_detect(tok$s, '^\\\\') && !tok$textmode) {
@@ -182,10 +180,6 @@ toString.latextoken <- function(tok, textmode=FALSE) {
 .supsub <- c("\\sqrt", "\\sum", "\\int", "\\prod")
 # LaTeX expressions that will preserve spaces
 .textmode <- c("\\text", "\\textit", "\\textbf", "\\mbox")
-
-## TODO: Figure out how to treat "peer" and "children" exp
-## \\int_{ 0 a b \\text{C} d}
-## \\int_{ 0 a b \\text{C} d} 2 not wokring
 
 
 .token <- function(s='', parent=NULL, prev=NULL, ch='') {
@@ -228,6 +222,9 @@ toString.latextoken <- function(tok, textmode=FALSE) {
                     str_replace_all('\\\\right\\]', '}\\\\rightBRACE@ ') %>%
                         str_replace_all('\\\\right\\]', '}\\\\rightSQUARE@ ') %>%
                             str_replace_all('\\\\right\\)', '}\\\\rightPAR@ ') %>%
+                                str_replace_all("\\,", "\\\\SPACE1@") %>%
+                                str_replace_all("\\;", "\\\\SPACE2@") %>%
+                                                                        
                                 str_replace_all(",", "\\\\COMMA@") %>%
                                 str_replace_all(";", "\\\\SEMICOLON@") %>%
                                 str_replace_all("\\.", "\\\\PERIOD@") 
