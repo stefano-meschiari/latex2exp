@@ -17,7 +17,7 @@ source("./latex2exp.r")
 The `latex2exp` function takes a LaTeX string and returns a plotmath expression suitable for use in plotting, e.g.,
 
 ``` r
-latex2exp('\\alpha^\\beta')
+latex2exp('$\\alpha^\\beta$')
 ```
 
 (note it is *always* necessary to escape the backslash, hence the double backslash).
@@ -30,11 +30,11 @@ The following example shows plotting in base graphics:
 x <- seq(0, 4, length.out=100)
 alpha <- 1:5
 
-plot(x, xlim=c(0, 4), ylim=c(0, 10), xlab='x', ylab=latex2exp('\\alpha  x^\\alpha\\text{, where }\\alpha \\in \\text{1:5}'), type='n', main=latex2exp('\\text{Using }\\LaTeX 2Exp\\text{ for plotting in base graphics}'))
+plot(x, xlim=c(0, 4), ylim=c(0, 10), xlab='x', ylab=latex2exp('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$'), type='n', main=latex2exp('Using $\\LaTeX$ for plotting in base graphics!'))
 
 invisible(sapply(alpha, function(a) lines(x, a*x^a, col=a)))
 
-legend('topleft', legend=latex2exp(sprintf("\\alpha = %d", alpha)), lwd=1, col=alpha)
+legend('topleft', legend=latex2exp(sprintf("$\\alpha = %d$", alpha)), lwd=1, col=alpha)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-3-1.png)
@@ -49,11 +49,11 @@ data <- mdply(alpha, function(a, x) data.frame(v=a*x^a, x=x), x)
 
 p <- ggplot(data, aes(x=x, y=v, color=X1)) +
     geom_line() + 
-    ylab(latex2exp('\\alpha  x^\\alpha\\text{, where }\\alpha \\in 1\\ldots 5')) +
-    ggtitle(latex2exp('\\text{Using }\\LaTeX 2Exp\\text{ for plotting in ggplot2. I } \\heartsuit\\text{ ggplot!}')) +
+    ylab(latex2exp('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$')) +
+    ggtitle(latex2exp('Using $\\LaTeX$ for plotting in ggplot2. I $\\heartsuit$ ggplot!')) +
     coord_cartesian(ylim=c(-1, 10)) +
     guides(color=guide_legend(title=NULL)) +
-    scale_color_discrete(labels=lapply(sprintf('\\alpha = %d', alpha), latex2exp)) # Note that ggplot2 legend labels must be lists of expressions, not vectors of expressions
+    scale_color_discrete(labels=lapply(sprintf('$\\alpha = %d$', alpha), latex2exp)) # Note that ggplot2 legend labels must be lists of expressions, not vectors of expressions
 
 print(p)
 ```
@@ -63,7 +63,7 @@ print(p)
 You can quickly test out what a translated LaTeX string would look like by using `plot`:
 
 ``` r
-plot(latex2exp("\\text{A }\\LaTeX\\text{ formula: } \\frac{2hc^2}{\\lambda^5}  \\, \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}"), cex=2)
+plot(latex2exp("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5}  \\, \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}$"), cex=2)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
@@ -106,6 +106,8 @@ returns a list of supported LaTeX. If `plot=TRUE`, a table of symbols will be pl
 "Supported" LaTeX
 -----------------
 
+Formulas should go between dollar characters ($).
+
 Only a subset of LaTeX is supported, and not 100% correctly. Greek symbols (\\alpha, \\beta, etc.) and the usual operators (+, -, etc.) are supported.
 
 In addition, the following should be supported:
@@ -118,8 +120,6 @@ latex2exp_supported(plot=TRUE)
 
 Their rendering depends on R's interpretation of the plotmath expression.
 
-To render text with spaces or punctuation interspersed in the formula, embed it in `\\text{My text}`.
-
 A few examples:
 
 ``` r
@@ -127,6 +127,13 @@ latex2exp_examples()
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-11-1.png)
+
+Changes
+-------
+
+### 0.2 [06/29/2015]
+
+Formulas must now be enclosed between dollar characters ($), as in LaTeX proper. Text does not need to be enclosed in \\text tags anymore.
 
 FAQ
 ---
