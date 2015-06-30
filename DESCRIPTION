@@ -1,6 +1,6 @@
 Package: latex2exp
 Type: Package
-Title: Use LaTeX code in plots
+Title: Use LaTeX Expressions in Plots
 Version: 0.3.0
 Date: 2015-06-30
 Authors@R: person("Stefano", "Meschiari", email="stefano.meschiari@gmail.com", role=c("aut", "cre"))
