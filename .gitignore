@@ -1,2 +1,5 @@
 .Rhistory
 .Rproj.user
+.*
+*.Rcheck*
+inst/doc

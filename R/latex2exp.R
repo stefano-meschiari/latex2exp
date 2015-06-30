@@ -1,6 +1,4 @@
-
-
-print.latextoken <- function(tok, level = 0, n = 1, ch = '') {
+.print.latextoken <- function(tok, level = 0, n = 1, ch = '') {
   ind <- rep(' ', level)
   cat(ind, n, ch, '. \'', tok$s, '\' ', tok$textmode, ' ', tok$ch, '\n', sep =
         '')
@@ -8,21 +6,22 @@ print.latextoken <- function(tok, level = 0, n = 1, ch = '') {
   sapply(tok$sqarg, print, level = level + 1, n = 1, ch = '[')
 
   if (!is.null(tok$succ))
-    print(tok$succ, level, n + 1)
+    .print.latextoken(tok$succ, level, n + 1)
 }
 
 #' Plots an expression on the current graphical device.
 #'
-#' @param e A \code{\link{plotmath}} expression.
+#' @param x A \code{\link{plotmath}} expression.
 #' @param ... Parameters to be passed to the \code{\link{text}} function.
-plot.expression <- function(e, ...) {
+#' @export
+plot.expression <- function(x, ...) {
   oldpar <- par(no.readonly = TRUE)
   on.exit(suppressWarnings(par(oldpar)))
   par(mar = c(0, 0, 0, 0))
   plot(
     0, 0, type = 'n', axes = F, xlab = '', ylab = ''
   )
-  text(0, 0, e, ...)
+  text(0, 0, x, ...)
   invisible()
 }
 
@@ -175,10 +174,15 @@ plot.expression <- function(e, ...) {
 )
 
 
-
-toString.latextoken <- function(tok, textmode = FALSE) {
-  str_replace_all <- stringr::str_replace_all
-
+#' Converts a token created by latex2exp to a string, later to be parsed into an expression (for internal use).
+#' 
+#' @param x The latex2exp token
+#' @param ... Additional arguments (ignored)
+#' @return A string
+#' @export
+toString.latextoken <- function(x, ...) {
+  tok <- x
+  
   if (is.null(tok$prev))
     pre <- 'paste('
   else
@@ -487,6 +491,7 @@ toString.latextoken <- function(tok, textmode = FALSE) {
 #'
 #' a <- 1:100
 #' plot(a, a^2, xlab=latex2exp("$\\alpha$"), ylab=latex2exp("$\\alpha^2$"))
+#' @export
 latex2exp <-
   function(string, output = c('expression', 'text', 'ast')) {
     return(sapply(string, .parseTeX, output = output))
@@ -496,14 +501,14 @@ latex2exp <-
 #'
 #' @param plot whether to plot the table (FALSE by default)
 #' @return a character vector of supported LaTeX expressions
+#' @export
 latex2exp_supported <- function(plot = FALSE) {
   .talls <- c('\\overset', '\\frac', .supsub)
 
   if (!plot) {
-    return(names(.subs) %>%
-             Filter(function(d) {
+    return(Filter(function(d) {
                return(!str_detect(d, "@$") && str_detect(d, '^\\\\'))
-             }, .))
+             }, names(.subs)))
   } else {
     syms <- sort(latex2exp_supported())
     syms <- syms[!(syms %in% .talls)]
@@ -576,6 +581,8 @@ latex2exp_supported <- function(plot = FALSE) {
 }
 
 #' Plots a number of example LaTeX string, as parsed by \code{\link{latex2exp}}.
+#' 
+#' @export
 latex2exp_examples <- function() {
   oldpar <- par(no.readonly = TRUE)
   on.exit(suppressWarnings(par(oldpar)))
