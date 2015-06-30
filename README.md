@@ -1,17 +1,24 @@
-LaTeX2Exp
+latex2exp
 =========
 
-**latex2exp** is an R function that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque and fiddly; LaTeX is a de-facto standard for mathematical expressions, so this script might be useful to others as well.
+**latex2exp** is an R package that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque and fiddly; LaTeX is a de-facto standard for mathematical expressions, so this package might be useful to others as well.
 
-*Note that at the moment, this script is at very early stages. It /will/ fail for even very straightforward LaTeX formulas. It may improve in the future.*
+*Note that at the moment, this package is at very early stages. It /will/ fail for even very straightforward LaTeX formulas. It may improve in the future.*
+
+Installation
+------------
+
+Install this package using [devtools](http://cran.r-project.org/web/packages/devtools/index.html).
+
+``` r
+devtools::install_github('ggthemr', 'cttobin')
+```
 
 Usage
 -----
 
-Clone this repository and source the script. The script's only dependence are the `stringr` and `magrittr` packages.
-
 ``` r
-source("./latex2exp.r")
+library(latex2exp)
 ```
 
 The `latex2exp` function takes a LaTeX string and returns a plotmath expression suitable for use in plotting, e.g.,
@@ -37,7 +44,7 @@ invisible(sapply(alpha, function(a) lines(x, a*x^a, col=a)))
 legend('topleft', legend=latex2exp(sprintf("$\\alpha = %d$", alpha)), lwd=1, col=alpha)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
 This example shows plotting in [ggplot2](http://ggplot2.org):
 
@@ -58,7 +65,7 @@ p <- ggplot(data, aes(x=x, y=v, color=X1)) +
 print(p)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 You can quickly test out what a translated LaTeX string would look like by using `plot`:
 
@@ -66,7 +73,10 @@ You can quickly test out what a translated LaTeX string would look like by using
 plot(latex2exp("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5}  \\, \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}$"), cex=2)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
+
+Installation
+------------
 
 Syntax
 ------
@@ -116,7 +126,7 @@ In addition, the following should be supported:
 latex2exp_supported(plot=TRUE)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 Their rendering depends on R's interpretation of the plotmath expression.
 
@@ -126,24 +136,22 @@ A few examples:
 latex2exp_examples()
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-12-1.png)
+
+    ## [1] TRUE
 
 Changes
 -------
 
-### 0.2 [06/29/2015]
+### 0.3 \[06/30/2015\]
+
+`latex2exp` is now a proper package.
+
+### 0.2 \[06/29/2015\]
 
 Formulas must now be enclosed between dollar characters ($), as in LaTeX proper. Text does not need to be enclosed in \\text tags anymore.
 
 FAQ
 ---
 
-### It's not working even though my LaTeX string is correct
-
-This script will get easily confused by even very simple LaTeX formulas (as I mentioned, it's a work in progress!). Please file a bug.
-
-### The translation is incorrect/Why is this not a proper R package?
-
-The script, at the present stage, is just a quick hack to let me use LaTeX formulas in my scripts.
-
-At some point, I will rewrite this with more sound code and share it as an R package. Stay tuned, and feel free to file bugs.
+This function will get easily confused by even very simple LaTeX formulas (as I mentioned, it's a work in progress!). Please file a bug.
