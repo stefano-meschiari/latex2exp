@@ -11,7 +11,7 @@ Installation
 Install this package using [devtools](http://cran.r-project.org/web/packages/devtools/index.html).
 
 ``` r
-devtools::install_github('ggthemr', 'cttobin')
+devtools::install_github('latex2exp', 'stefano-meschiari')
 ```
 
 Usage
