@@ -69,8 +69,6 @@ plot(latex2exp("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5} \\,
                \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}$"), cex=2)
 ```
 
-## Installation
-
 
 ## Syntax
 Use
