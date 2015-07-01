@@ -35,11 +35,14 @@ The following example shows plotting in base graphics:
 x <- seq(0, 4, length.out=100)
 alpha <- 1:5
 
-plot(x, xlim=c(0, 4), ylim=c(0, 10), xlab='x', ylab=latex2exp('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$'), type='n', main=latex2exp('Using $\\LaTeX$ for plotting in base graphics!'))
+plot(x, xlim=c(0, 4), ylim=c(0, 10), 
+     xlab='x', ylab=latex2exp('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$'), 
+     type='n', main=latex2exp('Using $\\LaTeX$ for plotting in base graphics!'))
 
 invisible(sapply(alpha, function(a) lines(x, a*x^a, col=a)))
 
-legend('topleft', legend=latex2exp(sprintf("$\\alpha = %d$", alpha)), lwd=1, col=alpha)
+legend('topleft', legend=latex2exp(sprintf("$\\alpha = %d$", alpha)), 
+       lwd=1, col=alpha)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
@@ -58,7 +61,8 @@ p <- ggplot(data, aes(x=x, y=v, color=X1)) +
     ggtitle(latex2exp('Using $\\LaTeX$ for plotting in ggplot2. I $\\heartsuit$ ggplot!')) +
     coord_cartesian(ylim=c(-1, 10)) +
     guides(color=guide_legend(title=NULL)) +
-    scale_color_discrete(labels=lapply(sprintf('$\\alpha = %d$', alpha), latex2exp)) # Note that ggplot2 legend labels must be lists of expressions, not vectors of expressions
+    scale_color_discrete(labels=lapply(sprintf('$\\alpha = %d$', alpha), latex2exp)) 
+    # Note that ggplot2 legend labels must be lists of expressions, not vectors of expressions
 
 print(p)
 ```
@@ -68,7 +72,8 @@ print(p)
 You can quickly test out what a translated LaTeX string would look like by using `plot`:
 
 ``` r
-plot(latex2exp("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5}  \\, \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}$"), cex=2)
+plot(latex2exp("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5} \\, 
+               \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}$"), cex=2)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
