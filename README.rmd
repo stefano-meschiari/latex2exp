@@ -12,7 +12,7 @@ output:
 Install this package using [devtools](http://cran.r-project.org/web/packages/devtools/index.html).
 
 ```{r, eval=FALSE}
-devtools::install_github('latex2exp', 'stefano-meschiari')
+devtools::install_github('stefano-meschiari/latex2exp')
 ```
 
 ## Usage

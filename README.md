@@ -1,9 +1,7 @@
 latex2exp
 =========
 
-**latex2exp** is an R package that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque and fiddly; LaTeX is a de-facto standard for mathematical expressions, so this package might be useful to others as well.
-
-*Note that at the moment, this package is at very early stages. It /will/ fail for even very straightforward LaTeX formulas. It may improve in the future.*
+**latex2exp** is an R package that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque, while LaTeX is a de-facto standard for mathematical expressions, so this package might be useful to others as well.
 
 Installation
 ------------
@@ -11,7 +9,7 @@ Installation
 Install this package using [devtools](http://cran.r-project.org/web/packages/devtools/index.html).
 
 ``` r
-devtools::install_github('latex2exp', 'stefano-meschiari')
+devtools::install_github('stefano-meschiari/latex2exp')
 ```
 
 Usage
@@ -143,11 +141,11 @@ latex2exp_examples()
 Changes
 -------
 
-### 0.3 \[06/30/2015\]
+### 0.3 [06/30/2015]
 
 `latex2exp` is now a proper package.
 
-### 0.2 \[06/29/2015\]
+### 0.2 [06/29/2015]
 
 Formulas must now be enclosed between dollar characters ($), as in LaTeX proper. Text does not need to be enclosed in \\text tags anymore.
 
