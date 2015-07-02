@@ -78,9 +78,6 @@ plot(latex2exp("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5} \\,
 
 ![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
-Installation
-------------
-
 Syntax
 ------
 
@@ -146,11 +143,15 @@ latex2exp_examples()
 Changes
 -------
 
-### 0.3 [06/30/2015]
+### 0.3.1 [07/02/2015]
+
+Fixes bug \#2 (white space causes unexpected behaviour). `latex2exp` should now be a bit more compliant with how LaTeX handles whitespace.
+
+### 0.3.0 [06/30/2015]
 
 `latex2exp` is now a proper package.
 
-### 0.2 [06/29/2015]
+### 0.2.0 [06/29/2015]
 
 Formulas must now be enclosed between dollar characters ($), as in LaTeX proper. Text does not need to be enclosed in \\text tags anymore.
 
