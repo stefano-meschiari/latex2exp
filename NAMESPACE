@@ -1,4 +1,5 @@
 S3method(plot,expression)
+S3method(print,latextoken)
 S3method(toString,latextoken)
 export(latex2exp)
 export(latex2exp_examples)

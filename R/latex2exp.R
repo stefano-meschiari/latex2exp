@@ -1,12 +1,24 @@
-.print.latextoken <- function(tok, level = 0, n = 1, ch = '') {
-  ind <- rep(' ', level)
-  cat(ind, n, ch, '. \'', tok$s, '\' ', tok$textmode, ' ', tok$ch, '\n', sep =
-        '')
-  sapply(tok$args, print, level = level + 1, n = 1, ch = '{')
-  sapply(tok$sqarg, print, level = level + 1, n = 1, ch = '[')
+`%??%` <- function(x, y) {
+  return(if (is.null(x) || is.na(x) || !x)  y else x)
+}
 
-  if (!is.null(tok$succ))
-    .print.latextoken(tok$succ, level, n + 1)
+#' Prints out the parsed LaTeX object.
+#' 
+#' 
+print.latextoken <- function(x, ...) {
+  dots <- list(...)
+  level <- dots$level %??% 0
+  n <- dots$n %??% 1
+  ch <- dots$n %??% ''
+  
+  ind <- rep(' ', level)
+  cat(ind, n, ch, '. \'', x$s, '\' ', x$textmode, ' ', x$ch, '\n', sep =
+        '')
+  sapply(x$args, print, level = level + 1, n = 1, ch = '{')
+  sapply(x$sqarg, print, level = level + 1, n = 1, ch = '[')
+
+  if (!is.null(x$succ))
+    print.latextoken(x$succ, level, n + 1)
 }
 
 #' Plots an expression on the current graphical device.
@@ -303,9 +315,11 @@ toString.latextoken <- function(x, ...) {
 
       str_replace_all(",", "\\\\COMMA@ ") %>%
       str_replace_all(";", "\\\\SEMICOLON@ ") %>%
-      str_replace_all("\\.", "\\\\PERIOD@ ")
-
-
+      str_replace_all("\\.", "\\\\PERIOD@ ") %>%
+  
+      str_replace_all("([ ]+)", " ") %>%
+      str_replace_all(" \\^ ", "\\^") %>%
+      str_replace_all(" _ ", "_")
     # Split the input into characters
     str <- str_split(string, '')[[1]]
     prevch <- ''
@@ -358,14 +372,9 @@ toString.latextoken <- function(x, ...) {
         # Ignore spaces, unless in text mode
         if (prevch != ' ') {
           if (nextisarg == 1) {
-            nextisarg <- 0
-            token <- token$parent
-            token <-
-              .token(
-                prev = token, parent = token, ch = ch, textmode = textmode
-              )
+            nextisarg <- 1
+            
           } else {
-            old <- token
             token <-
               .token(
                 prev = token, parent = token$parent, ch = ch, textmode = textmode
@@ -600,7 +609,8 @@ latex2exp_examples <- function() {
     "$\\nabla \\times \\bar{x}$ and $\\nabla \\cdot \\bar{x}$",
     "$\\sqrt[\\alpha\\beta]{x^2}$",
     "\\textbf{Bold} and \\textit{italic} text!",
-    "$\\left{\\left(\\left[^B_R^A_C^E_S\\right]\\right)\\right}$"
+    "$\\left{\\left(\\left[^B_R^A_C^E_S\\right]\\right)\\right}$",
+    "Whitespace compliant: $x ^ 2 \\times \\sum_ 0 ^ 1 y _ i$"
   )
 
   x <- 0
