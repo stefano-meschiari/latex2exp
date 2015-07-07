@@ -6,7 +6,13 @@ latex2exp
 Installation
 ------------
 
-Install this package using [devtools](http://cran.r-project.org/web/packages/devtools/index.html).
+Install this package from CRAN:
+
+``` r
+install.packages('latex2exp')
+```
+
+You can also install from GitHub using [devtools](http://cran.r-project.org/web/packages/devtools/index.html):
 
 ``` r
 devtools::install_github('stefano-meschiari/latex2exp')
@@ -25,7 +31,7 @@ The `latex2exp` function takes a LaTeX string and returns a plotmath expression 
 latex2exp('$\\alpha^\\beta$')
 ```
 
-(note it is *always* necessary to escape the backslash, hence the double backslash).
+(note it is *always* necessary to escape the backslash within a string, hence the double backslash).
 
 The return value of latex2exp can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text.
 
@@ -45,7 +51,7 @@ legend('topleft', legend=latex2exp(sprintf("$\\alpha = %d$", alpha)),
        lwd=1, col=alpha)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 This example shows plotting in [ggplot2](http://ggplot2.org):
 
@@ -67,7 +73,7 @@ p <- ggplot(data, aes(x=x, y=v, color=X1)) +
 print(p)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 You can quickly test out what a translated LaTeX string would look like by using `plot`:
 
@@ -76,7 +82,7 @@ plot(latex2exp("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5} \\,
                \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}$"), cex=2)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 Syntax
 ------
@@ -126,7 +132,7 @@ In addition, the following should be supported:
 latex2exp_supported(plot=TRUE)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 Their rendering depends on R's interpretation of the plotmath expression.
 
@@ -136,7 +142,7 @@ A few examples:
 latex2exp_examples()
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
     ## [1] TRUE
 

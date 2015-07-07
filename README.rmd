@@ -9,8 +9,11 @@ output:
 **latex2exp** is an R package that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque, while LaTeX is a de-facto standard for mathematical expressions, so this package might be useful to others as well.
 
 ## Installation 
-Install this package using [devtools](http://cran.r-project.org/web/packages/devtools/index.html).
-
+Install this package from CRAN:
+```{r, eval=FALSE}
+install.packages('latex2exp')
+```
+You can also install from GitHub using [devtools](http://cran.r-project.org/web/packages/devtools/index.html):
 ```{r, eval=FALSE}
 devtools::install_github('stefano-meschiari/latex2exp')
 ```
@@ -25,7 +28,7 @@ The `latex2exp` function takes a LaTeX string and returns a plotmath expression 
 ```{r, eval=FALSE}
 latex2exp('$\\alpha^\\beta$')
 ```
-(note it is *always* necessary to escape the backslash, hence the double backslash).
+(note it is *always* necessary to escape the backslash within a string, hence the double backslash).
 
 The return value of latex2exp can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text. 
 
