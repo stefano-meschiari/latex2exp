@@ -2,9 +2,9 @@
   return(if (is.null(x) || is.na(x) || !x)  y else x)
 }
 
-#' Prints out the parsed LaTeX object.
-#' 
-#' 
+#' Prints out a parsed LaTeX object, as returned by latex2exp(..., output='ast').
+#' @param x The latex2exp object.
+#' @param ... (ignored)
 print.latextoken <- function(x, ...) {
   dots <- list(...)
   level <- dots$level %??% 0
@@ -19,6 +19,24 @@ print.latextoken <- function(x, ...) {
 
   if (!is.null(x$succ))
     print.latextoken(x$succ, level, n + 1)
+}
+
+post_process <- function(tok) {
+  if (tok$s == "^" && !is.null(tok$succ) && tok$succ$s == "_") {
+    tok$s = "\\SUB_AND_EXP@"
+    tok$args = c(tok$succ$args, tok$args)
+    tok$succ <- tok$succ$succ
+  } else if (tok$s == "_" && !is.null(tok$succ) && tok$succ$s == "^") {
+    tok$s = "\\SUB_AND_EXP@"
+    tok$args = c(tok$args, tok$succ$args)
+    tok$succ <- tok$succ$succ
+  }
+  
+  if (!is.null(tok$succ))
+    post_process(tok$succ)
+  sapply(tok$args, post_process)
+  sapply(tok$sqargs, post_process)
+
 }
 
 #' Plots an expression on the current graphical device.
@@ -168,6 +186,7 @@ plot.expression <- function(x, ...) {
   "\\COMMA@", "','",
   "\\SEMICOLON@", "';'",
   "\\PERIOD@", "'.'",
+  "\\SUB_AND_EXP@", "@P@ [@1@] ^{@2@}",
 
 
 
@@ -466,12 +485,13 @@ toString.latextoken <- function(x, ...) {
       }
 
       prevch <- ch
-      #        cat(ch, token$s, '\n')
     }
 
+    post_process(root)
     if (output[1] == 'ast')
       return(root)
 
+    
     str <- toString(root)
     exp <- tryCatch(
       parse(text = str), error = function(e) {
@@ -480,6 +500,8 @@ toString.latextoken <- function(x, ...) {
         stop(e)
       }
     )
+    
+    
 
     if (output[1] == 'character') {
       return(str)
@@ -503,6 +525,8 @@ toString.latextoken <- function(x, ...) {
 #' @export
 latex2exp <-
   function(string, output = c('expression', 'text', 'ast')) {
+    if (missing(string))
+      stop("Specify a LaTeX string.")
     return(sapply(string, .parseTeX, output = output))
   }
 
@@ -607,9 +631,9 @@ latex2exp_examples <- function() {
     "$\\left(\\int_{0}^{1} \\sin(x) dx \\right)$",
     "The value of the fine structure constant is $\\alpha \\approx \\frac{1}{137}$.",
     "$\\nabla \\times \\bar{x}$ and $\\nabla \\cdot \\bar{x}$",
-    "$\\sqrt[\\alpha\\beta]{x^2}$",
+    "$\\sqrt[\\alpha\\beta]{x_i^2}$",
     "\\textbf{Bold} and \\textit{italic} text!",
-    "$\\left{\\left(\\left[^B_R^A_C^E_S\\right]\\right)\\right}$",
+    "$\\left{\\left(\\left[BRACES\\right]\\right)\\right}$",
     "Whitespace compliant: $x ^ 2 \\times \\sum_ 0 ^ 1 y _ i$"
   )
 
