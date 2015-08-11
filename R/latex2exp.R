@@ -188,8 +188,6 @@ plot.expression <- function(x, ...) {
   "\\PERIOD@", "'.'",
   "\\SUB_AND_EXP@", "@P@ [@1@] ^{@2@}",
 
-
-
   # Parentheses
   "\\leftPAR@", "bgroup('(', @1@ ",
   "\\rightPAR@", "')')",
@@ -262,7 +260,7 @@ toString.latextoken <- function(x, ...) {
       p <-
         str_c(p, ',', str_c(sapply(tok$args, toString), collapse = ','))
   } else if (str_detect(tok$s, "^[0-9]*$")) {
-    p <- tok$s
+    p <- str_c('\'', tok$s, '\'')
   } else {
     p <- str_c('\'', str_replace_all(tok$s, '\\\\', '\\\\\\\\'), '\'')
   }
@@ -634,7 +632,8 @@ latex2exp_examples <- function() {
     "$\\sqrt[\\alpha\\beta]{x_i^2}$",
     "\\textbf{Bold} and \\textit{italic} text!",
     "$\\left{\\left(\\left[BRACES\\right]\\right)\\right}$",
-    "Whitespace compliant: $x ^ 2 \\times \\sum_ 0 ^ 1 y _ i$"
+    "Whitespace compliant: $x ^ 2 \\times \\sum_ 0 ^ 1 y _ i$",
+    "Numbers: $0.05$, $0.03$, $0.005^{0.002}_{0.01}$"
   )
 
   x <- 0

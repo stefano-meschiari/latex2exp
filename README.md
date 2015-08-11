@@ -149,6 +149,10 @@ latex2exp_examples()
 Changes
 -------
 
+### 0.3.3 \[08/11/2015\]
+
+Fixes bug \#4 ("fix parsing of numbers"), where certain numbers inside formulas where not parsed correctly.
+
 ### 0.3.2 \[07/28/2015\]
 
 Fixes bug \#3 ("subscript and superscript style"). `latex2exp` now renders combined subscripts and superscripts correctly.
