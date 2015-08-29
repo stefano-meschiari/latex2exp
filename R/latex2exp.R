@@ -2,7 +2,7 @@
   return(if (is.null(x) || is.na(x) || !x)  y else x)
 }
 
-#' Prints out a parsed LaTeX object, as returned by latex2exp(..., output='ast').
+#' Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
 #' @param x The latex2exp object.
 #' @param ... (ignored)
 print.latextoken <- function(x, ...) {
@@ -199,13 +199,15 @@ plot.expression <- function(x, ...) {
   "\\rightPIPE@", "'|')",
   "\\middlePIPE@", "bgroup('|', @P@, '')",
   "\\leftPERIOD@", "bgroup('', @1@ ",
-  "\\rightPERIOD@", "'')"
+  "\\rightPERIOD@", "'')",
+  "\\lbrack", "paste('[')",
+  "\\rbrack", "paste(']')"  
 )
 
 
-#' Converts a token created by latex2exp to a string, later to be parsed into an expression (for internal use).
+#' Converts a token created by TeX() to a string, later to be parsed into an expression (for internal use).
 #' 
-#' @param x The latex2exp token
+#' @param x The TeX() token
 #' @param ... Additional arguments (ignored)
 #' @return A string
 #' @export
@@ -507,6 +509,18 @@ toString.latextoken <- function(x, ...) {
       return(exp)
   }
 
+#' Converts a LaTeX string to a \code{\link{plotmath}} expression. Use \code{\link{TeX}} instead.
+#' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
+#' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "text" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
+#'
+#' @return Returns an expression (see the \code{output} parameter).
+#'
+latex2exp <-
+  function(string, output = c('expression', 'text', 'ast')) {
+    .Deprecated('TeX', 'latex2exp')
+    return(TeX(string, output))
+  }
+
 #' Converts a LaTeX string to a \code{\link{plotmath}} expression.
 #'
 #' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
@@ -515,13 +529,13 @@ toString.latextoken <- function(x, ...) {
 #' @return Returns an expression (see the \code{output} parameter).
 #'
 #' @examples
-#' latex2exp("$\\alpha$")
-#' latex2exp("The ratio of 1 and 2 is $\\frac{1}{2}$")
+#' TeX("$\\alpha$")
+#' TeX("The ratio of 1 and 2 is $\\frac{1}{2}$")
 #'
 #' a <- 1:100
 #' plot(a, a^2, xlab=latex2exp("$\\alpha$"), ylab=latex2exp("$\\alpha^2$"))
 #' @export
-latex2exp <-
+TeX <-
   function(string, output = c('expression', 'text', 'ast')) {
     if (missing(string))
       stop("Specify a LaTeX string.")
@@ -537,9 +551,9 @@ latex2exp_supported <- function(plot = FALSE) {
   .talls <- c('\\overset', '\\frac', .supsub)
 
   if (!plot) {
-    return(Filter(function(d) {
+    return(sort(Filter(function(d) {
                return(!str_detect(d, "@$") && str_detect(d, '^\\\\'))
-             }, names(.subs)))
+             }, names(.subs))))
   } else {
     syms <- sort(latex2exp_supported())
     syms <- syms[!(syms %in% .talls)]
@@ -601,8 +615,8 @@ latex2exp_supported <- function(plot = FALSE) {
       sym <- str_c("$", sym, "$")
       text(col, rows - row, sym, family = 'mono', pos = 4)
 
-      try(text(col + 0.5, rows - row,
-               latex2exp(sym), pos = 4, offset = offset))
+      try(text(col + 0.6, rows - row,
+               TeX(sym), pos = 4, offset = offset))
       row <- row + 1
     }
 
@@ -611,7 +625,7 @@ latex2exp_supported <- function(plot = FALSE) {
 
 }
 
-#' Plots a number of example LaTeX string, as parsed by \code{\link{latex2exp}}.
+#' Plots a number of example LaTeX string, as parsed by \code{\link{TeX}}.
 #' 
 #' @export
 latex2exp_examples <- function() {
@@ -643,6 +657,6 @@ latex2exp_examples <- function() {
     0.5, y, sapply(examples, function(e)
       str_replace_all(e, "\\\\", "\\\\\\\\")), pos = 2, cex = 0.7, family = 'mono'
   )
-  text(0.5, y, latex2exp(examples), pos = 4)
+  text(0.5, y, TeX(examples), pos = 4)
   return(TRUE)
 }
