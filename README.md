@@ -28,12 +28,12 @@ library(latex2exp)
 The `latex2exp` function takes a LaTeX string and returns a plotmath expression suitable for use in plotting, e.g.,
 
 ``` r
-latex2exp('$\\alpha^\\beta$')
+TeX('$\\alpha^\\beta$')
 ```
 
 (note it is *always* necessary to escape the backslash within a string, hence the double backslash).
 
-The return value of latex2exp can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text.
+The return value of `TeX()` can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text.
 
 The following example shows plotting in base graphics:
 
@@ -42,12 +42,12 @@ x <- seq(0, 4, length.out=100)
 alpha <- 1:5
 
 plot(x, xlim=c(0, 4), ylim=c(0, 10), 
-     xlab='x', ylab=latex2exp('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$'), 
-     type='n', main=latex2exp('Using $\\LaTeX$ for plotting in base graphics!'))
+     xlab='x', ylab=TeX('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$'), 
+     type='n', main=TeX('Using $\\LaTeX$ for plotting in base graphics!'))
 
 invisible(sapply(alpha, function(a) lines(x, a*x^a, col=a)))
 
-legend('topleft', legend=latex2exp(sprintf("$\\alpha = %d$", alpha)), 
+legend('topleft', legend=TeX(sprintf("$\\alpha = %d$", alpha)), 
        lwd=1, col=alpha)
 ```
 
@@ -63,11 +63,11 @@ data <- mdply(alpha, function(a, x) data.frame(v=a*x^a, x=x), x)
 
 p <- ggplot(data, aes(x=x, y=v, color=X1)) +
     geom_line() + 
-    ylab(latex2exp('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$')) +
-    ggtitle(latex2exp('Using $\\LaTeX$ for plotting in ggplot2. I $\\heartsuit$ ggplot!')) +
+    ylab(TeX('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$')) +
+    ggtitle(TeX('Using $\\LaTeX$ for plotting in ggplot2. I $\\heartsuit$ ggplot!')) +
     coord_cartesian(ylim=c(-1, 10)) +
     guides(color=guide_legend(title=NULL)) +
-    scale_color_discrete(labels=lapply(sprintf('$\\alpha = %d$', alpha), latex2exp)) 
+    scale_color_discrete(labels=lapply(sprintf('$\\alpha = %d$', alpha), TeX)) 
     # Note that ggplot2 legend labels must be lists of expressions, not vectors of expressions
 
 print(p)
@@ -78,7 +78,7 @@ print(p)
 You can quickly test out what a translated LaTeX string would look like by using `plot`:
 
 ``` r
-plot(latex2exp("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5} \\, 
+plot(TeX("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5} \\, 
                \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}$"), cex=2)
 ```
 
@@ -90,13 +90,13 @@ Syntax
 Use
 
 ``` r
-latex2exp('latexString')
+TeX('latexString')
 ```
 
 to build a plotmath expression, ready for use in plots. If the parser cannot build a correct plotmath expression, it will `stop()` and show the invalid plotmath expression built.
 
 ``` r
-latex2exp('latexString', output=c('expression', 'character', 'ast'))
+TeX('latexString', output=c('expression', 'character', 'ast'))
 ```
 
 If the `output` option is equal to `character`, it will return the string representation of the expression (which could be converted into an expression using `parse(text=)`).
@@ -148,6 +148,11 @@ latex2exp_examples()
 
 Changes
 -------
+
+### 0.4.0 \[08/29/2015\]
+
+-   Deprecated the `latex2exp()` function; use `TeX()` instead.
+-   Added `\lbrack` and `\rbrack` to type left and right square brackets.
 
 ### 0.3.3 \[08/11/2015\]
 
