@@ -23,7 +23,7 @@ devtools::install_github('stefano-meschiari/latex2exp')
 library(latex2exp)
 ```
 
-The `latex2exp` function takes a LaTeX string and returns a plotmath expression suitable for use in plotting, e.g.,
+The `TeX` function takes a LaTeX string and returns a plotmath expression suitable for use in plotting, e.g.,
 
 ```{r, eval=FALSE}
 TeX('$\\alpha^\\beta$')

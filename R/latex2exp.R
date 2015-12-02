@@ -509,7 +509,7 @@ toString.latextoken <- function(x, ...) {
       return(exp)
   }
 
-#' Converts a LaTeX string to a \code{\link{plotmath}} expression. Use \code{\link{TeX}} instead.
+#' Converts a LaTeX string to a \code{\link{plotmath}} expression. Deprecated; use \code{\link{TeX}} instead.
 #' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
 #' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "text" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
 #'
@@ -533,7 +533,7 @@ latex2exp <-
 #' TeX("The ratio of 1 and 2 is $\\frac{1}{2}$")
 #'
 #' a <- 1:100
-#' plot(a, a^2, xlab=latex2exp("$\\alpha$"), ylab=latex2exp("$\\alpha^2$"))
+#' plot(a, a^2, xlab=TeX("$\\alpha$"), ylab=TeX("$\\alpha^2$"))
 #' @export
 TeX <-
   function(string, output = c('expression', 'text', 'ast')) {
