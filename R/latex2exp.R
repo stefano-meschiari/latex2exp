@@ -308,6 +308,7 @@ toString.latextoken <- function(x, ...) {
 ## as a string) or 'ast' (returns the tree as parsed from the LaTeX string; useful for debug).
 .parseTeX <-
   function(string, output = c('expression', 'character', 'ast')) {
+    output <- match.arg(output)
     original <- string
     # Create the root node
     textmode <- TRUE
@@ -488,7 +489,7 @@ toString.latextoken <- function(x, ...) {
     }
 
     post_process(root)
-    if (output[1] == 'ast')
+    if (output == 'ast')
       return(root)
 
     
@@ -503,7 +504,7 @@ toString.latextoken <- function(x, ...) {
     
     
 
-    if (output[1] == 'character') {
+    if (output == 'character') {
       return(str)
     } else
       return(exp)
@@ -524,7 +525,7 @@ latex2exp <-
 #' Converts a LaTeX string to a \code{\link{plotmath}} expression.
 #'
 #' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
-#' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "text" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
+#' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "character" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
 #'
 #' @return Returns an expression (see the \code{output} parameter).
 #'
@@ -536,9 +537,7 @@ latex2exp <-
 #' plot(a, a^2, xlab=TeX("$\\alpha$"), ylab=TeX("$\\alpha^2$"))
 #' @export
 TeX <-
-  function(string, output = c('expression', 'text', 'ast')) {
-    if (missing(string))
-      stop("Specify a LaTeX string.")
+  function(string, output = c('expression', 'character', 'ast')) {
     return(sapply(string, .parseTeX, output = output))
   }
 
