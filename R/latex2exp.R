@@ -410,7 +410,7 @@ toString.latextoken <- function(x, ...) {
         old <- token
         token <- .token(parent = old, ch = ch, textmode = textmode)
         old$args[[length(old$args) + 1]] <- token
-      } else if (ch == "}" || ch == "]" && !prevch == "\\") {
+      } else if ((ch == "}" || ch == "]") && !prevch == "\\") {
         # Square or brace parameter ended, return to parent node
         token <- token$parent
         needsnew <- TRUE
