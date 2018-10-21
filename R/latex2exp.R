@@ -274,7 +274,6 @@ toString.latextoken <- function(x, ...) {
   else
     p <- str_c(p, toString(tok$succ))
 
-  #p <- str_replace_all(p, "''", '')
   return(p)
 }
 
