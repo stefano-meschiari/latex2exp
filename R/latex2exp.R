@@ -334,7 +334,7 @@ toString.latextoken <- function(x, ...) {
 
       str_replace_all(",", "\\\\COMMA@ ") %>%
       str_replace_all(";", "\\\\SEMICOLON@ ") %>%
-      str_replace_all("\\.", "\\\\PERIOD@ ") %>%
+      str_replace_all("\\.", "\\\\PERIOD@") %>%
   
       str_replace_all("([ ]+)", " ") %>%
       str_replace_all(" \\^ ", "\\^") %>%
