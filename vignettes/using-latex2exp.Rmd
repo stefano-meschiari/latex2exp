@@ -61,7 +61,7 @@ legend('topleft', legend=TeX(sprintf(r'($\alpha = %d$)', alpha)),
 ```
 
 This example shows plotting in [ggplot2](http://ggplot2.org):
-```{r, warning=FALSE}
+```{r, warning=FALSE, eval=FALSE}
 library(purrr)
 library(ggplot2)
 library(tibble)
@@ -140,7 +140,7 @@ latex2exp_examples()
 
 ## Changes
 
-### 0.5.0 [03/14/2020]
+### 0.5.0 [03/14/2021]
 * Adds parameters `bold` and `italic` to `TeX()`. These can be used to make the
   entire expression bold or italic.
 * Adds `\phantom{}` ([PR](https://github.com/stefano-meschiari/latex2exp/pull/22))
