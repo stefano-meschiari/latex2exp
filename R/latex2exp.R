@@ -307,7 +307,7 @@ toString.latextoken <- function(x, ...) {
 ## Returns an expression by default; can either return 'character' (return the expression
 ## as a string) or 'ast' (returns the tree as parsed from the LaTeX string; useful for debug).
 .parseTeX <-
-  function(string, output = c('expression', 'character', 'ast')) {
+  function(string, bold=FALSE, italic=FALSE, output = c('expression', 'character', 'ast')) {
     output <- match.arg(output)
     original <- string
     # Create the root node
@@ -492,17 +492,21 @@ toString.latextoken <- function(x, ...) {
     if (output == 'ast')
       return(root)
 
-    
     str <- toString(root)
+    if (bold) {
+      str <- paste0("bold(", str, ")")
+    }
+    if (italic) {
+      str <- paste0("italic(", str, ")")
+    }
+    
     exp <- tryCatch(
       parse(text = str), error = function(e) {
-        cat("Original string: ", original, "\n")
-        cat("Parsed expression: ", str, "\n")
+        message("Original string: ", original)
+        message("Parsed expression: ", str)
         stop(e)
       }
     )
-    
-    
 
     if (output == 'character') {
       return(str)
@@ -525,6 +529,8 @@ latex2exp <-
 #' Converts a LaTeX string to a \code{\link{plotmath}} expression.
 #'
 #' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
+#' @param bold   Whether to make the entire label bold
+#' @param italic Whether to make the entire label italic
 #' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "character" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
 #'
 #' @return Returns an expression (see the \code{output} parameter).
@@ -537,8 +543,8 @@ latex2exp <-
 #' plot(a, a^2, xlab=TeX("$\\alpha$"), ylab=TeX("$\\alpha^2$"))
 #' @export
 TeX <-
-  function(string, output = c('expression', 'character', 'ast')) {
-    return(sapply(string, .parseTeX, output = output))
+  function(string, bold=FALSE, italic=FALSE, output = c('expression', 'character', 'ast')) {
+    return(sapply(string, .parseTeX, bold=bold, italic=italic, output = output))
   }
 
 #' Returns a list of all supported LaTeX symbols and expressions that can be converted with \code{\link{latex2exp}}.

@@ -26,9 +26,16 @@ library(latex2exp)
 The `TeX` function takes a LaTeX string and returns a plotmath expression suitable for use in plotting, e.g.,
 
 ```{r, eval=FALSE}
-TeX('$\\alpha^\\beta$')
+TeX('$\\gamma^\\alpha$')
 ```
-(note it is *always* necessary to escape the backslash within a string, hence the double backslash).
+
+Before R 4.0, it is necessary to escape the backslash within the string literal: therefore, one writes `'$\\gamma$'` rather than `'$\gamma$'` (the latter will cause an error).
+
+After R 4.0, it is recommended to use the new raw string literal syntax (see `?Quotes`). The syntax looks like `r"(...)"`, where `...` can contain any character sequence, including `\`:
+
+```{r, eval=FALSE}
+TeX(r'($\gamma^\alpha$)')
+```
 
 The return value of `TeX()` can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text. 
 
@@ -38,29 +45,32 @@ x <- seq(0, 4, length.out=100)
 alpha <- 1:5
 
 plot(x, xlim=c(0, 4), ylim=c(0, 10), 
-     xlab='x', ylab=TeX('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$'), 
-     type='n', main=TeX('Using $\\LaTeX$ for plotting in base graphics!'))
+     xlab='x', ylab=TeX(r'($\alpha  x^\alpha$, where $\alpha \in 1 \ldots 5$)'), 
+     type='n', main=TeX(r'(Using $\LaTeX$ for plotting in base graphics!')'))
 
 invisible(sapply(alpha, function(a) lines(x, a*x^a, col=a)))
 
-legend('topleft', legend=TeX(sprintf("$\\alpha = %d$", alpha)), 
+legend('topleft', legend=TeX(sprintf(r'($\alpha = %d$)', alpha)), 
        lwd=1, col=alpha)
 ```
 
 This example shows plotting in [ggplot2](http://ggplot2.org):
 ```{r, warning=FALSE}
-library(plyr)
+library(purrr)
+library(ggplot2)
+library(tibble)
+
 x <- seq(0, 4, length.out=100)
 alpha <- 1:5
-data <- mdply(alpha, function(a, x) data.frame(v=a*x^a, x=x), x)
+data <- map_df(alpha, ~ tibble(v=.*x^., x=x, alpha=.))
 
-p <- ggplot(data, aes(x=x, y=v, color=X1)) +
+p <- ggplot(data, aes(x=x, y=v, color=as.factor(alpha))) +
     geom_line() + 
-    ylab(TeX('$\\alpha  x^\\alpha$, where $\\alpha \\in 1\\ldots 5$')) +
-    ggtitle(TeX('Using $\\LaTeX$ for plotting in ggplot2. I $\\heartsuit$ ggplot!')) +
+    ylab(TeX(r'($\alpha  x^\alpha$, where $\alpha \in 1\ldots 5$)')) +
+    ggtitle(TeX(r'(Using $\LaTeX$ for plotting in ggplot2. I $\heartsuit$ ggplot!)')) +
     coord_cartesian(ylim=c(-1, 10)) +
     guides(color=guide_legend(title=NULL)) +
-    scale_color_discrete(labels=lapply(sprintf('$\\alpha = %d$', alpha), TeX)) 
+    scale_color_discrete(labels=lapply(sprintf(r'($\alpha = %d$)', alpha), TeX)) 
     # Note that ggplot2 legend labels must be lists of expressions, not vectors of expressions
 
 print(p)
@@ -68,15 +78,15 @@ print(p)
 
 You can quickly test out what a translated LaTeX string would look like by using `plot`: 
 ```{r, fig.width=10, fig.height=2}
-plot(TeX("A $\\LaTeX$ formula: $\\frac{2hc^2}{\\lambda^5} \\, 
-               \\frac{1}{e^{\\frac{hc}{\\lambda k_B T}} - 1}$"), cex=2)
+plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, 
+               \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
 ```
 
 
 ## Syntax
 Use
 ```{r, eval=FALSE}
-TeX('latexString')
+TeX(r'(My string containing math $\sin(2\pi\lambda x)$)')
 ```
 to build a plotmath expression, ready for use in plots. If the parser cannot build a correct plotmath expression, it will `stop()` and show the invalid plotmath expression built.
 
@@ -101,17 +111,15 @@ latex2exp_supported(plot=FALSE)
 returns a list of supported LaTeX. If `plot=TRUE`, a table of symbols will be plotted.
 
 
-## "Supported" LaTeX
+## Supported LaTeX
 Formulas should go between dollar characters ($).
 
-Only a subset of LaTeX is supported, and not 100% correctly. Greek symbols (\\alpha, \\beta, etc.) and the usual operators (+, -, etc.) are supported.
+Only a subset of LaTeX is supported. Greek symbols (\\alpha, \\beta, etc.) and the usual operators (+, -, etc.) are supported. Their rendering depends on R's interpretation of the plotmath expression.
 
 In addition, the following should be supported:
 ```{r, fig.width=10, fig.height=10}
 latex2exp_supported(plot=TRUE)
 ``` 
-
-Their rendering depends on R's interpretation of the plotmath expression.
 
 A few examples:
 
@@ -120,6 +128,9 @@ latex2exp_examples()
 ```
 
 ## Changes
+
+### 0.5.0 [03/14/2020]
+* 
 
 ### 0.4.0 [08/29/2015]
 * Deprecated the `latex2exp()` function; use `TeX()` instead.
