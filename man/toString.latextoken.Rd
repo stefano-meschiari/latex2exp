@@ -17,4 +17,3 @@ A string
 \description{
 Converts a token created by TeX() to a string, later to be parsed into an expression (for internal use).
 }
-

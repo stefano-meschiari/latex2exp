@@ -15,4 +15,3 @@ a character vector of supported LaTeX expressions
 \description{
 Returns a list of all supported LaTeX symbols and expressions that can be converted with \code{\link{latex2exp}}.
 }
-

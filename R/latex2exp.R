@@ -493,10 +493,11 @@ toString.latextoken <- function(x, ...) {
       return(root)
 
     str <- toString(root)
-    if (bold) {
+    if (bold && italic) {
+      str <- paste0("bolditalic(", str, ")")
+    } else if (bold) {
       str <- paste0("bold(", str, ")")
-    }
-    if (italic) {
+    } else if (italic) {
       str <- paste0("italic(", str, ")")
     }
     
@@ -618,10 +619,10 @@ latex2exp_supported <- function(plot = FALSE) {
           sym <- str_c(sym, "{y}")
       }
       sym <- str_c("$", sym, "$")
-      text(col, rows - row, sym, family = 'mono', pos = 4)
+      text(col, rows - row, sym, family = 'mono', pos = 4, cex=0.7)
 
       try(text(col + 0.6, rows - row,
-               TeX(sym), pos = 4, offset = offset))
+               TeX(sym), pos = 4, offset = offset, cex=0.7))
       row <- row + 1
     }
 
@@ -652,15 +653,15 @@ latex2exp_examples <- function() {
     "\\textbf{Bold} and \\textit{italic} text!",
     "$\\left{\\left(\\left[BRACES\\right]\\right)\\right}$",
     "Whitespace compliant: $x ^ 2 \\times \\sum_ 0 ^ 1 y _ i$",
-    "Numbers: $0.05$, $0.03$, $0.005^{0.002}_{0.01}$"
+    "Numbers: $0.05$, $0.03$, $0.005^{0.002}_{0.01}$",
+    "Phantom: $a\\phantom{test}b$"
   )
 
   x <- 0
   y <- seq(0.95, 0.05, length.out = length(examples))
 
   text(
-    0.5, y, sapply(examples, function(e)
-      str_replace_all(e, "\\\\", "\\\\\\\\")), pos = 2, cex = 0.7, family = 'mono'
+    0.5, y, examples, pos = 2, cex = 0.5, family = 'mono'
   )
   text(0.5, y, TeX(examples), pos = 4)
   return(TRUE)

@@ -5,6 +5,9 @@ output:
   md_document:
     variant: markdown_github
 ---
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(fig.width=7, fig.height=5)
+```
 # latex2exp
 **latex2exp** is an R package that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque, while LaTeX is a de-facto standard for mathematical expressions, so this package might be useful to others as well.
 
@@ -46,7 +49,7 @@ alpha <- 1:5
 
 plot(x, xlim=c(0, 4), ylim=c(0, 10), 
      xlab='x', ylab=TeX(r'($\alpha  x^\alpha$, where $\alpha \in 1 \ldots 5$)'), 
-     type='n', main=TeX(r'(Using $\LaTeX$ for plotting in base graphics!')'))
+     type='n', main=TeX(r'(Using $\LaTeX$ for plotting in base graphics!)', bold=TRUE, italic=TRUE))
 
 invisible(sapply(alpha, function(a) lines(x, a*x^a, col=a)))
 
@@ -77,7 +80,7 @@ print(p)
 ```
 
 You can quickly test out what a translated LaTeX string would look like by using `plot`: 
-```{r, fig.width=10, fig.height=2}
+```{r, fig.height=2}
 plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, 
                \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
 ```
@@ -89,6 +92,11 @@ Use
 TeX(r'(My string containing math $\sin(2\pi\lambda x)$)')
 ```
 to build a plotmath expression, ready for use in plots. If the parser cannot build a correct plotmath expression, it will `stop()` and show the invalid plotmath expression built.
+
+Add parameters `bold=TRUE` or `italic=TRUE` to make the entire label bold or italic:
+```{r, eval=FALSE}
+TeX(r'(My string containing math $\sin(2\pi\lambda x)$)', bold=TRUE, italic=TRUE)
+```
 
 ```{r, eval=FALSE}
 TeX('latexString', output=c('expression', 'character', 'ast'))
@@ -117,20 +125,22 @@ Formulas should go between dollar characters ($).
 Only a subset of LaTeX is supported. Greek symbols (\\alpha, \\beta, etc.) and the usual operators (+, -, etc.) are supported. Their rendering depends on R's interpretation of the plotmath expression.
 
 In addition, the following should be supported:
-```{r, fig.width=10, fig.height=10}
+```{r, fig.width=8, fig.height=8}
 latex2exp_supported(plot=TRUE)
 ``` 
 
 A few examples:
 
-```{r, fig.width=12, fig.height=7}
+```{r, fig.width=8, fig.height=7}
 latex2exp_examples()
 ```
 
 ## Changes
 
 ### 0.5.0 [03/14/2020]
-* 
+* Adds parameters `bold` and `italic` to `TeX()`. These can be used to make the
+  entire expression bold or italic.
+* Adds `\phantom{}` ([PR](https://github.com/stefano-meschiari/latex2exp/pull/22))
 
 ### 0.4.0 [08/29/2015]
 * Deprecated the `latex2exp()` function; use `TeX()` instead.
@@ -150,7 +160,3 @@ Fixes bug #2 (white space causes unexpected behaviour). `latex2exp` should now b
 
 ### 0.2.0 [06/29/2015]
 Formulas must now be enclosed between dollar characters ($), as in LaTeX proper. Text does not need to be enclosed in \\text tags anymore.
-
-## FAQ
-This function will get easily confused by even very simple LaTeX formulas (as I mentioned, it's a work in progress!). Please file a bug. 
-

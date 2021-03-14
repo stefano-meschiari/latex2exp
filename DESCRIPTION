@@ -21,4 +21,4 @@ Suggests:
     plyr,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 7.1.1

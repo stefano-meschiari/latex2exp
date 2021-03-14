@@ -17,4 +17,3 @@ Returns an expression (see the \code{output} parameter).
 \description{
 Converts a LaTeX string to a \code{\link{plotmath}} expression. Deprecated; use \code{\link{TeX}} instead.
 }
-

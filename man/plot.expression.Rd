@@ -14,4 +14,3 @@
 \description{
 Plots an expression on the current graphical device.
 }
-
