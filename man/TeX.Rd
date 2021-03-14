@@ -4,10 +4,19 @@
 \alias{TeX}
 \title{Converts a LaTeX string to a \code{\link{plotmath}} expression.}
 \usage{
-TeX(string, output = c("expression", "character", "ast"))
+TeX(
+  string,
+  bold = FALSE,
+  italic = FALSE,
+  output = c("expression", "character", "ast")
+)
 }
 \arguments{
 \item{string}{A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").}
+
+\item{bold}{Whether to make the entire label bold}
+
+\item{italic}{Whether to make the entire label italic}
 
 \item{output}{The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "character" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).}
 }
@@ -24,4 +33,3 @@ TeX("The ratio of 1 and 2 is $\\\\frac{1}{2}$")
 a <- 1:100
 plot(a, a^2, xlab=TeX("$\\\\alpha$"), ylab=TeX("$\\\\alpha^2$"))
 }
-

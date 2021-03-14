@@ -9,4 +9,3 @@ latex2exp_examples()
 \description{
 Plots a number of example LaTeX string, as parsed by \code{\link{TeX}}.
 }
-

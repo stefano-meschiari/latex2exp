@@ -14,4 +14,3 @@
 \description{
 Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
 }
-
