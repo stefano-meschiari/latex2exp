@@ -181,6 +181,7 @@ plot.expression <- function(x, ...) {
   "\\SPACE2@", "phantom(0)",
   "\\,", "phantom(0)",
   "\\;", "phantom() ~~ phantom()",
+  "\\phantom", "phantom(@1@)",
 
   # Specials
   "\\COMMA@", "','",
