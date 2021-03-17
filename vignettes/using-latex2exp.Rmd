@@ -19,7 +19,7 @@ Install this package from CRAN:
 ```{r, eval=FALSE}
 install.packages('latex2exp')
 ```
-You can also install from GitHub using [devtools](http://cran.r-project.org/web/packages/devtools/index.html):
+You can also install from GitHub using [devtools](https://cran.r-project.org/package=devtools):
 ```{r, eval=FALSE}
 devtools::install_github('stefano-meschiari/latex2exp')
 ```
@@ -60,7 +60,7 @@ legend('topleft', legend=TeX(sprintf(r'($\alpha = %d$)', alpha)),
        lwd=1, col=alpha)
 ```
 
-This example shows plotting in [ggplot2](http://ggplot2.org):
+This example shows plotting in [ggplot2](https://ggplot2.tidyverse.org):
 ```{r, warning=FALSE, eval=FALSE}
 library(purrr)
 library(ggplot2)
