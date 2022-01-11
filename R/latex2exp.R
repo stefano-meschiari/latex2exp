@@ -1,20 +1,6 @@
 
 
-#' Plots an expression on the current graphical device.
-#'
-#' @param x A \code{\link{plotmath}} expression.
-#' @param ... Parameters to be passed to the \code{\link{text}} function.
-#' @export
-plot.expression <- function(x, ...) {
-  oldpar <- par(no.readonly = TRUE)
-  on.exit(suppressWarnings(par(oldpar)))
-  par(mar = c(0, 0, 0, 0))
-  plot(
-    0, 0, type = 'n', axes = F, xlab = '', ylab = ''
-  )
-  text(0, 0, x, ...)
-  invisible()
-}
+
 
 #' Converts a token created by TeX() to a string, later to be parsed into an expression (for internal use).
 #' 
@@ -46,8 +32,8 @@ toString.latextoken <- function(x, ...) {
     str_replace_all("\\\\PERIOD@", '.') %>%
     str_replace_all("\\\\SEMICOLON@", ';')
 
-  if (!is.na(.subs[tok$s])) {
-    p <- .subs[tok$s] %>%
+  if (!is.na(.subs[tok$string])) {
+    p <- .subs[tok$string] %>%
       str_replace_all("@P@", 'phantom()') %>%
       str_replace_all("@1@", if (length(tok$args) > 0)
         toString(tok$args[[1]])
@@ -92,7 +78,7 @@ toString.latextoken <- function(x, ...) {
 
 
 .token <-
-  function(string = '', parent = NULL, prev = NULL, ch = '', textmode = TRUE, skip=FALSE) {
+  function(string = '', parent = NULL, prev = NULL, ch = '', textmode = TRUE) {
     tok <- new.env()
     tok$string <- string
     tok$args <- list()
@@ -100,7 +86,6 @@ toString.latextoken <- function(x, ...) {
     tok$parent <- parent
     tok$prev <- prev
     tok$textmode <- textmode
-    tok$skip <- skip
 
     if (!is.null(prev)) {
       prev$succ <- tok

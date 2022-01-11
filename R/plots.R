@@ -1,4 +1,21 @@
 
+#' Plots an expression on the current graphical device.
+#'
+#' @param x A \code{\link{plotmath}} expression.
+#' @param ... Parameters to be passed to the \code{\link{text}} function.
+#' @export
+plot.expression <- function(x, ...) {
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(suppressWarnings(par(oldpar)))
+  par(mar = c(0, 0, 0, 0))
+  plot(
+    0, 0, type = 'n', axes = F, xlab = '', ylab = ''
+  )
+  text(0, 0, x, ...)
+  invisible()
+}
+
+
 #' Returns a list of all supported LaTeX symbols and expressions that can be converted with \code{\link{latex2exp}}.
 #'
 #' @param plot whether to plot the table (FALSE by default)

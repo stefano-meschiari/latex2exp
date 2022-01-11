@@ -3,6 +3,7 @@
 }
 
 #' Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
+#' This is primarily used for debugging.
 #' @param x The latex2exp object.
 #' @param ... (ignored)
 print.latextoken <- function(x, ...) {
