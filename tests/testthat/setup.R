@@ -1,4 +1,12 @@
 
+expect_plots_same_message <- "The TeX expression %s should %s render the same as the given expression.
+Compare:
+  * TeX: %s
+  * Expression: %s
+
+Note: TeX string evaluated to %s.
+"
+
 #' Do the LaTeX string and the plotmath expression render in the same way?
 #' 
 #' This function checks that the given LaTeX expression (as processed by TeX())
@@ -16,34 +24,53 @@
 #'
 #' @examples
 #' expect_plots_same(r"($\alpha$"), expression(alpha))
-expect_plots_same <- function(object, expected_expression, negate=FALSE) {
+expect_renders_same <- function(object, expected_expression) {
+  expected_expression <- as.expression(rlang::enexpr(expected_expression))
+  .expect_renders(object, expected_expression, negate=FALSE)
+}
+
+expect_renders_different <- function(object, expected_expression) {
+  expected_expression <- as.expression(rlang::enexpr(expected_expression))
+  .expect_renders(object, expected_expression, negate=TRUE)
+}
+
+.expect_renders <- function(object, expected_expression, negate) {
   act <- quasi_label(rlang::enquo(object), arg="object")
   
   plot_md5 <- function(expr, prefix) {
     fn <- tempfile(pattern = prefix, fileext = ".png")
+    
     png(fn, 640, 480, res=150)
-    plot(expr)
+    plot(expr, main=act$val)
     dev.off()
-    md5sum(fn)
+    tools::md5sum(fn)
   }
   
-  act$md5_1 <- plot_md5(TeX(act$val), "latex2exp_")
-  act$md5_2 <- plot_md5(expected_expression, "expression_")
+  result_expression <- TeX(act$val)
+  act$md5_1 <- plot_md5(result_expression, str_c("latex2exp_"))
+  act$md5_2 <- plot_md5(expected_expression, str_c("expression_"))
   
-  message <- "The TeX expression %s does not render the same as the given expression.
-  Compare:
-  * TeX: %s
-  * Expression: %s"
+  message <- sprintf(expect_plots_same_message,
+                     act$val,
+                     if (!negate) "" else "not",
+                     names(act$md5_1),
+                     names(act$md5_2),
+                     result_expression)
   
-  if (!identical(unname(act$md5_1), unname(act$md5_2))) {
-    system(sprintf("open %s", names(act$md5_1)))
-    system(sprintf("open %s", names(act$md5_2)))
+  comparison_successful <- identical(unname(act$md5_1), unname(act$md5_2))
+  if (negate) {
+    comparison_successful <- !comparison_successful
+    cat(comparison_successful)
   }
   
-  expect(identical(unname(act$md5_1), unname(act$md5_2)),
-         sprintf(message, act$lab, names(act$md5_1), names(act$md5_2)))
+  if (!comparison_successful && getOption("latex2exp.debug.show_expect_png", FALSE)) {
+    system(sprintf("open '%s'", names(act$md5_1)))
+    system(sprintf("open '%s'", names(act$md5_2)))
+    
+  }
+  
+  expect(comparison_successful,
+         message)
   
   invisible(act$val)
-}
-
-expect_plots_same
+} 

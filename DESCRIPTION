@@ -23,5 +23,5 @@ Suggests:
     purrr,
     tibble
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Language: en-US

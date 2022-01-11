@@ -1,5 +1,5 @@
 `%??%` <- function(x, y) {
-  return(if (is.null(x) || is.na(x) || !x)  y else x)
+  return(if (is.null(x) || is.na(x) || (is.logical(x) && !x))  y else x)
 }
 
 #' Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
@@ -12,7 +12,7 @@ print.latextoken <- function(x, ...) {
   n <- dots$n %??% 1
   
   ind <- rep(' ', level)
-  cat(ind, n, '. \'', x$s, '\' ', x$textmode, ' ', x$ch, '\n', 
+  cat(ind, n, '. \'', x$string, '\' ', x$textmode, ' ', x$ch, '\n', 
       sep = '')
   sapply(x$args, print, level = level + 1, n = 1, ch = '{')
   sapply(x$sqarg, print, level = level + 1, n = 1, ch = '[')

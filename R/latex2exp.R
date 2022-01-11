@@ -1,7 +1,3 @@
-
-
-
-
 #' Converts a token created by TeX() to a string, later to be parsed into an expression (for internal use).
 #' 
 #' @param x The TeX() token
@@ -96,6 +92,10 @@ toString.latextoken <- function(x, ...) {
     return(tok)
   }
 
+.str_replace_all <- function(x, pattern, replacement) {
+  str_replace_all(x, fixed(pattern), replacement)
+}
+
 ## Takes a LaTeX string, or a vector of LaTeX strings, and converts it into
 ## the closest plotmath expression possible.
 ##
@@ -113,24 +113,25 @@ toString.latextoken <- function(x, ...) {
     # Treat \left( / \right) and company specially in order to not have to special-case them in the
     # parser
     string <- string %>%
-      str_replace_all('\\\\left\\{', '\\\\leftBRACE@{') %>%
-      str_replace_all('\\\\left\\[', '\\\\leftSQUARE@{') %>%
-      str_replace_all('\\\\left\\|', '\\\\leftPIPE@{') %>%
-      str_replace_all('\\\\left\\.', '\\\\leftPERIOD@{') %>%
-      str_replace_all('\\\\middle\\|', '\\\\middlePIPE@{') %>%
-      str_replace_all('\\\\left\\(', '\\\\leftPAR@{') %>%
-      str_replace_all('\\\\right\\}', '}\\\\rightBRACE@ ') %>%
-      str_replace_all('\\\\right\\]', '}\\\\rightSQUARE@ ') %>%
-      str_replace_all('\\\\right\\)', '}\\\\rightPAR@ ') %>%
-      str_replace_all('\\\\right\\|', '}\\\\rightPIPE@ ') %>%
-      str_replace_all('\\\\right\\.', '\\\\rightPERIOD@{') %>%
+      .str_replace_all('\\left\\{', '\\leftBRACE@{') %>%
+      .str_replace_all('\\left\\[', '\\leftSQUARE@{') %>%
+      .str_replace_all('\\left\\|', '\\leftPIPE@{') %>%
+      .str_replace_all('\\left\\.', '\\leftPERIOD@{') %>%
+      .str_replace_all('\\middle\\|', '\\middlePIPE@{') %>%
+      .str_replace_all('\\|', '\\PIPE@ ') %>%
+      .str_replace_all('\\left\\(', '\\leftPAR@{') %>%
+      .str_replace_all('\\right\\}', '}\\rightBRACE@ ') %>%
+      .str_replace_all('\\right\\]', '}\\rightSQUARE@ ') %>%
+      .str_replace_all('\\right\\)', '}\\rightPAR@ ') %>%
+      .str_replace_all('\\right\\|', '}\\rightPIPE@ ') %>%
+      .str_replace_all('\\right\\.', '\\rightPERIOD@{') %>%
 
-      str_replace_all("\\\\,", "\\\\SPACE1@ ") %>%
-      str_replace_all("\\\\;", "\\\\SPACE2@ ") %>%
+      .str_replace_all("\\,", "\\SPACE1@ ") %>%
+      .str_replace_all("\\;", "\\SPACE2@ ") %>%
 
-      str_replace_all(",", "\\\\COMMA@ ") %>%
-      str_replace_all(";", "\\\\SEMICOLON@ ") %>%
-      str_replace_all("\\.", "\\\\PERIOD@ ") %>%
+      .str_replace_all(",", "\\\\COMMA@ ") %>%
+      .str_replace_all(";", "\\\\SEMICOLON@ ") %>%
+      .str_replace_all("\\.", "\\\\PERIOD@ ") %>%
   
       str_replace_all("([ ]+)", " ") %>%
       str_replace_all(" \\^ ", "\\^") 

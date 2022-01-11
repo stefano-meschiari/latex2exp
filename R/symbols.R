@@ -1,4 +1,4 @@
-# A map of LaTeX expressions to R expressions.
+# A translationE of LaTeX expressions into R expressions.
 #
 # Some special strings are substituted:
 # @P@ is a phantom character (used to paste operators)
@@ -36,10 +36,6 @@
   "\\nsubset" = "@P@ %notsubset% @P@",
   "\\supset" = "@P@ %supset% @P@",
   "\\supseteq" = "@P@ %supseteq% @P@",
-  "\\rightarrow" = "@P@ %->% @P@",
-  "\\leftarrow" = "@P@ %<-% @P@",
-  "\\Rightarrow" = "@P@ %=>% @P@",
-  "\\Leftarrow" = "@P@ %<=% @P@",
   "\\forall" = "symbol('\\042')",
   "\\exists" = "symbol('\\044')",
   "\\%" = "symbol('\\045')",
@@ -71,14 +67,32 @@
 )
 
 # Text size
-.fontsizes = c(
+.fontsizes <- c(
   "\\normalsize" = "displaystyle(@1@)",
   "\\small" = "scriptstyle(@1@)",
   "\\tiny" = "scriptscriptstyle(@1@)"
 )
 
+# Greek letter vairants
+.variants <- c(
+  "\\Upsilon" = "Upsilon1",
+  "\\varpi" = "omega1"
+)
+
+# Arrows
+.arrows <- c(
+  "\\rightarrow" = "@P@ %->% @P@",
+  "\\leftarrow" = "@P@ %<-% @P@",
+  "\\Rightarrow" = "@P@ %=>% @P@",
+  "\\Leftarrow" = "@P@ %<=% @P@",
+  "\\uparrow" = "symbol('\\255')",
+  "\\downarrow" = "symbol('\\257')",
+  "\\Uparrow" = "symbol('\\355')",
+  "\\Downarrow" = "symbol('\\357')"
+)
+
 # Layout
-.layout_and_spacing = c(
+.layout_and_spacing <- c(
   "\\overset" = "atop(@1@, @2@)",
   
   "\\SPACE1@" = "paste(' ')",
@@ -92,10 +106,7 @@
 .formatting <- c(
   "\\textbf" = "bold(@1@)",
   "\\textit" = "italic(@1@)",
-  "\\textrm" = "plain(@1@)",
-  "\\mathbf" = "bold(@1@)",
-  "\\mathit" = "italic(@1@)",
-  "\\mathrm" = "plain(@1@)"
+  "\\textrm" = "plain(@1@)"
 )
 
 # Exponent and subscript
@@ -106,7 +117,6 @@
 
 # Symbols
 .symbols <- c(
-  # Symbols
   "\\infty" = " infinity ",
   "\\partial" = " partialdiff ",
   "\\cdots" = " cdots ",
@@ -116,7 +126,8 @@
   "\\diamondsuit" = "symbol('\\250')",
   "\\heartsuit" = "symbol('\\251')",
   "\\spadesuit" = "symbol('\\252')",
-  "\\aleph" = "symbol('\\300')"
+  "\\aleph" = "symbol('\\300')",
+  "\\euro" = "symbol('\\240')"
 )
 
 # Degrees
@@ -124,7 +135,7 @@
   "''" = " second ",
   "'" = " minute ",
   "\\prime" = " minute ",
-  "\\circ" = "paste('°')"
+  "\\circ" = "symbol('\\260')"
 )
 
 # Decorations
@@ -162,12 +173,13 @@
   "\\rightPERIOD@" = "'')",
   "\\lbrack" = "paste('[')",
   "\\rbrack" = "paste(']')",
-  "\\langle" = "bgroup(langle, @1@ ",
-  "\\rangle" = "rangle)",
-  "\\lceil" = "bgroup(lceil, @1@ ",
-  "\\rceil" = "rceil)",
-  "\\lfloor" = "bgroup(lfloor, @1@ ",
-  "\\rfloor" = "rfloor)"
+  "\\langle" = "group(langle,phantom(), '.')",
+  "\\rangle" = "group('.', phantom(), rangle)",
+  "\\lceil" = "group(lceil, phantom(), '.')",
+  "\\rceil" = "group('.', phantom(), rceil)",
+  "\\lfloor" = "group(lfloor, phantom(), '.')",
+  "\\rfloor" = "group('.', phantom(), rfloor)",
+  "\\PIPE@" = "group('|', group('|', phantom(), '.'), '.')"
 )
 
 # Approximations to the TeX and LaTeX symbols
@@ -177,7 +189,9 @@
 )
 
 .subs <- c(
+  .variants,
   .operators,
+  .arrows,
   .big_operators,
   .layout_and_spacing,
   .formatting,
