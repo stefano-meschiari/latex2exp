@@ -1,43 +1,4 @@
-`%??%` <- function(x, y) {
-  return(if (is.null(x) || is.na(x) || !x)  y else x)
-}
 
-#' Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
-#' @param x The latex2exp object.
-#' @param ... (ignored)
-print.latextoken <- function(x, ...) {
-  dots <- list(...)
-  level <- dots$level %??% 0
-  n <- dots$n %??% 1
-  ch <- dots$n %??% ''
-  
-  ind <- rep(' ', level)
-  cat(ind, n, ch, '. \'', x$s, '\' ', x$textmode, ' ', x$ch, '\n', sep =
-        '')
-  sapply(x$args, print, level = level + 1, n = 1, ch = '{')
-  sapply(x$sqarg, print, level = level + 1, n = 1, ch = '[')
-
-  if (!is.null(x$succ))
-    print.latextoken(x$succ, level, n + 1)
-}
-
-post_process <- function(tok) {
-  if (tok$s == "^" && !is.null(tok$succ) && tok$succ$s == "_") {
-    tok$s = "\\SUB_AND_EXP@"
-    tok$args = c(tok$succ$args, tok$args)
-    tok$succ <- tok$succ$succ
-  } else if (tok$s == "_" && !is.null(tok$succ) && tok$succ$s == "^") {
-    tok$s = "\\SUB_AND_EXP@"
-    tok$args = c(tok$args, tok$succ$args)
-    tok$succ <- tok$succ$succ
-  }
-  
-  if (!is.null(tok$succ))
-    post_process(tok$succ)
-  sapply(tok$args, post_process)
-  sapply(tok$sqargs, post_process)
-
-}
 
 #' Plots an expression on the current graphical device.
 #'
@@ -55,157 +16,6 @@ plot.expression <- function(x, ...) {
   invisible()
 }
 
-.tomap <- function(...) {
-  dots <- c(...)
-  map <- dots[seq(2, length(dots), 2)]
-  names(map) <- dots[seq(1, length(dots), 2)]
-  return(map)
-}
-
-# A map of LaTeX expressions to R expressions.
-#
-# Some special strings are substituted:
-# @P@ is a phantom character (used to paste operators)
-# @1@ is the first brace argument in a LaTeX expression, \command{1}
-# @2@ is the second brace argument in a LaTeX expression, \command{1}{2}
-# @S@ is the square argument in a LaTeX expression, \command[S]{1}{2}
-# @^@ is the exponent argument (for \int, \sum, etc.)
-# @_@ is the subscript argument (for \int, \sum, etc.)
-# if the argument is missing, an empty string is substituted instead
-
-
-.subs <- .tomap(
-  # Operators
-  "+", "@P@ + @P@",
-  "-", "@P@ - @P@",
-  "/", "@P@ / @P@",
-  "=", "@P@ == @P@",
-  "*", "symbol('\052')",
-  "\\div", "@P@ %/% @P@",
-
-  "\\pm", "@P@ %+-% @P@",
-  "\\neq", "@P@ != @P@",
-  "\\geq", "@P@ >= @P@",
-  "\\leq", "@P@ <= @P@",
-  "\\approx", " @P@ %~~% @P@",
-  "\\sim", " @P@ %~% @P@",
-  "\\propto", " @P@ %prop% @P@",
-  "\\equiv", " @P@ %==% @P@",
-  "\\cong", " @P@ %=~% @P@",
-  "\\in", " @P@ %in% @P@ ",
-  "\\notin", " @P@ %notin% @P@",
-  "\\cdot", " @P@ %.% @P@",
-  "\\times", "@P@ %*% @P@",
-  "\\subset", " @P@ %subset% @P@",
-  "\\subseteq", "@P@ %subseteq% @P@",
-  "\\nsubset", "@P@ %notsubset% @P@",
-  "\\supset", "@P@ %supset% @P@",
-  "\\supseteq", "@P@ %supseteq% @P@",
-  "\\rightarrow", "@P@ %->% @P@",
-  "\\leftarrow", "@P@ %<-% @P@",
-  "\\Rightarrow", "@P@ %=>% @P@",
-  "\\Leftarrow", "@P@ %<=% @P@",
-  "\\forall", "symbol('\\042')",
-  "\\exists", "symbol('\\044')",
-  "\\%", "symbol('\\045')",
-  "\\ast", "symbol('\\053')",
-  "\\perp", "symbol('\\136')",
-  "\\bullet", "symbol('\\267')",
-  "\\Im", "symbol('\\301')",
-  "\\Re", "symbol('\\302')",
-  "\\wp", "symbol('\\303')",
-  "\\otimes", "symbol('\\304')",
-  "\\oplus", "symbol('\\305')",
-  "\\oslash", "symbol('\\306')",
-  "\\surd", "symbol('\\326')",
-  "\\neg", "symbol('\\330')",
-  "\\vee", "symbol('\\331')",
-  "\\wedge", "symbol('\\332')",
-
-  # Square root, sum, prod, integral, etc.
-  "\\sqrt", "sqrt(@1@, @S@)",
-  "\\sum", "sum(@3@,@1@,@2@)",
-  "\\prod", "prod(@3@,@1@,@2@)",
-  "\\int", "integral(@3@,@1@,@2@)",
-  "\\frac", "frac(@1@, @2@)",
-  "\\bigcup", "union(@3@,@1@,@2@)",
-  "\\bigcap", "intersect(@3@,@1@,@2@)",
-  "\\lim", "lim(@3@, @1@)",
-
-  "\\overset", "atop(@1@, @2@)",
-  "\\normalsize", "displaystyle(@1@)",
-  "\\small", "scriptstyle(@1@)",
-  "\\tiny", "scriptscriptstyle(@1@)",
-
-
-  # Exponent and subscript
-  "^", "@P@ ^ {@1@}",
-  "_", "@P@ [ {@1@} ]",
-
-  # Text
-  "\\textbf", "bold(@1@)",
-  "\\textit", "italic(@1@)",
-  "\\mathbf", "bold(@1@)",
-  "\\mathit", "italic(@1@)",
-  "\\mathrm", "plain(@1@)",
-
-  # Symbols
-  "\\infty", " infinity ",
-  "\\partial", " partialdiff ",
-  "\\cdots", " cdots ",
-  "\\ldots", " ldots ",
-  "\\degree", " degree ",
-  "\\clubsuit", "symbol('\\247')",
-  "\\diamondsuit", "symbol('\\250')",
-  "\\heartsuit", "symbol('\\251')",
-  "\\spadesuit", "symbol('\\252')",
-  "\\aleph", "symbol('\\300')",
-
-  "''", " second ",
-  "'", " minute ",
-  "\\prime", " minute ",
-  "\\LaTeX", "L^{phantom()[phantom()[phantom()[scriptstyle(A)]]]}*T[textstyle(E)]*X",
-  "\\TeX", "T[textstyle(E)]*X",
-
-  # Decorations
-  "\\tilde", "tilde(@1@)",
-  "\\hat", "hat(@1@)",
-  "\\widehat", "widehat(@1@)",
-  "\\widetilde", "widetilde(@1@)",
-  "\\bar", "bar(@1@)",
-  "\\dot", "dot(@1@)",
-  "\\underline", "underline(@1@)",
-
-  # Spacing
-  "\\SPACE1@", "paste(' ')",
-  "\\SPACE2@", "phantom(0)",
-  "\\,", "phantom(0)",
-  "\\;", "phantom() ~~ phantom()",
-  "\\phantom", "phantom(@1@)",
-
-  # Specials
-  "\\COMMA@", "','",
-  "\\SEMICOLON@", "';'",
-  "\\PERIOD@", "'.'",
-  "\\SUB_AND_EXP@", "@P@ [@1@] ^{@2@}",
-
-  # Parentheses
-  "\\leftPAR@", "bgroup('(', @1@ ",
-  "\\rightPAR@", "')')",
-  "\\leftBRACE@", "bgroup('{', @1@ ",
-  "\\rightBRACE@", "'}')",
-  "\\leftSQUARE@", "bgroup('[', @1@ ",
-  "\\rightSQUARE@", "']')",
-  "\\leftPIPE@", "bgroup('|', @1@ ",
-  "\\rightPIPE@", "'|')",
-  "\\middlePIPE@", "bgroup('|', @P@, '')",
-  "\\leftPERIOD@", "bgroup('', @1@ ",
-  "\\rightPERIOD@", "'')",
-  "\\lbrack", "paste('[')",
-  "\\rbrack", "paste(']')"  
-)
-
-
 #' Converts a token created by TeX() to a string, later to be parsed into an expression (for internal use).
 #' 
 #' @param x The TeX() token
@@ -215,11 +25,12 @@ plot.expression <- function(x, ...) {
 toString.latextoken <- function(x, ...) {
   tok <- x
   
-  if (is.null(tok$prev))
+  if (is.null(tok$prev)) {
     pre <- 'paste('
-  else
+  } else {
     pre <- ','
-
+  }
+  
   tok$args[(length(tok$args) + 1):3] <- ''
 
   if (!is.null(tok$sym)) {
@@ -230,11 +41,10 @@ toString.latextoken <- function(x, ...) {
     }
   }
 
-  tok$s <- tok$s %>%
+  tok$string <- tok$string %>%
     str_replace_all("\\\\COMMA@", ',') %>%
     str_replace_all("\\\\PERIOD@", '.') %>%
     str_replace_all("\\\\SEMICOLON@", ';')
-
 
   if (!is.na(.subs[tok$s])) {
     p <- .subs[tok$s] %>%
@@ -255,46 +65,46 @@ toString.latextoken <- function(x, ...) {
         toString(tok$args[[3]])
         else
           "")
-  } else if (tok$s != '\\' &&
-             str_detect(tok$s, '^\\\\') && !tok$textmode) {
-    p <- str_replace(tok$s, "\\\\", "")
+  } else if (tok$string != '\\' &&
+             str_detect(tok$string, '^\\\\') && !tok$textmode) {
+    p <- str_replace(tok$string, "\\\\", "")
 
-    if (length(tok$args) > 0)
+    if (length(tok$args) > 0) {
       p <-
         str_c(p, ',', str_c(sapply(tok$args, toString), collapse = ','))
-  } else if (str_detect(tok$s, "^[0-9]*$")) {
-    p <- str_c('\'', tok$s, '\'')
+    }
+  } else if (str_detect(tok$string, "^[0-9]*$")) {
+    p <- str_c('\'', tok$string, '\'')
   } else {
-    p <- str_c('\'', str_replace_all(tok$s, '\\\\', '\\\\\\\\'), '\'')
+    p <- str_c('\'', str_replace_all(tok$string, '\\\\', '\\\\\\\\'), '\'')
   }
 
   p <- str_c(pre, p)
 
-  if (is.null(tok$succ))
+  if (is.null(tok$succ)) {
     p <- str_c(p, ')')
-  else
+  } else {
     p <- str_c(p, toString(tok$succ))
+  }
 
   return(p)
 }
 
-# LaTeX expressions in the form \tag_sub^exp
-.supsub <-
-  c("\\sqrt", "\\sum", "\\int", "\\prod", "\\bigcup", "\\bigcap", "\\lim")
 
 .token <-
-  function(s = '', parent = NULL, prev = NULL, ch = '', textmode = TRUE) {
+  function(string = '', parent = NULL, prev = NULL, ch = '', textmode = TRUE, skip=FALSE) {
     tok <- new.env()
-    tok$s <- s
+    tok$string <- string
     tok$args <- list()
     tok$sqarg <- list()
     tok$parent <- parent
     tok$prev <- prev
     tok$textmode <- textmode
+    tok$skip <- skip
 
-    if (!is.null(prev))
+    if (!is.null(prev)) {
       prev$succ <- tok
-
+    }
     tok$r <- ""
     tok$ch <- ch
     class(tok) <- 'latextoken'
@@ -338,8 +148,7 @@ toString.latextoken <- function(x, ...) {
       str_replace_all("\\.", "\\\\PERIOD@ ") %>%
   
       str_replace_all("([ ]+)", " ") %>%
-      str_replace_all(" \\^ ", "\\^") %>%
-      str_replace_all(" _ ", "_")
+      str_replace_all(" \\^ ", "\\^") 
     # Split the input into characters
     str <- str_split(string, '')[[1]]
     prevch <- ''
@@ -352,11 +161,12 @@ toString.latextoken <- function(x, ...) {
     while (i < length(str)) {
       i <- i + 1
       ch = str[i]
-      nextch = if (!is.na(str[i + 1]))
+      nextch = if (!is.na(str[i + 1])) {
         str[i + 1]
-      else
+      } else {
         ''
-
+      }
+      
       if (ch == '\\') {
         # Char is \ (start a new node, unless preceded by another \)
         if (nextch %in% c("[", "]", "{", "}")) {
@@ -420,31 +230,34 @@ toString.latextoken <- function(x, ...) {
           .token(
             prev = token, parent = token$parent, ch = ch, textmode = textmode
           )
-      } else if (ch == "[" && !prevch == "\\") {
+      } else if (ch == "[" && !prevch == "\\" && !textmode) {
         # Square parameter started, create new child node, put in $sqarg
         nextisarg <- 0
         old <- token
         token <- .token(parent = old, ch = ch, textmode = textmode)
         old$sqarg[[1]] <- token
       } else if (ch == ")" || ch == "(" || ch == "'") {
-        if (ch == "'" && prevch == "'")
+        if (ch == "'" && prevch == "'") {
           next
-        if (ch == "'" && nextch == "'")
+        }
+        
+        if (ch == "'" && nextch == "'") {
           token <-
             .token(
               s = "''", parent = token$parent, prev = token, textmode = textmode
             )
-        else
+        } else {
           token <-
             .token(
               s = ch, parent = token$parent, prev = token,textmode = textmode
             )
+        }
         token <-
           .token(prev = token, parent = token$parent, textmode = textmode)
-      } else if (ch == "^" || ch == "_") {
+      } else if ((ch == "^" || ch == "_") && !textmode) {
         # Sup or sub. Treat them as new nodes, unless preceded by a LaTeX expression
         # such as \sum, in which case sup and sub should become a parameter
-        if (token$s %in% .supsub) {
+        if (token$string %in% .supsub) {
           token$sym <- str_c(token$sym, ch)
         } else {
           old <- token
@@ -481,7 +294,7 @@ toString.latextoken <- function(x, ...) {
               )
             needsnew <- FALSE
           }
-          token$s <- str_c(token$s, ch)
+          token$string <- str_c(token$string, ch)
         }
       }
 
@@ -489,9 +302,10 @@ toString.latextoken <- function(x, ...) {
     }
 
     post_process(root)
-    if (output == 'ast')
+    if (output == 'ast') {
       return(root)
-
+    }
+      
     str <- toString(root)
     if (bold && italic) {
       str <- paste0("bolditalic(", str, ")")
@@ -517,14 +331,14 @@ toString.latextoken <- function(x, ...) {
 
 #' Converts a LaTeX string to a \code{\link{plotmath}} expression. Deprecated; use \code{\link{TeX}} instead.
 #' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
-#' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "text" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
+#' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "character" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
 #'
 #' @return Returns an expression (see the \code{output} parameter).
 #'
 latex2exp <-
-  function(string, output = c('expression', 'text', 'ast')) {
+  function(string, output = c('expression', 'character', 'ast')) {
     .Deprecated('TeX', 'latex2exp')
-    return(TeX(string, output))
+    return(TeX(string, output=output))
   }
 
 #' Converts a LaTeX string to a \code{\link{plotmath}} expression.
@@ -548,121 +362,22 @@ TeX <-
     return(sapply(string, .parseTeX, bold=bold, italic=italic, output = output))
   }
 
-#' Returns a list of all supported LaTeX symbols and expressions that can be converted with \code{\link{latex2exp}}.
-#'
-#' @param plot whether to plot the table (FALSE by default)
-#' @return a character vector of supported LaTeX expressions
-#' @export
-latex2exp_supported <- function(plot = FALSE) {
-  .talls <- c('\\overset', '\\frac', .supsub)
 
-  if (!plot) {
-    return(sort(Filter(function(d) {
-               return(!str_detect(d, "@$") && str_detect(d, '^\\\\'))
-             }, names(.subs))))
-  } else {
-    syms <- sort(latex2exp_supported())
-    syms <- syms[!(syms %in% .talls)]
-    syms <-
-      c(syms, 'TALLS', Reduce(c, lapply(sort(.talls), function(t)
-        c(t, ''))))
-    oldpar <- par(no.readonly = TRUE)
-    on.exit(suppressWarnings(par(oldpar)))
-
-
-
-    cols <- 2
-    rows <- length(syms) %/% cols
-
-    plot.new()
-    par(mar = c(0, 0, 0, 0))
-    plot.window(xlim = c(1, cols + 2), ylim = c(1, rows))
-
-    col <- 1
-    row <- 1
-    for (sym in syms) {
-      osym <- sym
-      if (row == rows) {
-        row <- 1
-        col <- col + 1
-      }
-
-      if (sym == '') {
-        row <- row + 3
-        next
-      }
-      if (sym == 'TALLS') {
-        col <- col + 1
-        row <- 1
-        next
-      }
-
-      sub <- .subs[[sym]]
-
-      offset <- if (sym %in% .talls)
-        2
-      else
-        0.5
-
-      if (str_detect(sub, "@S@"))
-        sym <- str_c(sym, "[2]")
-      if (str_detect(sub, "@1@")) {
-        if (osym %in% .supsub)
-          sym <- str_c(sym, "_{x}")
-        else
-          sym <- str_c(sym, "{x}")
-      }
-      if (str_detect(sub, "@2@")) {
-        if (osym %in% .supsub)
-          sym <- str_c(sym, "^{y}")
-        else
-          sym <- str_c(sym, "{y}")
-      }
-      sym <- str_c("$", sym, "$")
-      text(col, rows - row, sym, family = 'mono', pos = 4, cex=0.7)
-
-      try(text(col + 0.6, rows - row,
-               TeX(sym), pos = 4, offset = offset, cex=0.7))
-      row <- row + 1
-    }
-
-
+post_process <- function(tok) {
+  if (tok$string == "^" && !is.null(tok$succ) && tok$succ$string == "_") {
+    tok$string = "\\SUB_AND_EXP@"
+    tok$args = c(tok$succ$args, tok$args)
+    tok$succ <- tok$succ$succ
+  } else if (tok$string == "_" && !is.null(tok$succ) && tok$succ$string == "^") {
+    tok$string = "\\SUB_AND_EXP@"
+    tok$args = c(tok$args, tok$succ$args)
+    tok$succ <- tok$succ$succ
   }
-
+  
+  if (!is.null(tok$succ)) {
+    post_process(tok$succ)
+  }
+  sapply(tok$args, post_process)
+  sapply(tok$sqargs, post_process)
 }
 
-#' Plots a number of example LaTeX string, as parsed by \code{\link{TeX}}.
-#' 
-#' @export
-latex2exp_examples <- function() {
-  oldpar <- par(no.readonly = TRUE)
-  on.exit(suppressWarnings(par(oldpar)))
-
-  plot.new()
-  par(mar = c(0, 0, 0, 0))
-  plot.window(xlim = c(0, 1), ylim = c(0, 1))
-  examples <- c(
-    "$\\alpha_{\\beta}^{\\gamma}$",
-    "$\\frac{\\partial \\bar{x}}{\\partial t}$",
-    "$\\sum_{i=1}^{10} x_i \\beta^i$",
-    "$\\prod_{i = 1}^{100} x^i$",
-    "$\\left(\\int_{0}^{1} \\sin(x) dx \\right)$",
-    "The value of the fine structure constant is $\\alpha \\approx \\frac{1}{137}$.",
-    "$\\nabla \\times \\bar{x}$ and $\\nabla \\cdot \\bar{x}$",
-    "$\\sqrt[\\alpha\\beta]{x_i^2}$",
-    "\\textbf{Bold} and \\textit{italic} text!",
-    "$\\left{\\left(\\left[BRACES\\right]\\right)\\right}$",
-    "Whitespace compliant: $x ^ 2 \\times \\sum_ 0 ^ 1 y _ i$",
-    "Numbers: $0.05$, $0.03$, $0.005^{0.002}_{0.01}$",
-    "Phantom: $a\\phantom{test}b$"
-  )
-
-  x <- 0
-  y <- seq(0.95, 0.05, length.out = length(examples))
-
-  text(
-    0.5, y, examples, pos = 2, cex = 0.5, family = 'mono'
-  )
-  text(0.5, y, TeX(examples), pos = 4)
-  return(TRUE)
-}
