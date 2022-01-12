@@ -60,13 +60,11 @@ expect_renders_different <- function(object, expected_expression) {
   comparison_successful <- identical(unname(act$md5_1), unname(act$md5_2))
   if (negate) {
     comparison_successful <- !comparison_successful
-    cat(comparison_successful)
   }
   
-  if (!comparison_successful && getOption("latex2exp.debug.show_expect_png", FALSE)) {
-    system(sprintf("open '%s'", names(act$md5_1)))
-    system(sprintf("open '%s'", names(act$md5_2)))
-    
+  if (!comparison_successful) {
+    plot_expressions(list(result_expression, expected_expression),
+                     titles=c(act$val, toString(expected_expression)))
   }
   
   expect(comparison_successful,

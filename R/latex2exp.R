@@ -1,10 +1,18 @@
+#' @importFrom magrittr %>%
+#' @importFrom stringr str_c
+#' @importFrom stringr str_detect
+#' @importFrom stringr str_replace_all
+#' @importFrom stringr str_replace
+#' @importFrom stringr str_split
+#' @importFrom stringr fixed
+NULL
+
 #' Converts a token created by TeX() to a string, later to be parsed into an expression (for internal use).
 #' 
 #' @param x The TeX() token
 #' @param ... Additional arguments (ignored)
 #' @return A string
-#' @export
-toString.latextoken <- function(x, ...) {
+toString.latextoken <- function(x, ..., translations=.subs) {
   tok <- x
   
   if (is.null(tok$prev)) {
@@ -28,48 +36,50 @@ toString.latextoken <- function(x, ...) {
     str_replace_all("\\\\PERIOD@", '.') %>%
     str_replace_all("\\\\SEMICOLON@", ';')
 
-  if (!is.na(.subs[tok$string])) {
-    p <- .subs[tok$string] %>%
-      str_replace_all("@P@", 'phantom()') %>%
-      str_replace_all("@1@", if (length(tok$args) > 0)
-        toString(tok$args[[1]])
-        else
-          "") %>%
-      str_replace_all("@2@", if (length(tok$args) > 1)
-        toString(tok$args[[2]])
-        else
-          "") %>%
-      str_replace_all("@S@", if (length(tok$sqarg) > 0)
-        toString(tok$sqarg[[1]])
-        else
-          "") %>%
-      str_replace_all("@3@", if (length(tok$args) > 2)
-        toString(tok$args[[3]])
-        else
-          "")
+  translator <- translations[[tok$string]]
+  
+  if (!is.null(translator)) {
+    
+    if (is.function(translator)) {
+      expression <- translator(content=tok$string,
+                               args=tok$args,
+                               square_args=tok$sqarg)
+    } else {
+      first_arg <- if (length(tok$args) > 0) toString(tok$args[[1]], translations=translations) else ""
+      second_arg <- if (length(tok$args) > 1) toString(tok$args[[2]], translations=translations) else ""
+      third_arg <- if (length(tok$args) > 2) toString(tok$args[[3]], translations=translations) else ""
+      square_arg <- if (length(tok$sqarg) > 0) toString(tok$sqarg[[1]], translations=translations) else ""
+      
+      expression <- translator %>%
+        str_replace_all("@P@", 'phantom()') %>%
+        str_replace_all("@1@", first_arg) %>%
+        str_replace_all("@2@", second_arg) %>%
+        str_replace_all("@S@", square_arg) %>%
+        str_replace_all("@3@", third_arg)
+    }
   } else if (tok$string != '\\' &&
              str_detect(tok$string, '^\\\\') && !tok$textmode) {
-    p <- str_replace(tok$string, "\\\\", "")
+    expression <- str_replace(tok$string, "\\\\", "")
 
     if (length(tok$args) > 0) {
-      p <-
-        str_c(p, ',', str_c(sapply(tok$args, toString), collapse = ','))
+      expression <-
+        str_c(expression, ',', str_c(sapply(tok$args, toString, translations=translations), collapse = ','))
     }
   } else if (str_detect(tok$string, "^[0-9]*$")) {
-    p <- str_c('\'', tok$string, '\'')
+    expression <- str_c('\'', tok$string, '\'')
   } else {
-    p <- str_c('\'', str_replace_all(tok$string, '\\\\', '\\\\\\\\'), '\'')
+    expression <- str_c('\'', str_replace_all(tok$string, '\\\\', '\\\\\\\\'), '\'')
   }
 
-  p <- str_c(pre, p)
+  expression <- str_c(pre, expression)
 
   if (is.null(tok$succ)) {
-    p <- str_c(p, ')')
+    expression <- str_c(expression, ')')
   } else {
-    p <- str_c(p, toString(tok$succ))
+    expression <- str_c(expression, toString(tok$succ, translations=translations))
   }
 
-  return(p)
+  return(expression)
 }
 
 
@@ -102,29 +112,29 @@ toString.latextoken <- function(x, ...) {
 ## Returns an expression by default; can either return 'character' (return the expression
 ## as a string) or 'ast' (returns the tree as parsed from the LaTeX string; useful for debug).
 .parseTeX <-
-  function(string, bold=FALSE, italic=FALSE, output = c('expression', 'character', 'ast')) {
+  function(string, bold=FALSE, italic=FALSE, extras=list(), output = c('expression', 'character', 'ast')) {
     output <- match.arg(output)
     original <- string
     # Create the root node
     textmode <- TRUE
     root <- .token(textmode = textmode)
     token <- root
-
+    
     # Treat \left( / \right) and company specially in order to not have to special-case them in the
     # parser
     string <- string %>%
-      .str_replace_all('\\left\\{', '\\leftBRACE@{') %>%
-      .str_replace_all('\\left\\[', '\\leftSQUARE@{') %>%
-      .str_replace_all('\\left\\|', '\\leftPIPE@{') %>%
-      .str_replace_all('\\left\\.', '\\leftPERIOD@{') %>%
-      .str_replace_all('\\middle\\|', '\\middlePIPE@{') %>%
+      .str_replace_all('\\left{', '\\leftBRACE@{') %>%
+      .str_replace_all('\\left[', '\\leftSQUARE@{') %>%
+      .str_replace_all('\\left|', '\\leftPIPE@{') %>%
+      .str_replace_all('\\left.', '\\leftPERIOD@{') %>%
+      .str_replace_all('\\middle|', '\\middlePIPE@{') %>%
       .str_replace_all('\\|', '\\PIPE@ ') %>%
-      .str_replace_all('\\left\\(', '\\leftPAR@{') %>%
-      .str_replace_all('\\right\\}', '}\\rightBRACE@ ') %>%
-      .str_replace_all('\\right\\]', '}\\rightSQUARE@ ') %>%
-      .str_replace_all('\\right\\)', '}\\rightPAR@ ') %>%
-      .str_replace_all('\\right\\|', '}\\rightPIPE@ ') %>%
-      .str_replace_all('\\right\\.', '\\rightPERIOD@{') %>%
+      .str_replace_all('\\left(', '\\leftPAR@{') %>%
+      .str_replace_all('\\right}', '}\\rightBRACE@ ') %>%
+      .str_replace_all('\\right]', '}\\rightSQUARE@ ') %>%
+      .str_replace_all('\\right)', '}\\rightPAR@ ') %>%
+      .str_replace_all('\\right|', '}\\rightPIPE@ ') %>%
+      .str_replace_all('\\right.', '\\rightPERIOD@{') %>%
 
       .str_replace_all("\\,", "\\SPACE1@ ") %>%
       .str_replace_all("\\;", "\\SPACE2@ ") %>%
@@ -273,7 +283,7 @@ toString.latextoken <- function(x, ...) {
             }
           }
         } else {
-          if (needsnew) {
+          if (needsnew || ch %in% names(.simple_operators) || prevch %in% names(.simple_operators)) {
             token <-
               .token(
                 prev = token, parent = token$parent, ch = ch, textmode = textmode
@@ -287,32 +297,38 @@ toString.latextoken <- function(x, ...) {
       prevch <- ch
     }
 
+    # Dollar signs are unbalanced
+    if (!textmode) {
+      stop("Dollar signs ($) unbalanced in LaTeX expression")
+    }
+    
     post_process(root)
     if (output == 'ast') {
       return(root)
     }
       
-    str <- toString(root)
+    str <- toString(root, translations=c(extras, .subs))
     if (bold && italic) {
-      str <- paste0("bolditalic(", str, ")")
+      str <- str_c("bolditalic(", str, ")")
     } else if (bold) {
-      str <- paste0("bold(", str, ")")
+      str <- str_c("bold(", str, ")")
     } else if (italic) {
-      str <- paste0("italic(", str, ")")
+      str <- str_c("italic(", str, ")")
     }
     
-    exp <- tryCatch(
+    exp <- unname(tryCatch(
       parse(text = str), error = function(e) {
         message("Original string: ", original)
         message("Parsed expression: ", str)
         stop(e)
       }
-    )
+    ))
 
     if (output == 'character') {
       return(str)
-    } else
+    } else {
       return(exp)
+    }
   }
 
 #' Converts a LaTeX string to a \code{\link{plotmath}} expression. Deprecated; use \code{\link{TeX}} instead.
@@ -329,12 +345,20 @@ latex2exp <-
 
 #' Converts a LaTeX string to a \code{\link{plotmath}} expression.
 #'
-#' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
+#' @param input  A character vector containing LaTeX strings. 
+#'               Note that any backslashes must be escaped (e.g. "$\\alpha").
 #' @param bold   Whether to make the entire label bold
 #' @param italic Whether to make the entire label italic
-#' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "character" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
+#' @param output The returned object, one of "expression" (default, returns 
+#'               a plotmath expression ready for plotting), 
+#'               "character" (returns the expression as a string), 
+#'               and "ast" (returns the tree used to generate the expression).
 #'
-#' @return Returns an expression (see the \code{output} parameter).
+#' @return Returns a plotmath expression by default. The `output` parameter can 
+#' modify the type of the returned value. 
+#' 
+#' If more than one string is specified in the `input` parameter, returns a list
+#' of expressions.
 #'
 #' @examples
 #' TeX("$\\alpha$")
@@ -344,8 +368,12 @@ latex2exp <-
 #' plot(a, a^2, xlab=TeX("$\\alpha$"), ylab=TeX("$\\alpha^2$"))
 #' @export
 TeX <-
-  function(string, bold=FALSE, italic=FALSE, output = c('expression', 'character', 'ast')) {
-    return(sapply(string, .parseTeX, bold=bold, italic=italic, output = output))
+  function(input, bold=FALSE, italic=FALSE, extras=list(), output = c('expression', 'character', 'ast')) {
+    if (length(input) > 1) {
+      lapply(input, .parseTeX, bold=bold, italic=italic, extras=extras, output = output)
+    } else {
+      .parseTeX(input, bold=bold, italic=italic, extras=extras, output=output)
+    }
   }
 
 

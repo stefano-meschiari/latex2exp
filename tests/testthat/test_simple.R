@@ -9,3 +9,30 @@ test_that("Simple greek letter strings and symbols are rendered correctly", {
 test_that("Simple text is rendered correctly", {
   expect_renders_same("Some simple text", paste("Some simple text"))
 })
+
+test_that("Operators are rendered correctly, regardless of spacing", {
+  expect_renders_same("$a+b$",
+                      a + b)
+  expect_renders_same("$a +b$",
+                      a + b)
+  expect_renders_same("$a+ b$",
+                      a + b)
+  expect_renders_same("$a_{b+1}$",
+                      a[b+1])
+})
+
+test_that("Superscripts and subscripts are rendered correctly", {
+  expect_renders_same("$\\alpha^\\beta$", 
+                      alpha^beta)
+  expect_renders_same("$\\alpha_\\beta$", 
+                      alpha[beta])
+  expect_renders_same("$\\alpha_{\\gamma\\beta}$", 
+                      alpha[gamma*beta])
+  expect_renders_same("$\\alpha_\\gamma\\beta$", 
+                      alpha[gamma]*beta)
+})
+
+test_that("Superscript and subscript for operators are rendered correctly", {
+  expect_renders_same("$\\sum_{i=1}^{N} x_i$",
+                      sum(x[i], i==1, N))
+})

@@ -4,22 +4,25 @@
 #' @param x A \code{\link{plotmath}} expression.
 #' @param ... Parameters to be passed to the \code{\link{text}} function.
 #' @export
-plot.expression <- function(x, ..., main="") {
+plot.expression <- function(x, ..., titles="") {
   oldpar <- par(no.readonly = TRUE)
   dots <- list(...)
   on.exit(suppressWarnings(par(oldpar)))
-  par(mar = c(0, 0, 0, 0), mfrow=c(length(x), 1))
+  par(mar = c(1, 1, 1, 1), mfrow=c(length(x), 1))
   
-  for (expr in x) {
+  mapply(function(expr, title) {
     plot(0, 0, type = 'n', axes = F, xlab = '', ylab = '')
-    text(0, 0, x, ...)
-  }
+    text(0, 0, expr, ...)
+    mtext(title)
+    NULL
+  }, x, titles)
+  
   invisible()
 }
 
 #' @export
-plot_expressions <- function(expr, ..., main="") {
-  plot.expression(x, ..., main=main)
+plot_expressions <- function(expr, ..., titles="") {
+  plot.expression(expr, ..., titles=titles)
 }
 
 #' Returns a list of all supported LaTeX symbols and expressions that can be converted with \code{\link{latex2exp}}.

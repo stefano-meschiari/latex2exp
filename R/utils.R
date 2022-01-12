@@ -6,6 +6,7 @@
 #' This is primarily used for debugging.
 #' @param x The latex2exp object.
 #' @param ... (ignored)
+#' @export
 print.latextoken <- function(x, ...) {
   dots <- list(...)
   level <- dots$level %??% 0

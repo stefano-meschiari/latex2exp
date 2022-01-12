@@ -2,22 +2,26 @@
 #
 # Some special strings are substituted:
 # @P@ is a phantom character (used to paste operators)
-# @1@ is the first brace argument in a LaTeX expression, \command{1}
-# @2@ is the second brace argument in a LaTeX expression, \command{1}{2}
+# @1@ is the first brace argument in a LaTeX expression, \command{1}, or 
+# the first subscript argument \sum_1{}
+# @2@ is the second brace argument in a LaTeX expression, \command{1}{2} or
+# the first superscript argument \sum_1^2{} 
+# @3@ is the third brace argument in a LaTeX expression, \command{1}{2}{3} or
+# the first non-(super|sub)script argument \sum_1^2 3
 # @S@ is the square argument in a LaTeX expression, \command[S]{1}{2}
-# @^@ is the exponent argument (for \int, \sum, etc.)
-# @_@ is the subscript argument (for \int, \sum, etc.)
 # if the argument is missing, an empty string is substituted instead
 
-.operators <- c(
-  # Operators
+
+.simple_operators <- list(
   "+" = "@P@ + @P@",
   "-" = "@P@ - @P@",
   "/" = "@P@ / @P@",
   "=" = "@P@ == @P@",
-  "*" = "symbol('\052')",
+  "*" = "symbol('\052')"
+)
+
+.operators <- list(
   "\\div" = "@P@ %/% @P@",
-  
   "\\pm" = "@P@ %+-% @P@",
   "\\neq" = "@P@ != @P@",
   "\\geq" = "@P@ >= @P@",
@@ -55,44 +59,45 @@
 )
 
 # Square root, sum, prod, integral, etc.
-.big_operators <- c(
+.big_operators <- list(
   "\\sqrt" = "sqrt(@1@, @S@)",
   "\\sum" = "sum(@3@,@1@,@2@)",
   "\\prod" = "prod(@3@,@1@,@2@)",
   "\\int" = "integral(@3@,@1@,@2@)",
-  "\\frac" = "frac(@1@, @2@)",
+  "\\frac" = "frac(@1@, @2@) * phantom(.)",
   "\\bigcup" = "union(@3@,@1@,@2@)",
   "\\bigcap" = "intersect(@3@,@1@,@2@)",
   "\\lim" = "lim(@3@, @1@)"
 )
 
 # Text size
-.fontsizes <- c(
+.fontsizes <- list(
   "\\normalsize" = "displaystyle(@1@)",
   "\\small" = "scriptstyle(@1@)",
   "\\tiny" = "scriptscriptstyle(@1@)"
 )
 
 # Greek letter vairants
-.variants <- c(
+.variants <- list(
   "\\Upsilon" = "Upsilon1",
   "\\varpi" = "omega1"
 )
 
 # Arrows
-.arrows <- c(
+.arrows <- list(
   "\\rightarrow" = "@P@ %->% @P@",
   "\\leftarrow" = "@P@ %<-% @P@",
   "\\Rightarrow" = "@P@ %=>% @P@",
   "\\Leftarrow" = "@P@ %<=% @P@",
-  "\\uparrow" = "symbol('\\255')",
-  "\\downarrow" = "symbol('\\257')",
-  "\\Uparrow" = "symbol('\\355')",
-  "\\Downarrow" = "symbol('\\357')"
+  "\\uparrow" = "@P@ %up% @P@",
+  "\\downarrow" = "@P@ %down% @P@",
+  "\\Uparrow" = "@P@ %dblup% @P@",
+  "\\Downarrow" = "@P@ %dbldown% @P@",
+  "\\to" = "@P@ %->% @P@"
 )
 
 # Layout
-.layout_and_spacing <- c(
+.layout_and_spacing <- list(
   "\\overset" = "atop(@1@, @2@)",
   
   "\\SPACE1@" = "paste(' ')",
@@ -182,6 +187,12 @@
   "\\PIPE@" = "group('|', group('|', phantom(), '.'), '.')"
 )
 
+.vector <- c(
+  "\\norm" = "group('|', group('|', @1@, '|'), '|')",
+  "\\bra" = "group(langle, @1@, '|')",
+  "\\ket" = "group('|', @1@, rangle)"
+)
+
 # Approximations to the TeX and LaTeX symbols
 .others <- c(
   "\\LaTeX" = "L^{phantom()[phantom()[phantom()[scriptstyle(A)]]]}*T[textstyle(E)]*X",
@@ -190,6 +201,7 @@
 
 .subs <- c(
   .variants,
+  .simple_operators,
   .operators,
   .arrows,
   .big_operators,
@@ -201,9 +213,9 @@
   .degrees,
   .specials,
   .parentheses,
+  .vector,
   .others
 )
-
 
 # LaTeX expressions in the form \tag_sub^exp
 .supsub <- names(.big_operators)
