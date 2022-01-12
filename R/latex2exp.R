@@ -283,7 +283,7 @@ toString.latextoken <- function(x, ..., translations=.subs) {
             }
           }
         } else {
-          if (needsnew || ch %in% names(.simple_operators) || prevch %in% names(.simple_operators)) {
+          if (needsnew || ch %in% .separators || prevch %in% .separators) {
             token <-
               .token(
                 prev = token, parent = token$parent, ch = ch, textmode = textmode

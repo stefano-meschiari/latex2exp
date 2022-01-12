@@ -35,4 +35,12 @@ test_that("Superscripts and subscripts are rendered correctly", {
 test_that("Superscript and subscript for operators are rendered correctly", {
   expect_renders_same("$\\sum_{i=1}^{N} x_i$",
                       sum(x[i], i==1, N))
+  
+  expect_renders_same("$\\lim_{x \\to 0} \\frac{x^2}{x}$",
+                      lim(frac(x^2, x) * phantom(.), x %->% 0))
+})
+
+test_that("Round parentheses are rendered correctly", {
+  expect_renders_same("$\\frac{\\sin(x)}{\\cos(x)}$",
+                      frac(sin(x), cos(x)))
 })

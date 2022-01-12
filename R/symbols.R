@@ -17,7 +17,9 @@
   "-" = "@P@ - @P@",
   "/" = "@P@ / @P@",
   "=" = "@P@ == @P@",
-  "*" = "symbol('\052')"
+  "*" = "symbol('\052')",
+  "(" = "group('(', @P@, '.')",
+  ")" = "group(')', @P@, '.')"
 )
 
 .operators <- list(
@@ -219,3 +221,9 @@
 
 # LaTeX expressions in the form \tag_sub^exp
 .supsub <- names(.big_operators)
+
+.separators <- c(
+  names(.simple_operators),
+  "|",
+  "&"
+)
