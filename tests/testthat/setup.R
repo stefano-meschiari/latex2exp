@@ -17,7 +17,7 @@ Note: TeX string evaluated to %s.
 #' 
 #' If the test fails, the two PNG files are returned for visual inspection.
 #'
-#' @param object LaTeX string
+#' @param object LaTeX string or expression returned by TeX()
 #' @param expected_expression Plotmath expression corresponding to the expected output
 #'
 #' @return TRUE if the two objects render in the same way
@@ -46,7 +46,11 @@ expect_renders_different <- function(object, expected_expression) {
     tools::md5sum(fn)
   }
   
-  result_expression <- TeX(act$val)
+  if (is.character(act$val)) {
+    result_expression <- TeX(act$val)
+  } else{
+    result_expression <- act$val
+  }
   act$md5_1 <- plot_md5(result_expression, str_c("latex2exp_"))
   act$md5_2 <- plot_md5(expected_expression, str_c("expression_"))
   

@@ -18,11 +18,10 @@ toString.latextoken <- function(x, ..., translations=.subs) {
   if (is.null(tok$prev)) {
     pre <- 'paste('
   } else {
-    pre <- ','
+    pre <- ''
   }
   
-  tok$args[(length(tok$args) + 1):3] <- ''
-
+  
   if (!is.null(tok$sym)) {
     if (tok$sym == "^") {
       tok$args = list("", tok$args[[1]], tok$args[[2]])
@@ -71,7 +70,18 @@ toString.latextoken <- function(x, ..., translations=.subs) {
     expression <- str_c('\'', str_replace_all(tok$string, '\\\\', '\\\\\\\\'), '\'')
   }
 
-  expression <- str_c(pre, expression)
+  if (tok$string != "") {
+    expression <- str_c(pre, expression)
+    if (!is.null(tok$succ)) {
+      expression <- str_c(expression, ",")
+    }
+  } else {
+    if (is.null(tok$prev)) {
+      expression <- pre
+    } else {
+      expression <- ''
+    }
+  }
 
   if (is.null(tok$succ)) {
     expression <- str_c(expression, ')')
@@ -83,24 +93,33 @@ toString.latextoken <- function(x, ..., translations=.subs) {
 }
 
 
-.token <-
-  function(string = '', parent = NULL, prev = NULL, ch = '', textmode = TRUE) {
-    tok <- new.env()
-    tok$string <- string
-    tok$args <- list()
-    tok$sqarg <- list()
-    tok$parent <- parent
-    tok$prev <- prev
-    tok$textmode <- textmode
+.token <- function(string = '', parent = NULL, prev = NULL, ch = '', textmode = TRUE) {
+  tok <- new.env()
+  tok$string <- string
+  tok$args <- list()
+  tok$sqarg <- list()
+  tok$parent <- parent
+  tok$prev <- prev
+  tok$textmode <- textmode
 
-    if (!is.null(prev)) {
-      prev$succ <- tok
-    }
-    tok$r <- ""
-    tok$ch <- ch
-    class(tok) <- 'latextoken'
-    return(tok)
+  if (!is.null(prev)) {
+    prev$succ <- tok
   }
+  tok$r <- ""
+  tok$ch <- ch
+  class(tok) <- 'latextoken'
+  return(tok)
+}
+
+.root_parent <- function(token) {
+  if (is.null(token$parent)) {
+    token
+  } else {
+    .root_parent(token$parent)
+  }
+}
+
+
 
 .str_replace_all <- function(x, pattern, replacement) {
   str_replace_all(x, fixed(pattern), replacement)
@@ -112,9 +131,9 @@ toString.latextoken <- function(x, ..., translations=.subs) {
 ## Returns an expression by default; can either return 'character' (return the expression
 ## as a string) or 'ast' (returns the tree as parsed from the LaTeX string; useful for debug).
 .parseTeX <-
-  function(string, bold=FALSE, italic=FALSE, extras=list(), output = c('expression', 'character', 'ast')) {
+  function(latex_string, bold=FALSE, italic=FALSE, user_defined=list(), output = c('expression', 'character', 'ast')) {
     output <- match.arg(output)
-    original <- string
+    
     # Create the root node
     textmode <- TRUE
     root <- .token(textmode = textmode)
@@ -122,7 +141,7 @@ toString.latextoken <- function(x, ..., translations=.subs) {
     
     # Treat \left( / \right) and company specially in order to not have to special-case them in the
     # parser
-    string <- string %>%
+    plotmath_string <- latex_string %>%
       .str_replace_all('\\left{', '\\leftBRACE@{') %>%
       .str_replace_all('\\left[', '\\leftSQUARE@{') %>%
       .str_replace_all('\\left|', '\\leftPIPE@{') %>%
@@ -145,8 +164,9 @@ toString.latextoken <- function(x, ..., translations=.subs) {
   
       str_replace_all("([ ]+)", " ") %>%
       str_replace_all(" \\^ ", "\\^") 
+    
     # Split the input into characters
-    str <- str_split(string, '')[[1]]
+    plotmath_string <- str_split(plotmath_string, '')[[1]]
     prevch <- ''
 
     # If within a tag contained in .textmode, preserve spaces
@@ -154,16 +174,37 @@ toString.latextoken <- function(x, ..., translations=.subs) {
     needsnew <- FALSE
 
     i <- 0
-    while (i < length(str)) {
+    while (i < length(plotmath_string)) {
       i <- i + 1
-      ch = str[i]
-      nextch = if (!is.na(str[i + 1])) {
-        str[i + 1]
+      ch = plotmath_string[i]
+      
+      nextch = if (!is.na(plotmath_string[i + 1])) {
+        plotmath_string[i + 1]
       } else {
         ''
       }
       
-      if (ch == '\\') {
+      if (ch == "$" && !prevch == "\\") {
+        # Math mode opened or closed; return to the topmost parent
+        if (!textmode) {
+          token <- .token(
+            prev = .root_parent(token), 
+            parent = NULL, 
+            ch = ch, 
+            textmode = textmode
+          )
+        } else {
+          token <- .token(
+            prev = token, 
+            parent = NULL, 
+            ch = ch, 
+            textmode = textmode
+          )
+        }
+        textmode <- !textmode
+        nextisarg <- 0
+        
+      } else if (ch == '\\') {
         # Char is \ (start a new node, unless preceded by another \)
         if (nextch %in% c("[", "]", "{", "}")) {
           needsnew <- TRUE
@@ -220,12 +261,6 @@ toString.latextoken <- function(x, ..., translations=.subs) {
         # Square or brace parameter ended, return to parent node
         token <- token$parent
         needsnew <- TRUE
-      } else if (ch == "$" && !prevch == "\\") {
-        textmode <- !textmode
-        token <-
-          .token(
-            prev = token, parent = token$parent, ch = ch, textmode = textmode
-          )
       } else if (ch == "[" && !prevch == "\\" && !textmode) {
         # Square parameter started, create new child node, put in $sqarg
         nextisarg <- 0
@@ -283,7 +318,7 @@ toString.latextoken <- function(x, ..., translations=.subs) {
             }
           }
         } else {
-          if (needsnew || ch %in% .separators || prevch %in% .separators) {
+          if (needsnew || (ch %in% .separators && !textmode) || prevch %in% .separators) {
             token <-
               .token(
                 prev = token, parent = token$parent, ch = ch, textmode = textmode
@@ -307,25 +342,27 @@ toString.latextoken <- function(x, ..., translations=.subs) {
       return(root)
     }
       
-    str <- toString(root, translations=c(extras, .subs))
+    plotmath_string <- toString(root, translations=c(user_defined, .subs))
     if (bold && italic) {
-      str <- str_c("bolditalic(", str, ")")
+      plotmath_string <- str_c("bolditalic(", plotmath_string, ")")
     } else if (bold) {
-      str <- str_c("bold(", str, ")")
+      plotmath_string <- str_c("bold(", plotmath_string, ")")
     } else if (italic) {
-      str <- str_c("italic(", str, ")")
+      plotmath_string <- str_c("italic(", plotmath_string, ")")
     }
     
-    exp <- unname(tryCatch(
-      parse(text = str), error = function(e) {
-        message("Original string: ", original)
-        message("Parsed expression: ", str)
+    exp <- unname(tryCatch(parse(text = plotmath_string), 
+      error = function(e) {
+        message("Original string: ", latex_string)
+        message("Parsed expression: ", plotmath_string)
         stop(e)
-      }
-    ))
+      })
+    )
+    class(exp) <- c("expression", "latexexpression")
+    attr(exp, "latex") <- latex_string
 
     if (output == 'character') {
-      return(str)
+      return(plotmath_string)
     } else {
       return(exp)
     }
@@ -368,11 +405,11 @@ latex2exp <-
 #' plot(a, a^2, xlab=TeX("$\\alpha$"), ylab=TeX("$\\alpha^2$"))
 #' @export
 TeX <-
-  function(input, bold=FALSE, italic=FALSE, extras=list(), output = c('expression', 'character', 'ast')) {
+  function(input, bold=FALSE, italic=FALSE, user_defined=list(), output = c('expression', 'character', 'ast')) {
     if (length(input) > 1) {
-      lapply(input, .parseTeX, bold=bold, italic=italic, extras=extras, output = output)
+      lapply(input, .parseTeX, bold=bold, italic=italic, user_defined=user_defined, output = output)
     } else {
-      .parseTeX(input, bold=bold, italic=italic, extras=extras, output=output)
+      .parseTeX(input, bold=bold, italic=italic, user_defined=user_defined, output=output)
     }
   }
 
@@ -386,7 +423,7 @@ post_process <- function(tok) {
     tok$string = "\\SUB_AND_EXP@"
     tok$args = c(tok$args, tok$succ$args)
     tok$succ <- tok$succ$succ
-  }
+  } 
   
   if (!is.null(tok$succ)) {
     post_process(tok$succ)

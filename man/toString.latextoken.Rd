@@ -4,7 +4,7 @@
 \alias{toString.latextoken}
 \title{Converts a token created by TeX() to a string, later to be parsed into an expression (for internal use).}
 \usage{
-\method{toString}{latextoken}(x, ...)
+\method{toString}{latextoken}(x, ..., translations = .subs)
 }
 \arguments{
 \item{x}{The TeX() token}

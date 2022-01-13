@@ -8,6 +8,7 @@ TeX(
   input,
   bold = FALSE,
   italic = FALSE,
+  user_defined = list(),
   output = c("expression", "character", "ast")
 )
 }

@@ -57,7 +57,9 @@
   "\\surd" = "symbol('\\326')",
   "\\neg" = "symbol('\\330')",
   "\\vee" = "symbol('\\331')",
-  "\\wedge" = "symbol('\\332')"
+  "\\wedge" = "symbol('\\332')",
+  "\\ni" = "symbol('\\047')",
+  "\\angle" = "symbol('\\320)"
 )
 
 # Square root, sum, prod, integral, etc.
@@ -110,20 +112,20 @@
 )
 
 # Formatting
-.formatting <- c(
+.formatting <- list(
   "\\textbf" = "bold(@1@)",
   "\\textit" = "italic(@1@)",
   "\\textrm" = "plain(@1@)"
 )
 
 # Exponent and subscript
-.exp_subs <- c(
+.exp_subs <- list(
   "^" = "@P@ ^ {@1@}",
   "_" = "@P@ [ {@1@} ]"
 )
 
 # Symbols
-.symbols <- c(
+.symbols <- list(
   "\\infty" = " infinity ",
   "\\partial" = " partialdiff ",
   "\\cdots" = " cdots ",
@@ -138,7 +140,7 @@
 )
 
 # Degrees
-.degrees <- c(
+.degrees <- list(
   "''" = " second ",
   "'" = " minute ",
   "\\prime" = " minute ",
@@ -146,7 +148,7 @@
 )
 
 # Decorations
-.decorations <- c(
+.decorations <- list(
   "\\tilde" = "tilde(@1@)",
   "\\hat" = "hat(@1@)",
   "\\widehat" = "widehat(@1@)",
@@ -158,15 +160,20 @@
 )
 
 # Characters that need to be treated in a special way by the parser
-.specials <- c(
+.specials <- list(
   "\\COMMA@" = "','",
   "\\SEMICOLON@" = "';'",
   "\\PERIOD@" = "'.'",
-  "\\SUB_AND_EXP@" = "@P@ [@1@] ^{@2@}"
+  "\\SUB_AND_EXP@" = "@P@ [@1@] ^{@2@}",
+  "\\ESCAPED_DOLLAR@" = "'$'",
+  "\\ESCAPED_BRACE1@" = "'{'",
+  "\\ESCAPED_BRACE2@" = "'}'",
+  "\\ESCAPED_BRACKET1@" = "'['",
+  "\\ESCAPED_BRACKET2@" = "']'"
 )
 
 # Parentheses
-.parentheses <- c(
+.parentheses <- list(
   "\\leftPAR@" = "bgroup('(', @1@ ",
   "\\rightPAR@" = "')')",
   "\\leftBRACE@" = "bgroup('{', @1@ ",
@@ -189,14 +196,14 @@
   "\\PIPE@" = "group('|', group('|', phantom(), '.'), '.')"
 )
 
-.vector <- c(
+.vector <- list(
   "\\norm" = "group('|', group('|', @1@, '|'), '|')",
   "\\bra" = "group(langle, @1@, '|')",
   "\\ket" = "group('|', @1@, rangle)"
 )
 
 # Approximations to the TeX and LaTeX symbols
-.others <- c(
+.others <- list(
   "\\LaTeX" = "L^{phantom()[phantom()[phantom()[scriptstyle(A)]]]}*T[textstyle(E)]*X",
   "\\TeX" = "T[textstyle(E)]*X"
 )
@@ -225,5 +232,7 @@
 .separators <- c(
   names(.simple_operators),
   "|",
-  "&"
+  "&",
+  "^",
+  "_"
 )

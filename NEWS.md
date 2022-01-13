@@ -11,6 +11,8 @@
   * `\bra`, `\ket`, `\braket` for representing vectors with the braket notation
   Note that the angle, ceil, floor, pipe and double pipe brackets are *not* scalable delimiters, because of plotmath limitations.
 * Improved the appearance of round parentheses. `TeX(r"($\alpha(\beta)$)")` now uses `group` to render parentheses, which makes it more similar to how plotmath renders the expression `alpha(beta)`. 
+* Improved the appearance of `\frac` fractions. Now a small space is inserted after the fraction, so that multiple fractions are separated.
+* `TeX()` will fail if the dollar signs (`$`) in the string are unbalanced, e.g. `TeX(r"($\alpha)")` will fail.
 * Added a test suite covering a number of different LaTeX equations.
 * Refactored and improved code documentation.
 
