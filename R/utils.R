@@ -2,6 +2,42 @@
   return(if (is.null(x) || is.na(x) || (is.logical(x) && !x))  y else x)
 }
 
+str_replace_fixed <- function(string, pattern, replacement) {
+  str_replace_all(string, fixed(pattern), replacement)
+}
+
+#' Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
+#' This is primarily used for debugging.
+#' @param x The object
+#' @param ... (ignored)
+#' @export
+print.latextoken2 <- function(token, depth=0) {
+  pad <- strrep(" ", depth)
+  cat(pad, 
+      if (depth > 0) str_c("| :", token$command, ":"), 
+      if (!is.null(token$rendered)) str_c(" -> ", token$rendered),
+      "\n",
+      sep="")
+  
+  for (children_type in c("children", "args", "optional_arg", "sup_arg", "sub_arg")) {
+    if (length(token[[children_type]]) > 0) {
+      if (children_type != "children") {
+        cat(pad, "* <", children_type, ">", "\n", sep="")
+      }
+      for (tok_idx in seq_along(token[[children_type]])) {
+        c <- token[[children_type]][[tok_idx]]
+        if (is.list(c)) {
+          cat(pad, " | [argument ", tok_idx, "]\n", sep="")
+          for (cc in c) {
+            print(cc, depth+1)
+          }
+        } else {
+          print(c, depth+1)
+        }
+      }
+    }
+  }
+}
 
 #' Print an expression returned by TeX()
 #' 
@@ -15,26 +51,6 @@
 #' @export
 print.latexexpression <- function(x, ...) {
   cat("   LaTeX:", attr(x, "latex"), "\n")
-  cat("plotmath:", toString(x), "\n")
+  cat("plotmath:", attr(x, "plotmath"), "\n")
 }
 
-#' Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
-#' This is primarily used for debugging.
-#' @param x The latex2exp object.
-#' @param ... (ignored)
-#' @export
-print.latextoken <- function(x, ...) {
-  dots <- list(...)
-  level <- dots$level %??% 0
-  n <- dots$n %??% 1
-  
-  ind <- rep(' ', level)
-  cat(ind, n, '. \'', x$string, '\' ', x$textmode, ' ', x$ch, '\n', 
-      sep = '')
-  sapply(x$args, print, level = level + 1, n = 1, ch = '{')
-  sapply(x$sqarg, print, level = level + 1, n = 1, ch = '[')
-  
-  if (!is.null(x$succ)) {
-    print.latextoken(x$succ, level=level, n=n + 1)
-  }
-}

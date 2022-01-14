@@ -35,7 +35,7 @@ expect_renders_different <- function(object, expected_expression) {
 }
 
 .expect_renders <- function(object, expected_expression, negate) {
-  act <- quasi_label(rlang::enquo(object), arg="object")
+  act <- testthat::quasi_label(rlang::enquo(object), arg="object")
   
   plot_md5 <- function(expr, prefix) {
     fn <- tempfile(pattern = prefix, fileext = ".png")
@@ -51,8 +51,8 @@ expect_renders_different <- function(object, expected_expression) {
   } else{
     result_expression <- act$val
   }
-  act$md5_1 <- plot_md5(result_expression, str_c("latex2exp_"))
-  act$md5_2 <- plot_md5(expected_expression, str_c("expression_"))
+  act$md5_1 <- plot_md5(result_expression, "latex2exp_")
+  act$md5_2 <- plot_md5(expected_expression, "expression_")
   
   message <- sprintf(expect_plots_same_message,
                      act$val,

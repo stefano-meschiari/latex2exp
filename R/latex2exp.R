@@ -4,369 +4,14 @@
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_split
+#' @importFrom stringr str_sub
+#' @importFrom stringr str_match
+#' @importFrom stringr str_trim
+#' @importFrom stringr str_starts
+#' @importFrom stringr str_match
+#' @importFrom stringr str_match_all
 #' @importFrom stringr fixed
 NULL
-
-#' Converts a token created by TeX() to a string, later to be parsed into an expression (for internal use).
-#' 
-#' @param x The TeX() token
-#' @param ... Additional arguments (ignored)
-#' @return A string
-toString.latextoken <- function(x, ..., translations=.subs) {
-  tok <- x
-  
-  if (is.null(tok$prev)) {
-    pre <- 'paste('
-  } else {
-    pre <- ''
-  }
-  
-  
-  if (!is.null(tok$sym)) {
-    if (tok$sym == "^") {
-      tok$args = list("", tok$args[[1]], tok$args[[2]])
-    } else if (tok$sym == "^_") {
-      tok$args = list(tok$args[[2]], tok$args[[1]], tok$args[[3]])
-    }
-  }
-
-  tok$string <- tok$string %>%
-    str_replace_all("\\\\COMMA@", ',') %>%
-    str_replace_all("\\\\PERIOD@", '.') %>%
-    str_replace_all("\\\\SEMICOLON@", ';')
-
-  translator <- translations[[tok$string]]
-  
-  if (!is.null(translator)) {
-    
-    if (is.function(translator)) {
-      expression <- translator(content=tok$string,
-                               args=tok$args,
-                               square_args=tok$sqarg)
-    } else {
-      first_arg <- if (length(tok$args) > 0) toString(tok$args[[1]], translations=translations) else ""
-      second_arg <- if (length(tok$args) > 1) toString(tok$args[[2]], translations=translations) else ""
-      third_arg <- if (length(tok$args) > 2) toString(tok$args[[3]], translations=translations) else ""
-      square_arg <- if (length(tok$sqarg) > 0) toString(tok$sqarg[[1]], translations=translations) else ""
-      
-      expression <- translator %>%
-        str_replace_all("@P@", 'phantom()') %>%
-        str_replace_all("@1@", first_arg) %>%
-        str_replace_all("@2@", second_arg) %>%
-        str_replace_all("@S@", square_arg) %>%
-        str_replace_all("@3@", third_arg)
-    }
-  } else if (tok$string != '\\' &&
-             str_detect(tok$string, '^\\\\') && !tok$textmode) {
-    expression <- str_replace(tok$string, "\\\\", "")
-
-    if (length(tok$args) > 0) {
-      expression <-
-        str_c(expression, ',', str_c(sapply(tok$args, toString, translations=translations), collapse = ','))
-    }
-  } else if (str_detect(tok$string, "^[0-9]*$")) {
-    expression <- str_c('\'', tok$string, '\'')
-  } else {
-    expression <- str_c('\'', str_replace_all(tok$string, '\\\\', '\\\\\\\\'), '\'')
-  }
-
-  if (tok$string != "") {
-    expression <- str_c(pre, expression)
-    if (!is.null(tok$succ)) {
-      expression <- str_c(expression, ",")
-    }
-  } else {
-    if (is.null(tok$prev)) {
-      expression <- pre
-    } else {
-      expression <- ''
-    }
-  }
-
-  if (is.null(tok$succ)) {
-    expression <- str_c(expression, ')')
-  } else {
-    expression <- str_c(expression, toString(tok$succ, translations=translations))
-  }
-
-  return(expression)
-}
-
-
-.token <- function(string = '', parent = NULL, prev = NULL, ch = '', textmode = TRUE) {
-  tok <- new.env()
-  tok$string <- string
-  tok$args <- list()
-  tok$sqarg <- list()
-  tok$parent <- parent
-  tok$prev <- prev
-  tok$textmode <- textmode
-
-  if (!is.null(prev)) {
-    prev$succ <- tok
-  }
-  tok$r <- ""
-  tok$ch <- ch
-  class(tok) <- 'latextoken'
-  return(tok)
-}
-
-.root_parent <- function(token) {
-  if (is.null(token$parent)) {
-    token
-  } else {
-    .root_parent(token$parent)
-  }
-}
-
-
-
-.str_replace_all <- function(x, pattern, replacement) {
-  str_replace_all(x, fixed(pattern), replacement)
-}
-
-## Takes a LaTeX string, or a vector of LaTeX strings, and converts it into
-## the closest plotmath expression possible.
-##
-## Returns an expression by default; can either return 'character' (return the expression
-## as a string) or 'ast' (returns the tree as parsed from the LaTeX string; useful for debug).
-.parseTeX <-
-  function(latex_string, bold=FALSE, italic=FALSE, user_defined=list(), output = c('expression', 'character', 'ast')) {
-    output <- match.arg(output)
-    
-    # Create the root node
-    textmode <- TRUE
-    root <- .token(textmode = textmode)
-    token <- root
-    
-    # Treat \left( / \right) and company specially in order to not have to special-case them in the
-    # parser
-    plotmath_string <- latex_string %>%
-      .str_replace_all('\\left{', '\\leftBRACE@{') %>%
-      .str_replace_all('\\left[', '\\leftSQUARE@{') %>%
-      .str_replace_all('\\left|', '\\leftPIPE@{') %>%
-      .str_replace_all('\\left.', '\\leftPERIOD@{') %>%
-      .str_replace_all('\\middle|', '\\middlePIPE@{') %>%
-      .str_replace_all('\\|', '\\PIPE@ ') %>%
-      .str_replace_all('\\left(', '\\leftPAR@{') %>%
-      .str_replace_all('\\right}', '}\\rightBRACE@ ') %>%
-      .str_replace_all('\\right]', '}\\rightSQUARE@ ') %>%
-      .str_replace_all('\\right)', '}\\rightPAR@ ') %>%
-      .str_replace_all('\\right|', '}\\rightPIPE@ ') %>%
-      .str_replace_all('\\right.', '\\rightPERIOD@{') %>%
-
-      .str_replace_all("\\,", "\\SPACE1@ ") %>%
-      .str_replace_all("\\;", "\\SPACE2@ ") %>%
-
-      .str_replace_all(",", "\\\\COMMA@ ") %>%
-      .str_replace_all(";", "\\\\SEMICOLON@ ") %>%
-      .str_replace_all("\\.", "\\\\PERIOD@ ") %>%
-  
-      str_replace_all("([ ]+)", " ") %>%
-      str_replace_all(" \\^ ", "\\^") 
-    
-    # Split the input into characters
-    plotmath_string <- str_split(plotmath_string, '')[[1]]
-    prevch <- ''
-
-    # If within a tag contained in .textmode, preserve spaces
-    nextisarg <- 0
-    needsnew <- FALSE
-
-    i <- 0
-    while (i < length(plotmath_string)) {
-      i <- i + 1
-      ch = plotmath_string[i]
-      
-      nextch = if (!is.na(plotmath_string[i + 1])) {
-        plotmath_string[i + 1]
-      } else {
-        ''
-      }
-      
-      if (ch == "$" && !prevch == "\\") {
-        # Math mode opened or closed; return to the topmost parent
-        if (!textmode) {
-          token <- .token(
-            prev = .root_parent(token), 
-            parent = NULL, 
-            ch = ch, 
-            textmode = textmode
-          )
-        } else {
-          token <- .token(
-            prev = token, 
-            parent = NULL, 
-            ch = ch, 
-            textmode = textmode
-          )
-        }
-        textmode <- !textmode
-        nextisarg <- 0
-        
-      } else if (ch == '\\') {
-        # Char is \ (start a new node, unless preceded by another \)
-        if (nextch %in% c("[", "]", "{", "}")) {
-          needsnew <- TRUE
-        } else if (prevch != '\\') {
-          old <- token
-          needsnew <- FALSE
-          if (nextisarg == 2) {
-            nextisarg <- 0
-            token <-
-              .token(
-                s = '\\', prev = token$parent, parent = token$parent, ch = ch, textmode =
-                  textmode
-              )
-          } else if (nextisarg == 1) {
-            nextisarg <- 2
-            ntoken <-
-              .token(
-                parent = token, s = ch, ch = ch, textmode = textmode
-              )
-            token$args[[length(token$args) + 1]] <- ntoken
-            token <- ntoken
-          } else {
-            token <-
-              .token(
-                s = '\\', parent = token$parent, prev = old, ch = ch, textmode = textmode
-              )
-          }
-        } else {
-          ch <- ''
-        }
-      } else if (ch == " " && !textmode) {
-        # Ignore spaces, unless in text mode
-        if (prevch != ' ') {
-          if (nextisarg == 1) {
-            nextisarg <- 1
-            
-          } else {
-            token <-
-              .token(
-                prev = token, parent = token$parent, ch = ch, textmode = textmode
-              )
-            nextisarg <- 0
-          }
-        }
-      } else if (ch == "{" && !prevch == "\\") {
-        # Brace parameter starting, create new child node
-
-        nextisarg <- 0
-
-        old <- token
-        token <- .token(parent = old, ch = ch, textmode = textmode)
-        old$args[[length(old$args) + 1]] <- token
-      } else if ((ch == "}" || ch == "]") && !prevch == "\\") {
-        # Square or brace parameter ended, return to parent node
-        token <- token$parent
-        needsnew <- TRUE
-      } else if (ch == "[" && !prevch == "\\" && !textmode) {
-        # Square parameter started, create new child node, put in $sqarg
-        nextisarg <- 0
-        old <- token
-        token <- .token(parent = old, ch = ch, textmode = textmode)
-        old$sqarg[[1]] <- token
-      } else if (ch == ")" || ch == "(" || ch == "'") {
-        if (ch == "'" && prevch == "'") {
-          next
-        }
-        
-        if (ch == "'" && nextch == "'") {
-          token <-
-            .token(
-              s = "''", parent = token$parent, prev = token, textmode = textmode
-            )
-        } else {
-          token <-
-            .token(
-              s = ch, parent = token$parent, prev = token,textmode = textmode
-            )
-        }
-        token <-
-          .token(prev = token, parent = token$parent, textmode = textmode)
-      } else if ((ch == "^" || ch == "_") && !textmode) {
-        # Sup or sub. Treat them as new nodes, unless preceded by a LaTeX expression
-        # such as \sum, in which case sup and sub should become a parameter
-        if (token$string %in% .supsub) {
-          token$sym <- str_c(token$sym, ch)
-        } else {
-          old <- token
-          token <-
-            .token(
-              prev = old, s = ch, parent = old$parent, ch = ch, textmode = textmode
-            )
-        }
-
-        nextisarg <- 1
-      } else {
-        # Any other character
-        if (nextisarg == 1) {
-          token$args[[length(token$args) + 1]] <-
-            .token(
-              s = ch, parent = token, ch = ch, textmode = textmode
-            )
-          if (nextch == '^' || nextch == '_') {
-
-          } else {
-            if (nextisarg == 1) {
-              nextisarg <- 0
-              token <-
-                .token(
-                  prev = token, parent = token$parent, ch = ch, textmode = textmode
-                )
-            }
-          }
-        } else {
-          if (needsnew || (ch %in% .separators && !textmode) || prevch %in% .separators) {
-            token <-
-              .token(
-                prev = token, parent = token$parent, ch = ch, textmode = textmode
-              )
-            needsnew <- FALSE
-          }
-          token$string <- str_c(token$string, ch)
-        }
-      }
-
-      prevch <- ch
-    }
-
-    # Dollar signs are unbalanced
-    if (!textmode) {
-      stop("Dollar signs ($) unbalanced in LaTeX expression")
-    }
-    
-    post_process(root)
-    if (output == 'ast') {
-      return(root)
-    }
-      
-    plotmath_string <- toString(root, translations=c(user_defined, .subs))
-    if (bold && italic) {
-      plotmath_string <- str_c("bolditalic(", plotmath_string, ")")
-    } else if (bold) {
-      plotmath_string <- str_c("bold(", plotmath_string, ")")
-    } else if (italic) {
-      plotmath_string <- str_c("italic(", plotmath_string, ")")
-    }
-    
-    exp <- unname(tryCatch(parse(text = plotmath_string), 
-      error = function(e) {
-        message("Original string: ", latex_string)
-        message("Parsed expression: ", plotmath_string)
-        stop(e)
-      })
-    )
-    class(exp) <- c("expression", "latexexpression")
-    attr(exp, "latex") <- latex_string
-
-    if (output == 'character') {
-      return(plotmath_string)
-    } else {
-      return(exp)
-    }
-  }
 
 #' Converts a LaTeX string to a \code{\link{plotmath}} expression. Deprecated; use \code{\link{TeX}} instead.
 #' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
@@ -407,28 +52,37 @@ latex2exp <-
 TeX <-
   function(input, bold=FALSE, italic=FALSE, user_defined=list(), output = c('expression', 'character', 'ast')) {
     if (length(input) > 1) {
-      lapply(input, .parseTeX, bold=bold, italic=italic, user_defined=user_defined, output = output)
-    } else {
-      .parseTeX(input, bold=bold, italic=italic, user_defined=user_defined, output=output)
+      return(sapply(input, TeX, bold=bold, italic=italic, user_defined=user_defined, output = output))
     }
+    
+    output <- match.arg(output)
+    parsed <- parse_latex(input)
+    
+    rendered <- render_latex(parsed, user_defined)
+    if (output == "ast") {
+      return(parsed)
+    }
+    
+    if (bold) {
+      rendered <- str_c("bold(", rendered, ")")
+    }
+    if (italic) {
+      rendered <- str_c("italic(", rendered, ")")
+    }
+    if (output == "character") {
+      return(rendered)
+    }
+    
+    expression <- tryCatch(str2expression(rendered), error=function(e) {
+      stop("Error while converting LaTeX into plotmath.\n",
+           "Original string: ", input, "\n",
+           "Parsed expression: ", rendered, "\n",
+           e)
+    })  
+    
+    class(expression) <- c("latexexpression", "expression")
+    attr(expression, "latex") <- input
+    attr(expression, "plotmath") <- rendered
+    
+    expression
   }
-
-
-post_process <- function(tok) {
-  if (tok$string == "^" && !is.null(tok$succ) && tok$succ$string == "_") {
-    tok$string = "\\SUB_AND_EXP@"
-    tok$args = c(tok$succ$args, tok$args)
-    tok$succ <- tok$succ$succ
-  } else if (tok$string == "_" && !is.null(tok$succ) && tok$succ$string == "^") {
-    tok$string = "\\SUB_AND_EXP@"
-    tok$args = c(tok$args, tok$succ$args)
-    tok$succ <- tok$succ$succ
-  } 
-  
-  if (!is.null(tok$succ)) {
-    post_process(tok$succ)
-  }
-  sapply(tok$args, post_process)
-  sapply(tok$sqargs, post_process)
-}
-
