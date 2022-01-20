@@ -1,8 +1,8 @@
 Package: latex2exp
 Type: Package
 Title: Use LaTeX Expressions in Plots
-Version: 0.5.0
-Date: 2021-03-14
+Version: 0.9.0
+Date: 2022-01-20
 Authors@R: person("Stefano", "Meschiari", email="stefano.meschiari@gmail.com", role=c("aut", "cre"))
 Description: Parses and converts LaTeX math formulas to R's plotmath
     expressions, used to enter mathematical formulas and symbols to be rendered as
@@ -14,14 +14,17 @@ Imports:
     stringr,
     magrittr
 LazyData: TRUE
+Encoding: UTF-8
 Suggests: 
     testthat,
     knitr,
     ggplot2,
-    plyr,
     rmarkdown,
     purrr,
-    tibble
+    tibble,
+    reactable,
+    htmltools,
+    RCurl
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
 Language: en-US

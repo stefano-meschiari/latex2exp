@@ -2,16 +2,15 @@
 % Please edit documentation in R/plots.R
 \name{latex2exp_supported}
 \alias{latex2exp_supported}
-\title{Returns a list of all supported LaTeX symbols and expressions that can be converted with \code{\link{latex2exp}}.}
+\title{Returns the list of supported LaTeX commands.}
 \usage{
-latex2exp_supported(plot = FALSE)
+latex2exp_supported(show = FALSE, ...)
 }
 \arguments{
-\item{plot}{whether to plot the table (FALSE by default)}
-}
-\value{
-a character vector of supported LaTeX expressions
+\item{show}{Show a searchable table of symbols}
+
+\item{...}{}
 }
 \description{
-Returns a list of all supported LaTeX symbols and expressions that can be converted with \code{\link{latex2exp}}.
+If `show` is TRUE, also show a searchable table of symbols.
 }

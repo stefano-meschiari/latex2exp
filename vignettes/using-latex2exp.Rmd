@@ -2,66 +2,69 @@
 title: "Using latex2exp"
 author: "Stefano Meschiari"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Using latex2exp}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
-```{r, setup, include=FALSE}
-knitr::opts_chunk$set(fig.width=7, fig.height=5)
-```
-# latex2exp
-**latex2exp** is an R package that parses and converts LaTeX math formulas to R's [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). Plotmath expressions are used to enter mathematical formulas and symbols to be rendered as text, axis labels, etc. throughout R's plotting system. I find plotmath expressions to be quite opaque, while LaTeX is a de-facto standard for mathematical expressions, so this package might be useful to others as well.
-
-## Installation 
-Install this package from CRAN:
-```{r, eval=FALSE}
-install.packages('latex2exp')
-```
-You can also install from GitHub using [devtools](https://cran.r-project.org/package=devtools):
-```{r, eval=FALSE}
-devtools::install_github('stefano-meschiari/latex2exp')
+```{r, include=FALSE}
+knitr::opts_chunk$set(fig.width=8, fig.height=6, fig.retina=2)
+library(latex2exp)
+library(reactable)
+library(stringr)
+library(purrr)
+library(dplyr)
 ```
 
 ## Usage
-```{r}
-library(latex2exp)
-```
+The `TeX` function takes a LaTeX string, parses it, and returns the closest [plotmath expression](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html) suitable for use in graphics. The return value of `TeX()` can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text for both base graphics and ggplot2.
 
-The `TeX` function takes a LaTeX string and returns a plotmath expression suitable for use in plotting, e.g.,
+Here's a simple example:
 
 ```{r, eval=FALSE}
-TeX('$\\gamma^\\alpha$')
+# Use raw strings, no need to escape backslashes.
+TeX(r"(\textbf{Euler's identity} is $e^{i\pi} = 0$.)")
 ```
 
-Before R 4.0, it is necessary to escape the backslash within the string literal: therefore, one writes `'$\\gamma$'` rather than `'$\gamma$'` (the latter will cause an error).
+Since R 4.0, it is recommended to use the new raw string literal syntax (see `?Quotes`). The syntax looks like `r"(...)"`, where `...` can contain any character sequence, including `\`.
 
-After R 4.0, it is recommended to use the new raw string literal syntax (see `?Quotes`). The syntax looks like `r"(...)"`, where `...` can contain any character sequence, including `\`:
+Another option is to escape the backslash character (`\`) for LaTeX commands, such that the  command will be written as `\\command` rather than `\command`.
 
 ```{r, eval=FALSE}
-TeX(r'($\gamma^\alpha$)')
+# Use regular strings, but escape the backslashes.
+TeX("\\textbf{Euler's identity} is $e^{i\\pi} = 0$.")
 ```
 
-The return value of `TeX()` can be used anywhere a plotmath expression is accepted, including plot labels, legends, and text. 
+You can `plot()` the result from TeX to see a preview of how the expression will be rendered:
+```{r euler-identity, eval=FALSE, fig.width=4, fig.height=0.8}
+plot(TeX(r"(\textbf{Euler's identity} is $e^{i\pi} = 0$.)"),
+     cex=3)
+```
 
 The following example shows plotting in base graphics:
-```{r, warning=FALSE}
+```{r base-plot, warning=FALSE}
 x <- seq(0, 4, length.out=100)
 alpha <- 1:5
 
 plot(x, xlim=c(0, 4), ylim=c(0, 10), 
-     xlab='x', ylab=TeX(r'($\alpha  x^\alpha$, where $\alpha \in 1 \ldots 5$)'), 
-     type='n', main=TeX(r'(Using $\LaTeX$ for plotting in base graphics!)', bold=TRUE, italic=TRUE))
+     xlab='x', ylab=TeX(r'($\alpha  x^\alpha$, where $\alpha \in \{1 \ldots 5\}$)'), 
+     type='n', main=TeX(r'(Using $\LaTeX$ for plotting in base graphics!)', bold=TRUE))
 
-invisible(sapply(alpha, function(a) lines(x, a*x^a, col=a)))
+for (a in alpha) {
+  lines(x, a*x^a, col=a)
+}
 
-legend('topleft', legend=TeX(sprintf(r'($\alpha = %d$)', alpha)), 
-       lwd=1, col=alpha)
+legend('topleft', 
+       legend=TeX(sprintf(r'($\alpha = %d$)', alpha)), 
+       lwd=1, 
+       col=alpha)
 ```
 
 This example shows plotting in [ggplot2](https://ggplot2.tidyverse.org):
-```{r, warning=FALSE, eval=FALSE}
+```{r ggplot, warning=FALSE, eval=FALSE}
 library(purrr)
 library(ggplot2)
 library(tibble)
@@ -83,83 +86,22 @@ print(p)
 ```
 
 You can quickly test out what a translated LaTeX string would look like by using `plot`: 
-```{r, fig.height=2}
-plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, 
-               \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
+
+```{r plot-formula, fig.height=2, fig.width=5}
+plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
 ```
 
+Here are a few examples of what you can do with **latex2exp**:
 
-## Syntax
-Use
-```{r, eval=FALSE}
-TeX(r'(My string containing math $\sin(2\pi\lambda x)$)')
-```
-to build a plotmath expression, ready for use in plots. If the parser cannot build a correct plotmath expression, it will `stop()` and show the invalid plotmath expression built.
-
-Add parameters `bold=TRUE` or `italic=TRUE` to make the entire label bold or italic:
-```{r, eval=FALSE}
-TeX(r'(My string containing math $\sin(2\pi\lambda x)$)', bold=TRUE, italic=TRUE)
+```{r examples}
+invisible(latex2exp_examples())
 ```
 
-```{r, eval=FALSE}
-TeX('latexString', output=c('expression', 'character', 'ast'))
-```
-If the `output` option is equal to `character`, it will return the string representation of the expression (which could be converted into an expression using `parse(text=)`).
+## Supported LaTeX commands
+Run 
 
-If the `output` option is equal to `ast`, it will return the tree built by the parser (this is only useful for debugging).
-
-- - -
-
-```{r, eval=FALSE}
-latex2exp_examples()
-```
-will show a demo of the supported LaTeX syntax.
-
-- - -
-```{r, eval=FALSE}
-latex2exp_supported(plot=FALSE)
-```
-returns a list of supported LaTeX. If `plot=TRUE`, a table of symbols will be plotted.
-
-
-## Supported LaTeX
-Formulas should go between dollar characters ($).
-
-Only a subset of LaTeX is supported. Greek symbols (\\alpha, \\beta, etc.) and the usual operators (+, -, etc.) are supported. Their rendering depends on R's interpretation of the plotmath expression.
-
-In addition, the following should be supported:
-```{r, fig.width=8, fig.height=8}
-latex2exp_supported(plot=TRUE)
-``` 
-
-A few examples:
-
-```{r, fig.width=8, fig.height=7}
-latex2exp_examples()
+```r
+latex2exp_supported(TRUE)
 ```
 
-## Changes
-
-### 0.5.0 [03/14/2021]
-* Adds parameters `bold` and `italic` to `TeX()`. These can be used to make the
-  entire expression bold or italic.
-* Adds `\phantom{}` ([PR](https://github.com/stefano-meschiari/latex2exp/pull/22))
-
-### 0.4.0 [08/29/2015]
-* Deprecated the `latex2exp()` function; use `TeX()` instead.
-* Added `\lbrack` and `\rbrack` to type left and right square brackets.
-
-### 0.3.3 [08/11/2015]
-Fixes bug #4 ("fix parsing of numbers"), where certain numbers inside formulas where not parsed correctly.
-
-### 0.3.2 [07/28/2015]
-Fixes bug #3 ("subscript and superscript style"). `latex2exp` now renders combined subscripts and superscripts correctly.
-
-### 0.3.1 [07/02/2015]
-Fixes bug #2 (white space causes unexpected behaviour). `latex2exp` should now be a bit more compliant with how LaTeX handles whitespace.
-
-### 0.3.0 [06/30/2015]
-`latex2exp` is now a proper package.
-
-### 0.2.0 [06/29/2015]
-Formulas must now be enclosed between dollar characters ($), as in LaTeX proper. Text does not need to be enclosed in \\text tags anymore.
+to see an interactive, searchable table of LaTeX commands supported.

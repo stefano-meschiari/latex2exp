@@ -1,22 +1,28 @@
-# 0.6.0
+### 0.9.0 [01/20/2021]
 
-* Added the following LaTeX commands:
+* Completely rewritten parser that is much more robust, produces valid plotmath
+  expressions in more situations, and improved rendering by making use of more
+  plotmath features.
+* Added a vignette containing a browsable gallery of LaTeX commands supported.
+* Added the following LaTeX commands and symbols:
   * `\Upsilon` and `\varpi` for Greek letter variants
-  * `\uparrow`, `\downarrow`, `\Uparrow` and `\Downarrow`
+  * `\uparrow`, `\downarrow`, `\Uparrow`, `\Downarrow`, `\to`
   * `\euro` for the euro character
-  * `\circ` as a synonym for `\degree`
   * `\langle`, `\rangle` for angle bracket
   * `\lceil`, `\rceil`, `\lfloor`, `\rfloor` for ceil/floor brackets
-  * `\|` for double-pipe brackets (`\norm{expr}` is an alternative command for typesetting a vector norm)
+  * `\|` for double-pipe brackets (`\norm{expr}` is an alternative command for typesetting a vector norm).
+  * Note that the angle, ceil, floor, pipe and double pipe brackets are *not* scalable delimiters, because of plotmath limitations.
   * `\bra`, `\ket`, `\braket` for representing vectors with the braket notation
-  Note that the angle, ceil, floor, pipe and double pipe brackets are *not* scalable delimiters, because of plotmath limitations.
-* Improved the appearance of round parentheses. `TeX(r"($\alpha(\beta)$)")` now uses `group` to render parentheses, which makes it more similar to how plotmath renders the expression `alpha(beta)`. 
+  * `\smiley`, `\diamond`, `\sharp`, `\eightnote`, `\twonotes`, `\sun`, `\venus`,
+    `\mars`, `\Exclam`, `\dagger`, `\ddagger`, `\(up|down|right|left)triangle`
+* Improved the appearance of round parentheses. `TeX(r"($\alpha(\beta)$)")` now renders more similarly to how plotmath renders the expression `alpha(beta)`. 
+* Improved the appearance of `,`, `'` and `''` in math mode.
 * Improved the appearance of `\frac` fractions. Now a small space is inserted after the fraction, so that multiple fractions are separated.
-* `TeX()` will fail if the dollar signs (`$`) in the string are unbalanced, e.g. `TeX(r"($\alpha)")` will fail.
-* Added a test suite covering a number of different LaTeX equations.
+* Added a test suite covering a large number of LaTeX expressions, edge cases, and examples from GitHub.
 * Refactored and improved code documentation.
+* Added a vignette that shows all the available LaTeX commands.
 
-# 0.5.0 [03/14/2021]
+### 0.5.0 [03/14/2021]
 
 * Update documentation to use the new raw strings introduced in R 4.0 (which lets one do away with the quoting of the backslash character; e.g. one can use `TeX(r'($\alpha^\beta$)')` rather than `TeX('\\alpha^\\beta)`)
 * Adds parameters `bold` and `italic` to `TeX()`. These can be used to make the entire expression bold or italic.

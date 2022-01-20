@@ -49,16 +49,16 @@
   }
 }
 
+
 parse_latex <- function(latex_string,
                         text_mode=TRUE,
                         depth=0,
                         pos=0,
-                        parent=NULL,
-                        trace=getOption("latex2exp.debug.trace", FALSE)) {
-  cat_trace <- function(...) {
-    if (trace) {
-      cat("Trace:", ..., "\n")
-    }
+                        parent=NULL) {
+
+  escape <- function(ch) {
+    str_c("\\ESCAPED@", 
+          as.integer(charToRaw(str_replace_fixed(char, "\\", ""))))
   }
   
   input <- latex_string
@@ -82,13 +82,11 @@ parse_latex <- function(latex_string,
       str_replace_fixed('\\right|', '}') %>%
       str_replace_fixed('\\right.', '}') %>%
       
-      str_replace_fixed("'", "\\@ESCAPEDQUOTE{}") %>%
-      str_replace_fixed("\\$", "\\@ESCAPEDDOLLAR{}") %>%
-      str_replace_fixed("\\{", "\\@ESCAPEDBRACE1{}") %>%
-      str_replace_fixed("\\}", "\\@ESCAPEDBRACE2{}") %>%
-      str_replace_fixed("\\[", "\\@ESCAPEDBRACKET1{}") %>%
-      str_replace_fixed("\\]", "\\@ESCAPEDBRACKET2{}") %>%
-      
+      str_replace_all("\\\\['\\$\\{\\}\\[\\]\\!\\?\\_\\^]", function(char) {
+        str_c("\\ESCAPED@", 
+              as.integer(charToRaw(str_replace_fixed(char, "\\", ""))),
+              "{}")
+      }) %>%
       
       str_replace_all("([^\\\\]?)\\\\,", "\\1\\\\@SPACE1{}") %>%
       str_replace_all("([^\\\\]?)\\\\;", "\\1\\\\@SPACE2{}") %>%
@@ -236,16 +234,39 @@ parse_latex <- function(latex_string,
         }
         i <- i + 1
       } else {
+        # Other characters:
         if (text_mode) {
+          # either add to a string-type token...
           if (is.null(token) || !token$text_mode || token$is_command) {
             token <- .token2("", TRUE)
             tokens <- c(tokens, token)
           }
+          if (ch == "'") {
+            ch <- "\\'"
+          }
           token$command <- str_c(token$command, ch)
           i <- i+1
+        } else if (ch %in% c("?", "!", "@", ":", ";")) {
+          # ...or escape them to avoid introducing illegal characters in the
+          # plotmath expression...
+          token <- .token2(str_c("\\ESCAPED@", utf8ToInt(ch)), TRUE)
+          tokens <- c(tokens, token)
+          i <- i + 1
+        } else if (ch == "'") {
+          # special-case single quotes in math mode to render them as \prime
+          # or \second
+          if (nextch == "'") {
+            token <- .token2("\\second", TRUE)
+            i <- i + 2
+          } else {
+            token <- .token2("\\prime", TRUE)
+            i <- i + 1
+          }
+          tokens <- c(tokens, token)
         } else {
+          # or, just add everything to a single token
           str <- .find_substring(current_fragment, separators)
-          
+        
           # If in math mode, ignore spaces
           token <- .token2(str_replace_all(str,
                                            "\\s+", ""),
@@ -285,17 +306,36 @@ render_latex <- function(tokens, user_defined=list()) {
   if (!is.null(tokens$children)) {
     return(render_latex(tokens$children, user_defined))
   }
-  translations <- c(user_defined, .subs)
+  translations <- c(user_defined, latex_supported_map)
   
   for (tok_idx in seq_along(tokens)) {
     tok <- tokens[[tok_idx]]
     tok$skip <- FALSE
-    tok$rendered <- if (!tok$text_mode || tok$is_command) {
+    tok$rendered <- if (str_detect(tok$command, "^\\\\ESCAPED@")) {
+      # a character, like '!' or '?' was escaped as \\ESCAPED@ASCII_SYMBOL.
+      # return it as a string.
+      arg <- str_match(tok$command, "@(\\d+)")[1,2]
+      arg <- intToUtf8(arg)
+      
+      if (arg == "'") {
+        arg <- "\\'"
+      }
+      
+      tok$rendered <- str_c("'", arg, "'")
+      if (tok_idx == 1) {
+        tok$left_separator <- ''
+      }
+      next
+    } else if (!tok$text_mode || tok$is_command) {
+      # translate using the translation table in symbols.R
       translations[[str_trim(tok$command)]] %??% tok$command
     } else {
+      # leave as-is
       tok$command
     }
     
+    # empty command; if followed by arguments such as sup or sub, render as
+    # an empty token, otherwise skip
     if (tok$rendered == "") {
       if (length(tok$args) > 0) {
         tok$rendered <- "{}"
@@ -307,6 +347,21 @@ render_latex <- function(tokens, user_defined=list()) {
     if (tok$text_mode && !tok$is_command) {
       tok$rendered <- str_c("'", tok$rendered, "'")
     }
+    
+    
+    # If the token starts with a number, break the number from
+    # the rest of the string. This is because a plotmath symbol
+    # cannot start with a number.
+    if (str_detect(tok$rendered, "^[0-9]") && !tok$text_mode) {
+      split <- str_match(tok$rendered, "(^[0-9\\.]*)(.*)")
+      
+      if (split[1, 3] != "") {
+        tok$rendered <- str_c(split[1,2], "*", split[1,3])
+      } else {
+        tok$rendered <- split[1,2]
+      }
+    }
+    
     left_operator <- str_detect(tok$rendered, fixed("$1"))
     right_operator <- str_detect(tok$rendered, fixed("$2"))
     
@@ -388,6 +443,7 @@ render_latex <- function(tokens, user_defined=list()) {
       }
     }
     
+    
     # Replace all $P tokens with phantom(), and consume
     # any arguments that were not specified (e.g. if 
     # there is no argument specified for the command,
@@ -444,10 +500,7 @@ render_latex <- function(tokens, user_defined=list()) {
 #' to escape backslashes.
 #'
 #' @param latex_string 
-#'
 #' @return
-#'
-#' @examples
 validate_input <- function(latex_string) {
   for (possible_slash_pattern in c("\a", "\b", "\f", "\v")) {
     if (str_detect(latex_string, fixed(possible_slash_pattern))) {
@@ -458,6 +511,12 @@ validate_input <- function(latex_string) {
     }
   }
   
+  if (str_detect(latex_string, fixed("\\\\"))) {
+    stop("The LaTeX string '",
+         latex_string,
+         "' includes a '\\\\' command. Line breaks are not currently supported.")
+  }
+  
   test_string <- latex_string %>%
     str_replace_fixed("\\{", "") %>%
     str_replace_fixed("\\}", "")
@@ -466,7 +525,7 @@ validate_input <- function(latex_string) {
   closed_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\})")[[1]])
   
   if (opened_braces != closed_braces) {
-    stop("Mismatched number of braces in ", latex_string, " (",
+    stop("Mismatched number of braces in '", latex_string, "' (",
          opened_braces, " { opened, ",
          closed_braces, " } closed)")
   }

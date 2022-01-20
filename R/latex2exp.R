@@ -54,24 +54,30 @@ TeX <-
     if (length(input) > 1) {
       return(sapply(input, TeX, bold=bold, italic=italic, user_defined=user_defined, output = output))
     }
+    stopifnot(is.character(input))
     
     output <- match.arg(output)
     parsed <- parse_latex(input)
     
     rendered <- render_latex(parsed, user_defined)
+    
+    
+    if (bold && italic) { 
+      rendered <- str_c("bolditalic(", rendered, ")")
+    } else if (bold) {
+      rendered <- str_c("bold(", rendered, ")")
+    } else if (italic) {
+      rendered <- str_c("italic(", rendered, ")")
+    }
+    cat_trace("Rendered as ", rendered)
+    
     if (output == "ast") {
       return(parsed)
-    }
-    
-    if (bold) {
-      rendered <- str_c("bold(", rendered, ")")
-    }
-    if (italic) {
-      rendered <- str_c("italic(", rendered, ")")
     }
     if (output == "character") {
       return(rendered)
     }
+    
     
     expression <- tryCatch(str2expression(rendered), error=function(e) {
       stop("Error while converting LaTeX into plotmath.\n",

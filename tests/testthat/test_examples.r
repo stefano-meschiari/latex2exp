@@ -35,4 +35,7 @@ test_that("Equation samples render correctly", {
   
   expect_renders_same("$NO_{-}^3$",
                       NO[phantom()-phantom()]^3)
+  
+  expect_renders_same("$cov(\\Delta p_5, \\; \\Delta p_s)$",
+                      cov(Delta*p[5], phantom() ~~ Delta*p[s]))
 })

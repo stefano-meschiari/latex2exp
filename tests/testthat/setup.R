@@ -1,3 +1,4 @@
+library(testthat)
 
 expect_plots_same_message <- "The TeX expression %s should %s render the same as the given expression.
 Compare:
@@ -66,9 +67,9 @@ expect_renders_different <- function(object, expected_expression) {
     comparison_successful <- !comparison_successful
   }
   
-  if (!comparison_successful) {
-    plot_expressions(list(result_expression, expected_expression),
-                     titles=c(act$val, toString(expected_expression)))
+  if (!comparison_successful && interactive()) {
+    plot(expected_expression, titles="Expected")
+    plot(result_expression, titles="Result")
   }
   
   expect(comparison_successful,

@@ -8,8 +8,9 @@ str_replace_fixed <- function(string, pattern, replacement) {
 
 #' Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
 #' This is primarily used for debugging.
-#' @param x The object
-#' @param ... (ignored)
+#' 
+#' @param token The object
+#' @param depth Increases padding when recursing down the parsed structure
 #' @export
 print.latextoken2 <- function(token, depth=0) {
   pad <- strrep(" ", depth)
@@ -54,3 +55,9 @@ print.latexexpression <- function(x, ...) {
   cat("plotmath:", attr(x, "plotmath"), "\n")
 }
 
+cat_trace <- function(...) {
+  trace <- getOption("latex2exp.debug.trace", FALSE)
+  if (trace) {
+    cat("Trace:", ..., "\n")
+  }
+}

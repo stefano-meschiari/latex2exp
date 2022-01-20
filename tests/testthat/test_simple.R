@@ -21,6 +21,22 @@ test_that("Operators are rendered correctly, regardless of spacing", {
                       a + b)
   expect_renders_same("$a_{b+1}$",
                       a[b+1])
+  
+  # multiple equality signs, like a = b = c, can cause a parse error in expression();
+  # wrap with phantom()
+  expect_renders_same("$a = b = c$",
+                      a * {phantom() == phantom()} * b * {phantom() == phantom()} * c)
+  
+})
+test_that("Special characters in math or text mode do not cause errors", {
+  expect_renders_same("$a?b$",
+                      a * '?' * b)
+  expect_renders_same("$a'$",
+                      a * minute)
+  expect_renders_same("$a''$",
+                      a * second)
+  expect_renders_same("R's plotmath system",
+                      'R\'s plotmath system')
 })
 
 test_that("Grouping over deeply nested commands renders correctly", {
@@ -94,8 +110,6 @@ test_that("Opening and closing math mode renders correctly", {
 
 test_that("Escaped symbols renders correctly", {
   expect_renders_same("\\$", '$')
-  expect_renders_same("\\\\", '\\')
-  expect_renders_same("$A \\\\ B$", A * '\\' * B)
 })
 
 test_that("Vectors render correctly", {
@@ -109,8 +123,25 @@ test_that("Spacing renders correctly", {
   expect_renders_same("$a\\, b", a * phantom(.) * b)
 })
 
+test_that("Overall formatting renders correctly", {
+  expect_renders_same(TeX("Test", bold=TRUE),
+                      bold('Test'))
+  expect_renders_same(TeX("Test", italic=TRUE),
+                      italic('Test'))
+  expect_renders_same(TeX("Test", bold=TRUE, italic=TRUE),
+                      bolditalic('Test'))
+})
+
+test_that("Mix of numbers and letters renders correctly", {
+  expect_renders_same(TeX("2a"), '2a')
+  expect_renders_same(TeX("$2a$"), 2*a)
+  expect_renders_same(TeX("$2 a$"), 2*a)
+  expect_renders_same(TeX("$2\\alpha$"), 2*alpha)
+})
+
 test_that("User-defined latex renders correctly", {
   expect_renders_same(TeX("$\\mycommand$", user_defined = list(
     "\\mycommand" = "alpha"
   )), alpha)
 })
+

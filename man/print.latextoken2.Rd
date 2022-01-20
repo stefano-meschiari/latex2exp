@@ -8,9 +8,9 @@ This is primarily used for debugging.}
 \method{print}{latextoken2}(token, depth = 0)
 }
 \arguments{
-\item{x}{The object}
+\item{token}{The object}
 
-\item{...}{(ignored)}
+\item{depth}{Increases padding when recursing down the parsed structure}
 }
 \description{
 Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
