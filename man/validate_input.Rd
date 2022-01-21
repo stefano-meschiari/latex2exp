@@ -7,10 +7,7 @@
 validate_input(latex_string)
 }
 \arguments{
-\item{latex_string}{}
-}
-\value{
-
+\item{latex_string}{Input LaTeX string}
 }
 \description{
 Checks for common issues in the LaTeX string, like

@@ -55,32 +55,14 @@ parse_latex <- function(latex_string,
                         depth=0,
                         pos=0,
                         parent=NULL) {
-
-  escape <- function(ch) {
-    str_c("\\ESCAPED@", 
-          as.integer(charToRaw(str_replace_fixed(char, "\\", ""))))
-  }
-  
   input <- latex_string
 
   if (depth == 0) {
     validate_input(latex_string)
   }
-  # Treat \left( / \right) and company specially in order to not have to special-case them in the
-  # parser
   if (depth == 0) {
     latex_string <- latex_string %>%
-      str_replace_fixed('\\left{', '\\@leftBRACE{') %>%
-      str_replace_fixed('\\left[', '\\@leftBRACKET{') %>%
-      str_replace_fixed('\\left(', '\\@leftPAR{') %>%
-      str_replace_fixed('\\left|', '\\@leftPIPE{') %>%
-      str_replace_fixed('\\middle|', '\\@middlePIPE') %>%
       str_replace_fixed('\\|', '\\@pipe ') %>%
-      str_replace_fixed('\\right}', '}') %>%
-      str_replace_fixed('\\right]', '}') %>%
-      str_replace_fixed('\\right)', '}') %>%
-      str_replace_fixed('\\right|', '}') %>%
-      str_replace_fixed('\\right.', '}') %>%
       
       str_replace_all("\\\\['\\$\\{\\}\\[\\]\\!\\?\\_\\^]", function(char) {
         str_c("\\ESCAPED@", 
@@ -90,10 +72,7 @@ parse_latex <- function(latex_string,
       
       str_replace_all("([^\\\\]?)\\\\,", "\\1\\\\@SPACE1{}") %>%
       str_replace_all("([^\\\\]?)\\\\;", "\\1\\\\@SPACE2{}") %>%
-      str_replace_all("([^\\\\]?)\\\\\\s", "\\1\\\\@SPACE2{}") %>%
-  
-      str_replace_fixed(";", "\\@SEMICOLON{}") %>%
-      str_replace_fixed("\\.", "\\@PERIOD{}")
+      str_replace_all("([^\\\\]?)\\\\\\s", "\\1\\\\@SPACE2{}")
     
     cat_trace("String with special tokens substituted: ", latex_string)
   }
@@ -115,6 +94,12 @@ parse_latex <- function(latex_string,
       # LaTeX string left to be processed
       current_fragment <- str_sub(latex_string, i)
       
+      cat_trace("Position: ", i, " ch: ", ch, " next: ", nextch, 
+                " current fragment: ", current_fragment, 
+                " current token: ", token$command,
+                " text mode: ", text_mode)
+      
+      
       separators <- if (text_mode) {
         .base_separators
       } else {
@@ -134,6 +119,14 @@ parse_latex <- function(latex_string,
         tokens <- c(tokens, token)
         
         i <- i + nchar(command)
+      } else if (!text_mode && 
+                 !is.null(token) && 
+                 token$command %in% c("\\left", "\\right") &&
+                 ch %in% c(".", "{", "}", "[", "]", "(", ")", "|")) {
+        # a \\left or \\right command has started. eat up the next character
+        # and append it to the command.
+        token$command <- str_c(token$command, ch)
+        i <- i + 1
       } else if (ch == "{") {
         argument <- .find_substring_matching(current_fragment,
                                              "{",
@@ -362,8 +355,8 @@ render_latex <- function(tokens, user_defined=list()) {
       }
     }
     
-    left_operator <- str_detect(tok$rendered, fixed("$1"))
-    right_operator <- str_detect(tok$rendered, fixed("$2"))
+    left_operator <- str_detect(tok$rendered, fixed("$LEFT"))
+    right_operator <- str_detect(tok$rendered, fixed("$RIGHT"))
     
     if (tok_idx == 1) {
       tok$left_separator <- ""
@@ -372,11 +365,11 @@ render_latex <- function(tokens, user_defined=list()) {
     if (left_operator) {
       if (tok_idx == 1) {
         tok$rendered <- str_replace_all(tok$rendered,
-                                        fixed("$1"),
+                                        fixed("$LEFT"),
                                         "phantom()")
       } else {
         tok$rendered <- str_replace_all(tok$rendered,
-                                          fixed("$1"),
+                                          fixed("$LEFT"),
                                           "")
         tok$left_separator <- ""
       }
@@ -384,11 +377,11 @@ render_latex <- function(tokens, user_defined=list()) {
     if (right_operator) {
       if (tok_idx == length(tokens)) {
         tok$rendered <- str_replace_all(tok$rendered,
-                                        fixed("$2"),
+                                        fixed("$RIGHT"),
                                         "phantom()")
       } else {
         tok$rendered <- str_replace_all(tok$rendered,
-                                          fixed("$2"),
+                                          fixed("$RIGHT"),
                                           "")
         tokens[[tok_idx+1]]$left_separator <- ""
       }
@@ -499,8 +492,7 @@ render_latex <- function(tokens, user_defined=list()) {
 #' are present, indicating that perhaps the user accidentally forgot
 #' to escape backslashes.
 #'
-#' @param latex_string 
-#' @return
+#' @param latex_string Input LaTeX string
 validate_input <- function(latex_string) {
   for (possible_slash_pattern in c("\a", "\b", "\f", "\v")) {
     if (str_detect(latex_string, fixed(possible_slash_pattern))) {
@@ -521,13 +513,26 @@ validate_input <- function(latex_string) {
     str_replace_fixed("\\{", "") %>%
     str_replace_fixed("\\}", "")
     
-  opened_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\{)")[[1]])
-  closed_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\})")[[1]])
+  # check that opened and closed braces match in number
+  opened_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\{)")[[1]]) -
+    nrow(str_match_all(test_string, "\\\\left\\{")[[1]])
+  closed_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\})")[[1]]) -
+    nrow(str_match_all(test_string, "\\\\right\\}")[[1]])
   
   if (opened_braces != closed_braces) {
     stop("Mismatched number of braces in '", latex_string, "' (",
          opened_braces, " { opened, ",
          closed_braces, " } closed)")
+  }
+  
+  # check that the number of \left* and \right* commands match
+  lefts <- nrow(str_match_all(test_string, "[^\\\\]*\\\\left[\\(\\{\\|\\[\\.]")[[1]])
+  rights <- nrow(str_match_all(test_string, "[^\\\\]*\\\\right[\\)\\}\\|\\]\\.]")[[1]])
+  
+  if (lefts != rights) {
+    stop("Mismatched number of \\left and \\right commands in '", latex_string, "' (",
+         lefts, " left commands, ",
+         rights, " right commands.")
   }
   
   TRUE

@@ -39,3 +39,8 @@ test_that("Equation samples render correctly", {
   expect_renders_same("$cov(\\Delta p_5, \\; \\Delta p_s)$",
                       cov(Delta*p[5], phantom() ~~ Delta*p[s]))
 })
+
+test_that("Samples from GitHub issues are rendered correctly", {
+  expect_renders_same("$\\left(\\frac{M}{L}\\right.$",
+                      bgroup('(', frac(M, L) * phantom(.), '.'))
+})

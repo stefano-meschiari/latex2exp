@@ -13,7 +13,6 @@ BugReports: https://github.com/stefano-meschiari/latex2exp/issues
 Imports: 
     stringr,
     magrittr
-LazyData: TRUE
 Encoding: UTF-8
 Suggests: 
     testthat,
@@ -24,7 +23,9 @@ Suggests:
     tibble,
     reactable,
     htmltools,
-    RCurl
+    RCurl,
+    rlang,
+    dplyr
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
 Language: en-US

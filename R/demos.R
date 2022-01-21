@@ -1,7 +1,9 @@
-
-
-#' Plots a number of example LaTeX string, as parsed by \code{\link{TeX}}.
+#' latex2exp Examples
 #' 
+#' Plots a number of example LaTeX string, as parsed 
+#' by \code{\link{TeX}}.
+#' 
+#' @param cex Multiplier for font size
 #' @export
 latex2exp_examples <- function(cex=1) {
   oldpar <- par(no.readonly = TRUE)

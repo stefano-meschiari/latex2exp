@@ -40,67 +40,16 @@ make_img <- function(g, category, ..., style="") {
 
 supported <- latex2exp_supported()
 
-# create an example suitable to demo each category of latex commands
-supported$example <- pmap_chr(supported, function(category, commands, ...) {
-  if (category %in% c("arithmetic operators", "binary operators", "arrows")) {
-    str_c("$\\alpha ", commands, " \\beta$")
-  } else if (category == "set operators") {
-    str_c("$A ", commands, " B$")
-  } else if (commands == "\\frac" || commands == "\\overset") {
-    "$\\frac{x+y}{x-y}$"
-  } else if (commands == "\\lim") {
-    "$\\lim_{x \\to \\infty} \\frac{1}{x}$" 
-  } else if (commands %in% c("\\sum", "\\prod", "\\int")) {
-    str_c("$", commands, "_{i=0}^{\\infty}$")
-  } else if (commands == "\\sqrt") {
-    "$\\sqrt[z]{x+y}$"
-  } else if (commands %in% c("\\max", "\\min")) {
-    str_c("$", commands, "_{x \\in X} x^2$") 
-  } else if (commands %in% c("\\bigcup", "\\bigcap")) {
-    str_c("$", commands, "_{i} A_i$") 
-  } else if (category == "text size" || category == "formatting") {
-    str_c(commands, "{example text}")
-  } else if (category %in% c("\\ ", "\\;", "\\,")) {
-    str_c("$x ", commands, " y$")
-  } else if (commands == "\\braket") {
-    str_c("$\\braket{\\Psi | \\Psi}$")  
-  } else if (category == "decorations" || category == "vector") {
-    str_c("$", commands, "{\\Psi}$")
-  } else if (category == "layout and spacing") {
-    str_c("$A ", commands, " B$")
-  } else if (category == "parentheses" || category == "parentheses (not scalable)") {
-    op <- commands
-    if (commands == "\\left(") {
-      clo <- "\\right)"
-    } else if (commands == "\\left{") {
-      clo <- "\\right}"
-    } else if (commands == "\\left[") {
-      clo <- "\\right]"
-    } else if (commands == "\\left|") {
-      clo <- "\\right|"
-    } else if (str_detect(commands, "^\\\\l")) {
-      clo <- str_c("\\r", str_replace(commands, fixed("\\l"), ""))
-    } else if (str_detect(commands, "^\\\\r")) {
-      return(NA)
-    } else {
-      clo <- op
-    }
-    str_c("$", op, " a+b ", clo, "$")
-  } else {
-    str_c("$", commands, "$")
-  }
-})
-
 supported$category <- str_to_title(supported$category)
 supported <- supported %>% filter(!is.na(example))
-supported$commands <- supported$example
+supported$command <- supported$example
 
-rows <- pmap(supported, function(category, commands, example) {
+rows <- pmap(supported, function(category, command, example) {
   img <- make_img(plot(TeX(example), cex=4.25, main=""), category,
                   width=400, height=150)
   htmltools::tags$tr(
     htmltools::tags$td(category),
-    htmltools::tags$td(htmltools::tags$pre(str_c("TeX(r\"(", commands, ")\")"))),
+    htmltools::tags$td(htmltools::tags$pre(str_c("TeX(r\"(", command, ")\")"))),
     htmltools::tags$td(img)
   )
 })

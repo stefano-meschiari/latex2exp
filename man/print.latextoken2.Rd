@@ -5,12 +5,14 @@
 \title{Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
 This is primarily used for debugging.}
 \usage{
-\method{print}{latextoken2}(token, depth = 0)
+\method{print}{latextoken2}(x, depth = 0, ...)
 }
 \arguments{
-\item{token}{The object}
+\item{x}{The object}
 
 \item{depth}{Increases padding when recursing down the parsed structure}
+
+\item{...}{(Ignored)}
 }
 \description{
 Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').

@@ -20,6 +20,8 @@
 * Improved the appearance of `\frac` fractions. Now a small space is inserted after the fraction, so that multiple fractions are separated.
 * Added a test suite covering a large number of LaTeX expressions, edge cases, and examples from GitHub.
 * Refactored and improved code documentation.
+* Fixes #33 (adds `\lceil, \rceil, \lfloor, \rfloor`)
+* Fixes #24 (can mix & match different types of brackets, e.g. `TeX("$\\left(\\frac{M}{L}\\right.$")`)
 
 ### 0.5.0 [03/14/2021]
 

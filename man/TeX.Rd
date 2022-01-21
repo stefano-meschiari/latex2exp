@@ -2,7 +2,7 @@
 % Please edit documentation in R/latex2exp.R
 \name{TeX}
 \alias{TeX}
-\title{Converts a LaTeX string to a \code{\link{plotmath}} expression.}
+\title{Converts LaTeX to plotmath}
 \usage{
 TeX(
   input,
@@ -20,25 +20,58 @@ Note that any backslashes must be escaped (e.g. "$\\alpha").}
 
 \item{italic}{Whether to make the entire label italic}
 
+\item{user_defined}{Described in the "Adding New Commands" section.}
+
 \item{output}{The returned object, one of "expression" (default, returns 
 a plotmath expression ready for plotting), 
 "character" (returns the expression as a string), 
 and "ast" (returns the tree used to generate the expression).}
 }
 \value{
-Returns a plotmath expression by default. The `output` parameter can 
+Returns a plotmath expression by default. The \code{output} parameter can 
 modify the type of the returned value. 
 
-If more than one string is specified in the `input` parameter, returns a list
+If more than one string is specified in the \code{input} parameter, returns a list
 of expressions.
 }
 \description{
-Converts a LaTeX string to a \code{\link{plotmath}} expression.
+\code{TeX} converts a string comprising LaTeX commands (such as
+a math equation) to a \code{\link{plotmath}} expression. Plotmath
+expressions can be used throught R's graphic system to represent
+formatted text and equations.
 }
+\section{Adding new commands}{
+ 
+New LaTeX commands can be defined by supplying the \code{user_defined} parameter.
+The \code{user_defined} parameter is a list that contains LaTeX commands
+as names, and template strings as values. A LaTeX command that matches
+one of the names is translated into the corresponding string and included in
+the final plotmath expression. The file \code{symbols.R} in the source code
+of this package contains one such table that can be used as a reference.
+
+The template string can include one of the following special template
+parameters:
+
+\itemize{
+\item \code{$arg1, $arg2, ...} represent the first, second, ... brace argument.
+  E.g. for \code{\\frac{x}{y}}, \code{$arg1} is \code{x} and \code{$arg2} is \code{y}.
+\item \code{$opt} is an optional argument in square brackets. E.g. for
+  \code{\\sqrt[2]{x}}, \code{$opt} is \code{2}.
+\item \code{$sub} and \code{$sup} are arguments in the exponent (\code{^}) or subscript (\code{_})
+  following the current expression. E.g. for \code{\\sum^{x}}, \code{$sup} is \code{x}.
+\item \code{$LEFT} and \code{$RIGHT} are substituted the previous and following LaTeX expression
+   relative to the current token.
+}
+See the Examples section for an example of using the \code{user_defined} option.
+}
+
 \examples{
-TeX("$\\\\alpha$")
+TeX("$\\\\alpha$") # plots the greek alpha character
 TeX("The ratio of 1 and 2 is $\\\\frac{1}{2}$")
 
 a <- 1:100
 plot(a, a^2, xlab=TeX("$\\\\alpha$"), ylab=TeX("$\\\\alpha^2$"))
+
+# create a \\variance command that takes a single argument
+TeX("$\\\\variance{X} = 10$", user_defined=list("\\\\variance"="sigma[$arg1]^2"))
 }

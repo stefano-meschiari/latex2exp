@@ -103,6 +103,13 @@ test_that("Big brackets are rendered correctly", {
                       group('|', group('|', a, '|'), '|')) 
 })
 
+test_that("Mismatched brackets are rendered correctly", {
+  expect_renders_same("$\\left[A\\right)$",
+                      bgroup('[', A, ')'))
+  expect_renders_same("$\\left(A\\right}$",
+                      bgroup('(', A, '}'))
+})
+
 test_that("Opening and closing math mode renders correctly", {
   expect_renders_same("$\\alpha^\\beta$ and $\\gamma$",
                       paste(alpha^beta, ' and ', gamma))
@@ -145,3 +152,7 @@ test_that("User-defined latex renders correctly", {
   )), alpha)
 })
 
+test_that("Certain invalid LaTeX fails", {
+  expect_error({ TeX("$\\bar{A$") })
+  expect_error({ TeX("$\\left{\\left{A\\right}$") })
+})

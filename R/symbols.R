@@ -8,7 +8,7 @@
 #   `\\sqrt[2]{x}`, $opt is `2`.
 # * $sub and $sup are arguments in the exponent (^) or subscript (_)
 #   following the current expression.   
-# * $1 and $2 are substituted the previous and following LaTeX expression
+# * $LEFT and $RIGHT are substituted the previous and following LaTeX expression
 #   relative to the current token.
 #   They are primarily used for operators.
 
@@ -67,55 +67,57 @@ latex_supported = list(
   ),
   
   "arithmetic operators" = list(
-    "+" = "$1 + $2",
-    "-" = "$1 - $2",
-    "/" = "$1 / $2",
-    "*" = "symbol('\052')"
+    "+" = "$LEFT + $RIGHT",
+    "-" = "$LEFT - $RIGHT",
+    "/" = "$LEFT / $RIGHT",
+    "*" = "$LEFT ~ symbol('\052') ~ $RIGHT"
   ),
 
   "binary operators" = list(
     # need a phantom() here so that you could do multiple equalities.
     # expression(a = b = c) results in a parse error.
-    "=" = "$1 * {phantom() == phantom()} * $2",
-    ">" = "$1 * {phantom() > phantom()} * $2",
-    "<" = "$1 * {phantom() < phantom()} * $2",
-    "\\neq" = "$1 != $2",
-    "\\geq" = "$1 >= $2",
-    "\\leq" = "$1 <= $2",
+    "=" = "$LEFT * {phantom() == phantom()} * $RIGHT",
+    ">" = "$LEFT * {phantom() > phantom()} * $RIGHT",
+    "<" = "$LEFT * {phantom() < phantom()} * $RIGHT",
+    "\\neq" = "$LEFT != $RIGHT",
+    "\\geq" = "$LEFT >= $RIGHT",
+    "\\leq" = "$LEFT <= $RIGHT",
     
-    "\\div" = "$1 %/% $2",
-    "\\pm" = "$1 %+-% $2",
-    "\\approx" = "$1 %~~% $2",
-    "\\sim" = "$1 %~% $2",
-    "\\propto" = "$1 %prop% $2",
-    "\\equiv" = "$1 %==% $2",
-    "\\cong" = "$1 %=~% $2",
-    "\\in" = "$1 %in% $2",
-    "\\notin" = "$1 %notin% $2",
-    "\\cdot" = "$1 %.% $2",
-    "\\times" = "$1 %*% $2",
-    "\\circ" = "$1 ~ '\u25e6' ~ $2",
-    "\\ast" = "$1 ~ symbol('\\053') ~ $2",
-    "\\%" = "$1 ~ symbol('\\045') ~ $2",
-    "\\perp" = "$1 ~ symbol('\\136') ~ $2",
-    "\\bullet" = "$1 ~ symbol('\\267') ~ $2",
-    "\\otimes" = "$1 ~ symbol('\\304') ~ $2",
-    "\\oplus" = "$1 ~ symbol('\\305') ~ $2",
-    "\\oslash" = "$1 ~ symbol('\\306') ~ $2",
-    "\\vee" = "$1 ~ symbol('\\331') ~ $2",
-    "\\wedge" = "$1 ~ symbol('\\332') ~ $2",
-    "\\angle" = "$1 ~ symbol('\\320') ~ $2"
+    "\\div" = "$LEFT %/% $RIGHT",
+    "\\pm" = "$LEFT %+-% $RIGHT",
+    "\\approx" = "$LEFT %~~% $RIGHT",
+    "\\sim" = "$LEFT %~% $RIGHT",
+    "\\propto" = "$LEFT %prop% $RIGHT",
+    "\\equiv" = "$LEFT %==% $RIGHT",
+    "\\cong" = "$LEFT %=~% $RIGHT",
+    "\\in" = "$LEFT %in% $RIGHT",
+    "\\notin" = "$LEFT %notin% $RIGHT",
+    "\\cdot" = "$LEFT %.% $RIGHT",
+    "\\times" = "$LEFT %*% $RIGHT",
+    "\\circ" = "$LEFT ~ '\u25e6' ~ $RIGHT",
+    "\\ast" = "$LEFT ~ symbol('\\053') ~ $RIGHT",
+    "\\%" = "$LEFT ~ symbol('\\045') ~ $RIGHT",
+    "\\perp" = "$LEFT ~ symbol('\\136') ~ $RIGHT",
+    "\\bullet" = "$LEFT ~ symbol('\\267') ~ $RIGHT",
+    "\\otimes" = "$LEFT ~ symbol('\\304') ~ $RIGHT",
+    "\\oplus" = "$LEFT ~ symbol('\\305') ~ $RIGHT",
+    "\\oslash" = "$LEFT ~ symbol('\\306') ~ $RIGHT",
+    "\\vee" = "$LEFT ~ symbol('\\331') ~ $RIGHT",
+    "\\wedge" = "$LEFT ~ symbol('\\332') ~ $RIGHT",
+    "\\angle" = "$LEFT ~ symbol('\\320') ~ $RIGHT",
+    "\\cdots" = "$LEFT ~ cdots ~ $RIGHT",
+    "\\ldots" = "$LEFT ~ ldots ~ $RIGHT"
   ),
 
   "set operators" = list(
-    "\\subset" = "$1 %subset% $2",
-    "\\subseteq" = "$1 %subseteq% $2",
-    "\\nsubset" = "$1 %notsubset% $2",
-    "\\supset" = "$1 %supset% $2",
-    "\\supseteq" = "$1 %supseteq% $2",
-    "\\setminus" = "$1 ~ '\\\\' ~ $2",
-    "\\cup" = "$1 ~ symbol('\\310') ~ $2",
-    "\\cap" = "$1 ~ symbol('\\311') ~ $2"
+    "\\subset" = "$LEFT %subset% $RIGHT",
+    "\\subseteq" = "$LEFT %subseteq% $RIGHT",
+    "\\nsubset" = "$LEFT %notsubset% $RIGHT",
+    "\\supset" = "$LEFT %supset% $RIGHT",
+    "\\supseteq" = "$LEFT %supseteq% $RIGHT",
+    "\\setminus" = "$LEFT ~ '\\\\' ~ $RIGHT",
+    "\\cup" = "$LEFT ~ symbol('\\310') ~ $RIGHT",
+    "\\cap" = "$LEFT ~ symbol('\\311') ~ $RIGHT"
   ),
   
   "other operators" = list(
@@ -151,19 +153,19 @@ latex_supported = list(
 
   # Arrows
   "arrows" = list(
-    "\\rightarrow" = "$1 %->% $2",
-    "\\leftarrow" = "$1 %<-% $2",
-    "\\leftrightarrow" = "$1 %<->% $2",
-    "\\Rightarrow" = "$1 %=>% $2",
-    "\\Leftarrow" = "$1 %<=% $2",
-    "\\Leftrightarrow" = "$1 %<=>% $2",
-    "\\uparrow" = "$1 %up% $2",
-    "\\downarrow" = "$1 %down% $2",
-    "\\Uparrow" = "$1 %dblup% $2",
-    "\\Downarrow" = "$1 %dbldown% $2",
+    "\\rightarrow" = "$LEFT %->% $RIGHT",
+    "\\leftarrow" = "$LEFT %<-% $RIGHT",
+    "\\leftrightarrow" = "$LEFT %<->% $RIGHT",
+    "\\Rightarrow" = "$LEFT %=>% $RIGHT",
+    "\\Leftarrow" = "$LEFT %<=% $RIGHT",
+    "\\Leftrightarrow" = "$LEFT %<=>% $RIGHT",
+    "\\uparrow" = "$LEFT %up% $RIGHT",
+    "\\downarrow" = "$LEFT %down% $RIGHT",
+    "\\Uparrow" = "$LEFT %dblup% $RIGHT",
+    "\\Downarrow" = "$LEFT %dbldown% $RIGHT",
     # Some synonyms
-    "\\to" = "$1 %->% $2",
-    "\\iff" = "$1 %<=>% $2"
+    "\\to" = "$LEFT %->% $RIGHT",
+    "\\iff" = "$LEFT %<=>% $RIGHT"
   ),
 
   # Layout
@@ -172,8 +174,8 @@ latex_supported = list(
     "\\frac" = "frac($arg1, $arg2)",
     
     
-    "\\@SPACE1" = "$1 * phantom(.) * $2",
-    "\\@SPACE2" = "$1 ~~ $2",
+    "\\@SPACE1" = "$LEFT * phantom(.) * $RIGHT",
+    "\\@SPACE2" = "$LEFT ~~ $RIGHT",
     "\\phantom" = "phantom($arg1)",
     
     # Dummy symbols
@@ -195,8 +197,6 @@ latex_supported = list(
   "symbols" = list(
     "\\infty" = " infinity ",
     "\\partial" = " partialdiff ",
-    "\\cdots" = " cdots ",
-    "\\ldots" = " ldots ",
     "\\degree" = " degree ",
     "\\clubsuit" = "symbol('\\247')",
     "\\diamondsuit" = "symbol('\\250')",
@@ -220,12 +220,12 @@ latex_supported = list(
     "\\Exclam" = "'\\u203c'",
     "\\dagger" = "'\\u2020'",
     "\\ddagger" = "'\\u2021'",
-    "''" = "$1 * second ",
-    "'" = "$1 * minute ",
+    "''" = "$LEFT * second ",
+    "'" = "$LEFT * minute ",
     "\\degree" = "'\\u0b0'",
-    "\\prime" = "$1 * minute ",
-    "\\second" = "$1 * second ",
-    "\\third" = "$1 * '\\u2034'"
+    "\\prime" = "$LEFT * minute ",
+    "\\second" = "$LEFT * second ",
+    "\\third" = "$LEFT * '\\u2034'"
   ),
 
   # Decorations
@@ -248,16 +248,16 @@ latex_supported = list(
   
   # Parentheses
   "parentheses" = list(
-    "\\@leftPAR" = "bgroup('(', $arg1, ')')",
-    "\\@leftBRACE" = "bgroup('{', $arg1, '}')",
-    "\\@leftBRACKET" = "bgroup('[', $arg1, ']')",
-    "\\@leftPIPE" = "bgroup('|', $arg1, '|')",
-    "\\@middlePIPE" = "bgroup('|', $P, '.')",
-    # dummy; these are used by `latex2exp_supported()`
-    "\\left(" = "",
-    "\\left[" = "",
-    "\\left{" = "",
-    "\\left|" = "",
+    "\\left(" = "bgroup('(', $RIGHT",
+    "\\left[" = "bgroup('[', $RIGHT",
+    "\\left{" = "bgroup('{', $RIGHT",
+    "\\left|" = "bgroup('|', $RIGHT",
+    "\\left." = "bgroup('.', $RIGHT",
+    "\\right)" = "$LEFT, ')')",
+    "\\right]" = "$LEFT, ']')",
+    "\\right}" = "$LEFT, '}')",
+    "\\right|" = "$LEFT, '|')",
+    "\\right." = "$LEFT, '.')",
     "\\|" = ""
   ),
   
@@ -289,7 +289,7 @@ latex_supported = list(
 
 latex_supported_map <- Reduce(c, latex_supported)
 
-.base_separators <- c("$", "{", "\\", "[", ",", ";", " ")
+.base_separators <- c("$", "{", "}", "\\", "[", "]", ",", ";", " ")
 .math_separators <- c(.base_separators, 
                       names(latex_supported[['arithmetic operators']]),
                       "|",

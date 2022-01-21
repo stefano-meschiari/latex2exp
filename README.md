@@ -864,6 +864,24 @@ to see an interactive, searchable table of LaTeX commands supported.
 </td>
 </tr>
 <tr>
+<td>Binary Operators</td>
+<td>
+<pre>TeX(r"($\alpha \cdots \beta$)")</pre>
+</td>
+<td>
+<img src="markdown/commands/Binary Operators/29.jpg" style=""/>
+</td>
+</tr>
+<tr>
+<td>Binary Operators</td>
+<td>
+<pre>TeX(r"($\alpha \ldots \beta$)")</pre>
+</td>
+<td>
+<img src="markdown/commands/Binary Operators/30.jpg" style=""/>
+</td>
+</tr>
+<tr>
 <td>Set Operators</td>
 <td>
 <pre>TeX(r"($A \subset B$)")</pre>
@@ -1343,7 +1361,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\cdots$)")</pre>
+<pre>TeX(r"($\degree$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/3.jpg" style=""/>
@@ -1352,7 +1370,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\ldots$)")</pre>
+<pre>TeX(r"($\clubsuit$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/4.jpg" style=""/>
@@ -1361,7 +1379,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\degree$)")</pre>
+<pre>TeX(r"($\diamondsuit$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/5.jpg" style=""/>
@@ -1370,7 +1388,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\clubsuit$)")</pre>
+<pre>TeX(r"($\heartsuit$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/6.jpg" style=""/>
@@ -1379,7 +1397,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\diamondsuit$)")</pre>
+<pre>TeX(r"($\spadesuit$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/7.jpg" style=""/>
@@ -1388,7 +1406,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\heartsuit$)")</pre>
+<pre>TeX(r"($\aleph$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/8.jpg" style=""/>
@@ -1397,7 +1415,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\spadesuit$)")</pre>
+<pre>TeX(r"($\euro$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/9.jpg" style=""/>
@@ -1406,7 +1424,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\aleph$)")</pre>
+<pre>TeX(r"($\textbackslash$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/10.jpg" style=""/>
@@ -1415,7 +1433,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\euro$)")</pre>
+<pre>TeX(r"($\diamond$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/11.jpg" style=""/>
@@ -1424,7 +1442,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\textbackslash$)")</pre>
+<pre>TeX(r"($\uptriangle$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/12.jpg" style=""/>
@@ -1433,7 +1451,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\diamond$)")</pre>
+<pre>TeX(r"($\righttriangle$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/13.jpg" style=""/>
@@ -1442,7 +1460,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\uptriangle$)")</pre>
+<pre>TeX(r"($\downtriangle$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/14.jpg" style=""/>
@@ -1451,7 +1469,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\righttriangle$)")</pre>
+<pre>TeX(r"($\lefttriangle$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/15.jpg" style=""/>
@@ -1460,7 +1478,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\downtriangle$)")</pre>
+<pre>TeX(r"($\smiley$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/16.jpg" style=""/>
@@ -1469,7 +1487,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\lefttriangle$)")</pre>
+<pre>TeX(r"($\sharp$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/17.jpg" style=""/>
@@ -1478,7 +1496,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\smiley$)")</pre>
+<pre>TeX(r"($\eighthnote$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/18.jpg" style=""/>
@@ -1487,7 +1505,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\sharp$)")</pre>
+<pre>TeX(r"($\twonotes$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/19.jpg" style=""/>
@@ -1496,7 +1514,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\eighthnote$)")</pre>
+<pre>TeX(r"($\sun$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/20.jpg" style=""/>
@@ -1505,7 +1523,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\twonotes$)")</pre>
+<pre>TeX(r"($\venus$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/21.jpg" style=""/>
@@ -1514,7 +1532,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\sun$)")</pre>
+<pre>TeX(r"($\mars$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/22.jpg" style=""/>
@@ -1523,7 +1541,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\venus$)")</pre>
+<pre>TeX(r"($\Exclam$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/23.jpg" style=""/>
@@ -1532,7 +1550,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\mars$)")</pre>
+<pre>TeX(r"($\dagger$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/24.jpg" style=""/>
@@ -1541,7 +1559,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\Exclam$)")</pre>
+<pre>TeX(r"($\ddagger$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/25.jpg" style=""/>
@@ -1550,7 +1568,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\dagger$)")</pre>
+<pre>TeX(r"($''$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/26.jpg" style=""/>
@@ -1559,7 +1577,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\ddagger$)")</pre>
+<pre>TeX(r"($'$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/27.jpg" style=""/>
@@ -1568,7 +1586,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($''$)")</pre>
+<pre>TeX(r"($\degree$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/28.jpg" style=""/>
@@ -1577,7 +1595,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($'$)")</pre>
+<pre>TeX(r"($\prime$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/29.jpg" style=""/>
@@ -1586,7 +1604,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\degree$)")</pre>
+<pre>TeX(r"($\second$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Symbols/30.jpg" style=""/>
@@ -1595,28 +1613,10 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Symbols</td>
 <td>
-<pre>TeX(r"($\prime$)")</pre>
-</td>
-<td>
-<img src="markdown/commands/Symbols/31.jpg" style=""/>
-</td>
-</tr>
-<tr>
-<td>Symbols</td>
-<td>
-<pre>TeX(r"($\second$)")</pre>
-</td>
-<td>
-<img src="markdown/commands/Symbols/32.jpg" style=""/>
-</td>
-</tr>
-<tr>
-<td>Symbols</td>
-<td>
 <pre>TeX(r"($\third$)")</pre>
 </td>
 <td>
-<img src="markdown/commands/Symbols/33.jpg" style=""/>
+<img src="markdown/commands/Symbols/31.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1748,10 +1748,19 @@ to see an interactive, searchable table of LaTeX commands supported.
 <tr>
 <td>Parentheses</td>
 <td>
-<pre>TeX(r"($\| a+b \|$)")</pre>
+<pre>TeX(r"($\left. a+b \right.$)")</pre>
 </td>
 <td>
 <img src="markdown/commands/Parentheses/5.jpg" style=""/>
+</td>
+</tr>
+<tr>
+<td>Parentheses</td>
+<td>
+<pre>TeX(r"($\| a+b \|$)")</pre>
+</td>
+<td>
+<img src="markdown/commands/Parentheses/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1849,7 +1858,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 
 ## Changes
 
-### 0.9.0 \[01/20/2021\]
+### 0.9.0 \[01/20/2022\]
 
 -   Completely rewritten parser that is much more robust, produces valid
     plotmath expressions in more situations, and improved rendering by
@@ -1882,6 +1891,9 @@ to see an interactive, searchable table of LaTeX commands supported.
 -   Added a test suite covering a large number of LaTeX expressions,
     edge cases, and examples from GitHub.
 -   Refactored and improved code documentation.
+-   Fixes #33 (adds `\lceil, \rceil, \lfloor, \rfloor`)
+-   Fixes #24 (can mix & match different types of brackets,
+    e.g. `TeX("$\\left(\\frac{M}{L}\\right.$")`)
 
 ### 0.5.0 \[03/14/2021\]
 

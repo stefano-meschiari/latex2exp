@@ -9,8 +9,11 @@ latex2exp_supported(show = FALSE, ...)
 \arguments{
 \item{show}{Show a searchable table of symbols}
 
-\item{...}{}
+\item{...}{Other parameters (not used)}
+}
+\value{
+A data frame containing a table of supported LaTeX commands.
 }
 \description{
-If `show` is TRUE, also show a searchable table of symbols.
+If \code{show} is TRUE, also show a searchable table of symbols.
 }
