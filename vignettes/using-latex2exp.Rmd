@@ -31,9 +31,10 @@ TeX(r"(\textbf{Euler's identity} is $e^{i\pi} = 0$.)")
 
 Since R 4.0, it is recommended to use the new raw string literal syntax (see `?Quotes`). The syntax looks like `r"(...)"`, where `...` can contain any character sequence, including `\`.
 
-Another option is to escape the backslash character (`\`) for LaTeX commands, such that the  command will be written as `\\command` rather than `\command`.
+Another option is to escape the backslash character (`\`) for LaTeX commands, such that the  command will be written as `\\command` rather than `\command`. This will also work on versions of R older than 4.0:
 
 ```{r, eval=FALSE}
+# Equivalent to the previous code fragment.
 # Use regular strings, but escape the backslashes.
 TeX("\\textbf{Euler's identity} is $e^{i\\pi} = 0$.")
 ```

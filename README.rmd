@@ -28,7 +28,7 @@ devtools::install_github('stefano-meschiari/latex2exp')
 ```{r, child='vignettes/using-latex2exp.Rmd'}
 ```
 
-```{r, child='markdown/supported-latex.Rmd'}
+```{r, child='markdown/supported-latex-child.Rmd'}
 ```
 
 ## Changes

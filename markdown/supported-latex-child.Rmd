@@ -4,23 +4,35 @@ author: "Stefano Meschiari"
 date: "`r Sys.Date()`"
 ---
 
-```{r, message=FALSE, echo=FALSE}
+```{r, plot-commands-for-readme, results='asis', echo=FALSE}
 library(latex2exp)
 library(htmltools)
-```
 
-```{r, echo=FALSE}
-# Saves the plot to PNG and embeds it in an <img> tag using base64 data.
-# from https://stackoverflow.com/questions/50244709/how-to-store-r-ggplot-graph-as-html-code-snippet
-encodeGraphic <- function(g, ..., filename=tempfile(fileext = ".jpg"), style="") {
+knitr::opts_knit$set(root.dir = "..")
+counters <- list()
+
+# create an <img> tag for each LaTeX command by plotting the example to a JPEG
+# image, then embedding the image.
+make_img <- function(g, category, ..., style="") {
+  counters[[category]] <- if (is.null(counters[[category]])) {
+    1
+  } else {
+    counters[[category]] + 1
+  }
+  path <- file.path("README_files", "commands", category)
+  if (!dir.exists(path)) {
+    dir.create(path, recursive = TRUE)
+  }
+  filename <- file.path(path,
+                        str_c(counters[[category]], ".jpg"))
+  
   jpeg(filename, ...)  
   force(g)
   dev.off() 
   
   # Resize to ensure the output is small
-  system(sprintf("/opt/homebrew/bin/mogrify -resize 200 '%s'", filename)) 
-  txt <- RCurl::base64Encode(readBin(filename, "raw", file.info(filename)[1, "size"]), "txt")  
-  myImage <- htmltools::img(src=sprintf("data:image/jpeg;base64,%s", txt), style=style)
+  system(sprintf("/opt/homebrew/bin/mogrify -resize 200 '%s'", filename))
+  myImage <- htmltools::img(src=filename, style=style)
   return(myImage)
 }
 
@@ -80,15 +92,13 @@ supported$example <- pmap_chr(supported, function(category, commands, ...) {
 supported$category <- str_to_title(supported$category)
 supported <- supported %>% filter(!is.na(example))
 supported$commands <- supported$example
-```
-    
-```{r, results='asis', echo=FALSE}
+
 rows <- pmap(supported, function(category, commands, example) {
-  img <- encodeGraphic(plot(TeX(example), cex=4.25),
-                       width=400, height=150)
+  img <- make_img(plot(TeX(example), cex=4.25), category,
+                  width=400, height=150)
   htmltools::tags$tr(
     htmltools::tags$td(category),
-    htmltools::tags$td(htmltools::tags$pre(commands)),
+    htmltools::tags$td(htmltools::tags$pre(str_c("TeX(r\"(", commands, ")\")"))),
     htmltools::tags$td(img)
   )
 })
