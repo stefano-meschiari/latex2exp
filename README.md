@@ -55,13 +55,14 @@ than `\command`. This will also work on versions of R older than 4.0:
 TeX("\\textbf{Euler's identity} is $e^{i\\pi} = 0$.")
 ```
 
-You can `plot()` the result from TeX to see a preview of how the
-expression will be rendered:
+You can quickly preview what a translated LaTeX string would look like
+by using `plot`:
 
 ``` r
-plot(TeX(r"(\textbf{Euler's identity} is $e^{i\pi} = 0$.)"),
-     cex=3)
+plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
 ```
+
+<img src="README_files/figure-gfm/plot-formula-1.png" width="480" />
 
 The following example shows plotting in base graphics:
 
@@ -83,15 +84,11 @@ legend('topleft',
        col=alpha)
 ```
 
-<img src="README_files/figure-gfm/base-plot-1.png" width="768" />
+<img src="README_files/figure-gfm/base-plot-1.png" width="672" />
 
 This example shows plotting in [ggplot2](https://ggplot2.tidyverse.org):
 
 ``` r
-library(purrr)
-library(ggplot2)
-library(tibble)
-
 x <- seq(0, 4, length.out=100)
 alpha <- 1:5
 data <- map_df(alpha, ~ tibble(v=.*x^., x=x, alpha=.))
@@ -108,22 +105,15 @@ p <- ggplot(data, aes(x=x, y=v, color=as.factor(alpha))) +
 print(p)
 ```
 
-You can quickly test out what a translated LaTeX string would look like
-by using `plot`:
-
-``` r
-plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
-```
-
-<img src="README_files/figure-gfm/plot-formula-1.png" width="480" />
+<img src="README_files/figure-gfm/ggplot-1.png" width="672" />
 
 Here are a few examples of what you can do with **latex2exp**:
 
 ``` r
-invisible(latex2exp_examples())
+invisible(latex2exp_examples(cex=0.9))
 ```
 
-<img src="README_files/figure-gfm/examples-1.png" width="768" />
+<img src="README_files/figure-gfm/examples-1.png" width="672" />
 
 ## Supported LaTeX commands
 

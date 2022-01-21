@@ -68,8 +68,8 @@ expect_renders_different <- function(object, expected_expression) {
   }
   
   if (!comparison_successful && interactive()) {
-    plot(expected_expression, titles="Expected")
-    plot(result_expression, titles="Result")
+    plot(expected_expression, main="Expected")
+    plot(result_expression, main="Result")
   }
   
   expect(comparison_successful,

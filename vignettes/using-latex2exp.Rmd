@@ -11,12 +11,14 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 ```{r, include=FALSE}
-knitr::opts_chunk$set(fig.width=8, fig.height=6, fig.retina=2)
+knitr::opts_chunk$set(fig.width=7, fig.height=5, fig.retina=2)
 library(latex2exp)
 library(reactable)
 library(stringr)
 library(purrr)
 library(dplyr)
+library(ggplot2)
+library(tibble)
 ```
 
 ## Usage
@@ -39,11 +41,12 @@ Another option is to escape the backslash character (`\`) for LaTeX commands, su
 TeX("\\textbf{Euler's identity} is $e^{i\\pi} = 0$.")
 ```
 
-You can `plot()` the result from TeX to see a preview of how the expression will be rendered:
-```{r euler-identity, eval=FALSE, fig.width=4, fig.height=0.8}
-plot(TeX(r"(\textbf{Euler's identity} is $e^{i\pi} = 0$.)"),
-     cex=3)
+You can quickly preview what a translated LaTeX string would look like by using `plot`: 
+
+```{r plot-formula, fig.height=2, fig.width=5}
+plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
 ```
+
 
 The following example shows plotting in base graphics:
 ```{r base-plot, warning=FALSE}
@@ -65,11 +68,7 @@ legend('topleft',
 ```
 
 This example shows plotting in [ggplot2](https://ggplot2.tidyverse.org):
-```{r ggplot, warning=FALSE, eval=FALSE}
-library(purrr)
-library(ggplot2)
-library(tibble)
-
+```{r ggplot, warning=FALSE}
 x <- seq(0, 4, length.out=100)
 alpha <- 1:5
 data <- map_df(alpha, ~ tibble(v=.*x^., x=x, alpha=.))
@@ -86,16 +85,11 @@ p <- ggplot(data, aes(x=x, y=v, color=as.factor(alpha))) +
 print(p)
 ```
 
-You can quickly test out what a translated LaTeX string would look like by using `plot`: 
-
-```{r plot-formula, fig.height=2, fig.width=5}
-plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
-```
 
 Here are a few examples of what you can do with **latex2exp**:
 
-```{r examples}
-invisible(latex2exp_examples())
+```{r examples, fig.width=7, fig.height=6}
+invisible(latex2exp_examples(cex=0.9))
 ```
 
 ## Supported LaTeX commands

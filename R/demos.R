@@ -3,7 +3,7 @@
 #' Plots a number of example LaTeX string, as parsed by \code{\link{TeX}}.
 #' 
 #' @export
-latex2exp_examples <- function() {
+latex2exp_examples <- function(cex=1) {
   oldpar <- par(no.readonly = TRUE)
   on.exit(suppressWarnings(par(oldpar)))
   
@@ -30,8 +30,8 @@ latex2exp_examples <- function() {
   y <- seq(0.95, 0.05, length.out = length(examples))
   
   text(
-    0.5, y, str_c("TeX(r\"(", examples, ")\")"), pos = 2, cex = 0.5, family = 'mono'
+    0.5, y, str_c("TeX(r\"(", examples, ")\")"), pos = 2, cex = 0.5 * cex, family = 'mono'
   )
-  text(0.5, y, TeX(examples), pos = 4)
+  text(0.5, y, TeX(examples), pos = 4, cex=cex)
   return(TRUE)
 }

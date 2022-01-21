@@ -5,6 +5,9 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r, plot-commands-for-readme, results='asis', echo=FALSE}
+# This file is used by ../README.Rmd to create a table of commands that
+# can be rendered by Github Flavored Markdown.
+
 library(latex2exp)
 library(htmltools)
 
@@ -93,7 +96,7 @@ supported <- supported %>% filter(!is.na(example))
 supported$commands <- supported$example
 
 rows <- pmap(supported, function(category, commands, example) {
-  img <- make_img(plot(TeX(example), cex=4.25), category,
+  img <- make_img(plot(TeX(example), cex=4.25, main=""), category,
                   width=400, height=150)
   htmltools::tags$tr(
     htmltools::tags$td(category),

@@ -4,7 +4,7 @@
 \alias{plot.expression}
 \title{Plots an expression on the current graphical device.}
 \usage{
-\method{plot}{expression}(x, ..., titles = "")
+\method{plot}{expression}(x, ..., main = NULL)
 }
 \arguments{
 \item{x}{A \code{\link{plotmath}} expression.}

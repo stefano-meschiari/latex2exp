@@ -4,22 +4,24 @@
 #' @param x A \code{\link{plotmath}} expression.
 #' @param ... Parameters to be passed to the \code{\link{text}} function.
 #' @export
-plot.expression <- function(x, ..., titles="") {
+plot.expression <- function(x, ..., main=NULL) {
   oldpar <- par(no.readonly = TRUE)
   dots <- list(...)
   on.exit(suppressWarnings(par(oldpar)))
-  par(mar = c(0, 0, 0, 0), mfrow=c(length(x), 1))
+  par(mar = c(1, 1, 1, 1))
   
-  mapply(function(expr, title) {
-    plot(0, 0, type = 'n', axes = F, xlab = '', ylab = '')
-    text(0, 0, expr, ...)
-    mtext(title)
-    NULL
-  }, x, titles)
+  plot(0, 0, type = 'n', axes = FALSE, xlab = '', ylab = '')
+  text(0, 0, x, ...)
   
-  invisible()
+  if (is.null(main)) {
+      if (!is.null(attr(x, "latex"))) {
+        mtext(attr(x, "latex"), family="mono")
+      }
+  } else {
+    mtext(main)
+  }
+  invisible(NULL)
 }
-
 
 #' Returns the list of supported LaTeX commands.
 #' 
