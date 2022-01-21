@@ -252,25 +252,25 @@ latex_supported = list(
     "\\left[" = "bgroup('[', $RIGHT",
     "\\left{" = "bgroup('{', $RIGHT",
     "\\left|" = "bgroup('|', $RIGHT",
-    "\\left." = "bgroup('.', $RIGHT",
+    "\\left." = "bgroup('', $RIGHT",
     "\\right)" = "$LEFT, ')')",
     "\\right]" = "$LEFT, ']')",
     "\\right}" = "$LEFT, '}')",
     "\\right|" = "$LEFT, '|')",
-    "\\right." = "$LEFT, '.')",
+    "\\right." = "$LEFT, '')",
     "\\|" = ""
   ),
   
   "parentheses (not scalable)" = list(
     "\\lbrack" = "group('[', $P, '')",
     "\\rbrack" = "group('', $P, ']')",
-    "\\langle" = "group(langle,$P, '.')",
-    "\\rangle" = "group('.', $P, rangle)",
-    "\\lceil" = "group(lceil, $P, '.')",
-    "\\rceil" = "group('.', $P, rceil)",
-    "\\lfloor" = "group(lfloor, $P, '.')",
-    "\\rfloor" = "group('.', $P, rfloor)",
-    "\\@pipe" = "group('|', group('|', $P, '.'), '.')"
+    "\\langle" = "group(langle,$P, '')",
+    "\\rangle" = "group('', $P, rangle)",
+    "\\lceil" = "group(lceil, $P, '')",
+    "\\rceil" = "group('', $P, rceil)",
+    "\\lfloor" = "group(lfloor, $P, '')",
+    "\\rfloor" = "group('', $P, rfloor)",
+    "\\@pipe" = "group('|', group('|', $P, ''), '')"
   ),
 
   "vector" = list(

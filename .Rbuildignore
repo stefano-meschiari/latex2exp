@@ -12,3 +12,4 @@ extras
 experiment
 LICENSE.md
 ^\.github$
+^revdep$
