@@ -59,7 +59,7 @@ You can quickly preview what a translated LaTeX string would look like
 by using `plot`:
 
 ``` r
-plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
+plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2, main="")
 ```
 
 <img src="README_files/figure-gfm/plot-formula-1.png" width="480" />
@@ -1855,7 +1855,8 @@ to see an interactive, searchable table of LaTeX commands supported.
     plotmath expressions in more situations, and improved rendering by
     making use of more plotmath features.
 -   Added a vignette containing a browsable gallery of LaTeX commands
-    supported.
+    supported. You can pull it up using
+    `vignette("supported-commands", package = "latex2exp")`.
 -   Added the following LaTeX commands and symbols:
     -   `\Upsilon` and `\varpi` for Greek letter variants
     -   `\uparrow`, `\downarrow`, `\Uparrow`, `\Downarrow`, `\to`
@@ -1881,7 +1882,6 @@ to see an interactive, searchable table of LaTeX commands supported.
 -   Added a test suite covering a large number of LaTeX expressions,
     edge cases, and examples from GitHub.
 -   Refactored and improved code documentation.
--   Added a vignette that shows all the available LaTeX commands.
 
 ### 0.5.0 \[03/14/2021\]
 

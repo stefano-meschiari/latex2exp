@@ -3,7 +3,7 @@
 * Completely rewritten parser that is much more robust, produces valid plotmath
   expressions in more situations, and improved rendering by making use of more
   plotmath features.
-* Added a vignette containing a browsable gallery of LaTeX commands supported.
+* Added a vignette containing a browsable gallery of LaTeX commands supported. You can pull it up using `vignette("supported-commands", package = "latex2exp")`.
 * Added the following LaTeX commands and symbols:
   * `\Upsilon` and `\varpi` for Greek letter variants
   * `\uparrow`, `\downarrow`, `\Uparrow`, `\Downarrow`, `\to`
@@ -20,7 +20,6 @@
 * Improved the appearance of `\frac` fractions. Now a small space is inserted after the fraction, so that multiple fractions are separated.
 * Added a test suite covering a large number of LaTeX expressions, edge cases, and examples from GitHub.
 * Refactored and improved code documentation.
-* Added a vignette that shows all the available LaTeX commands.
 
 ### 0.5.0 [03/14/2021]
 

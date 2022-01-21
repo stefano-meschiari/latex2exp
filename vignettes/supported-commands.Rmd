@@ -26,7 +26,7 @@ encodeGraphic <- function(g, ..., filename=tempfile(fileext = ".png"), style="")
   png(filename, ...)  
   force(g)
   dev.off()  # Close the file.
-  txt <- RCurl::base64Encode(readBin(tf1, "raw", file.info(tf1)[1, "size"]), "txt")  
+  txt <- RCurl::base64Encode(readBin(filename, "raw", file.info(filename)[1, "size"]), "txt")  
   myImage <- htmltools::img(src=sprintf("data:image/png;base64,%s", txt), style=style)
   return(myImage)
 }
@@ -106,7 +106,7 @@ reactable(supported,
               tryCatch({
                 div(
                   div(
-                    encodeGraphic(plot(TeX(content), cex=4.25),
+                    encodeGraphic(plot(TeX(content), cex=4.25, main=""),
                                   width=600, height=150, 
                                   style="max-height:70px; max-width:100%")
                   )

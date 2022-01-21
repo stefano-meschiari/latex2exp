@@ -4,7 +4,7 @@
 \alias{latex2exp_examples}
 \title{Plots a number of example LaTeX string, as parsed by \code{\link{TeX}}.}
 \usage{
-latex2exp_examples()
+latex2exp_examples(cex = 1)
 }
 \description{
 Plots a number of example LaTeX string, as parsed by \code{\link{TeX}}.
