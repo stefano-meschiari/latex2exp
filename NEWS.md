@@ -1,4 +1,4 @@
-### 0.9.0 [01/20/2021]
+### 0.9.0 [01/20/2022]
 
 * Completely rewritten parser that is much more robust, produces valid plotmath
   expressions in more situations, and improved rendering by making use of more
