@@ -150,7 +150,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -159,7 +159,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Alpha$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -168,7 +168,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -177,7 +177,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -186,7 +186,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\chi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -195,7 +195,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Chi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -204,7 +204,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\delta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/7.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -213,7 +213,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Delta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/8.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -222,7 +222,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\epsilon$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/9.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -231,7 +231,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Epsilon$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/10.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -240,7 +240,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\eta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/11.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -249,7 +249,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Eta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/12.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -258,7 +258,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\gamma$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/13.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -267,7 +267,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Gamma$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/14.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -276,7 +276,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\iota$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/15.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -285,7 +285,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Iota$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/16.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -294,7 +294,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\kappa$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/17.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -303,7 +303,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Kappa$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/18.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -312,7 +312,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\lambda$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/19.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -321,7 +321,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Lambda$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/20.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -330,7 +330,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\mu$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/21.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -339,7 +339,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Mu$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/22.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -348,7 +348,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\nu$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/23.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -357,7 +357,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Nu$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/24.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -366,7 +366,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\omega$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/25.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -375,7 +375,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Omega$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/26.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -384,7 +384,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\omicron$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/27.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -393,7 +393,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Omicron$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/28.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -402,7 +402,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\phi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/29.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -411,7 +411,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Phi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/30.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -420,7 +420,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\pi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/31.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -429,7 +429,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Pi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/32.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -438,7 +438,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\psi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/33.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -447,7 +447,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Psi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/34.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -456,7 +456,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\rho$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/35.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -465,7 +465,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Rho$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/36.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -474,7 +474,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\sigma$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/37.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -483,7 +483,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Sigma$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/38.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -492,7 +492,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\tau$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/39.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -501,7 +501,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Tau$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/40.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -510,7 +510,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\theta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/41.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -519,7 +519,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Theta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/42.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -528,7 +528,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\upsilon$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/43.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -537,7 +537,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Upsilon$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/44.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -546,7 +546,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\zeta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/45.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -555,7 +555,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Zeta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/46.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -564,7 +564,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Upsilon$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/47.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -573,7 +573,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\varpi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/48.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -582,7 +582,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\varphi$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Greek Letters/1.jpg" style=""/>
+<img src="markdown/commands/Greek Letters/49.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -591,7 +591,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha + \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arithmetic Operators/1.jpg" style=""/>
+<img src="markdown/commands/Arithmetic Operators/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -600,7 +600,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha - \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arithmetic Operators/1.jpg" style=""/>
+<img src="markdown/commands/Arithmetic Operators/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -609,7 +609,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha / \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arithmetic Operators/1.jpg" style=""/>
+<img src="markdown/commands/Arithmetic Operators/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -618,7 +618,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha * \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arithmetic Operators/1.jpg" style=""/>
+<img src="markdown/commands/Arithmetic Operators/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -627,7 +627,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha = \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -636,7 +636,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha &gt; \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -645,7 +645,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha &lt; \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -654,7 +654,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \neq \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -663,7 +663,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \geq \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -672,7 +672,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \leq \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -681,7 +681,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \div \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/7.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -690,7 +690,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \pm \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/8.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -699,7 +699,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \approx \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/9.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -708,7 +708,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \sim \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/10.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -717,7 +717,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \propto \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/11.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -726,7 +726,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \equiv \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/12.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -735,7 +735,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \cong \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/13.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -744,7 +744,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \in \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/14.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -753,7 +753,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \notin \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/15.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -762,7 +762,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \cdot \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/16.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -771,7 +771,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \times \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/17.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -780,7 +780,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \circ \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/18.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -789,7 +789,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \ast \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/19.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -798,7 +798,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \% \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/20.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -807,7 +807,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \perp \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/21.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -816,7 +816,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \bullet \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/22.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -825,7 +825,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \otimes \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/23.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -834,7 +834,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \oplus \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/24.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -843,7 +843,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \oslash \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/25.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -852,7 +852,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \vee \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/26.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -861,7 +861,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \wedge \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/27.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -870,7 +870,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \angle \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Binary Operators/1.jpg" style=""/>
+<img src="markdown/commands/Binary Operators/28.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -879,7 +879,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \subset B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Set Operators/1.jpg" style=""/>
+<img src="markdown/commands/Set Operators/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -888,7 +888,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \subseteq B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Set Operators/1.jpg" style=""/>
+<img src="markdown/commands/Set Operators/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -897,7 +897,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \nsubset B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Set Operators/1.jpg" style=""/>
+<img src="markdown/commands/Set Operators/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -906,7 +906,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \supset B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Set Operators/1.jpg" style=""/>
+<img src="markdown/commands/Set Operators/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -915,7 +915,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \supseteq B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Set Operators/1.jpg" style=""/>
+<img src="markdown/commands/Set Operators/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -924,7 +924,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \setminus B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Set Operators/1.jpg" style=""/>
+<img src="markdown/commands/Set Operators/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -933,7 +933,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \cup B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Set Operators/1.jpg" style=""/>
+<img src="markdown/commands/Set Operators/7.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -942,7 +942,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \cap B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Set Operators/1.jpg" style=""/>
+<img src="markdown/commands/Set Operators/8.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -951,7 +951,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\forall$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Other Operators/1.jpg" style=""/>
+<img src="markdown/commands/Other Operators/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -960,7 +960,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\exists$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Other Operators/1.jpg" style=""/>
+<img src="markdown/commands/Other Operators/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -969,7 +969,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Im$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Other Operators/1.jpg" style=""/>
+<img src="markdown/commands/Other Operators/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -978,7 +978,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Re$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Other Operators/1.jpg" style=""/>
+<img src="markdown/commands/Other Operators/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -987,7 +987,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\wp$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Other Operators/1.jpg" style=""/>
+<img src="markdown/commands/Other Operators/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -996,7 +996,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\surd$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Other Operators/1.jpg" style=""/>
+<img src="markdown/commands/Other Operators/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1005,7 +1005,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\neg$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Other Operators/1.jpg" style=""/>
+<img src="markdown/commands/Other Operators/7.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1014,7 +1014,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\ni$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Other Operators/1.jpg" style=""/>
+<img src="markdown/commands/Other Operators/8.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1023,7 +1023,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\sqrt[z]{x+y}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1032,7 +1032,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\sum_{i=0}^{\infty}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1041,7 +1041,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\prod_{i=0}^{\infty}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1050,7 +1050,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\int_{i=0}^{\infty}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1059,7 +1059,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\bigcup_{i} A_i$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1068,7 +1068,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\bigcap_{i} A_i$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1077,7 +1077,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\lim_{x \to \infty} \frac{1}{x}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/7.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1086,7 +1086,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\min_{x \in X} x^2$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/8.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1095,7 +1095,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\max_{x \in X} x^2$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Operators With Subscripts And Superscripts/1.jpg" style=""/>
+<img src="markdown/commands/Operators With Subscripts And Superscripts/9.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1104,7 +1104,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"(\normalsize{example text})")</pre>
 </td>
 <td>
-<img src="README_files/commands/Text Size/1.jpg" style=""/>
+<img src="markdown/commands/Text Size/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1113,7 +1113,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"(\small{example text})")</pre>
 </td>
 <td>
-<img src="README_files/commands/Text Size/1.jpg" style=""/>
+<img src="markdown/commands/Text Size/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1122,7 +1122,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"(\tiny{example text})")</pre>
 </td>
 <td>
-<img src="README_files/commands/Text Size/1.jpg" style=""/>
+<img src="markdown/commands/Text Size/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1131,7 +1131,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \rightarrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1140,7 +1140,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \leftarrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1149,7 +1149,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \leftrightarrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1158,7 +1158,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \Rightarrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1167,7 +1167,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \Leftarrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1176,7 +1176,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \Leftrightarrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1185,7 +1185,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \uparrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/7.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1194,7 +1194,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \downarrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/8.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1203,7 +1203,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \Uparrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/9.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1212,7 +1212,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \Downarrow \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/10.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1221,7 +1221,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \to \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/11.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1230,7 +1230,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\alpha \iff \beta$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Arrows/1.jpg" style=""/>
+<img src="markdown/commands/Arrows/12.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1239,7 +1239,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\frac{x+y}{x-y}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Layout And Spacing/1.jpg" style=""/>
+<img src="markdown/commands/Layout And Spacing/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1248,7 +1248,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\frac{x+y}{x-y}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Layout And Spacing/1.jpg" style=""/>
+<img src="markdown/commands/Layout And Spacing/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1257,7 +1257,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \phantom B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Layout And Spacing/1.jpg" style=""/>
+<img src="markdown/commands/Layout And Spacing/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1266,7 +1266,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \  B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Layout And Spacing/1.jpg" style=""/>
+<img src="markdown/commands/Layout And Spacing/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1275,7 +1275,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \; B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Layout And Spacing/1.jpg" style=""/>
+<img src="markdown/commands/Layout And Spacing/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1284,7 +1284,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($A \, B$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Layout And Spacing/1.jpg" style=""/>
+<img src="markdown/commands/Layout And Spacing/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1293,7 +1293,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"(\textbf{example text})")</pre>
 </td>
 <td>
-<img src="README_files/commands/Formatting/1.jpg" style=""/>
+<img src="markdown/commands/Formatting/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1302,7 +1302,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"(\textit{example text})")</pre>
 </td>
 <td>
-<img src="README_files/commands/Formatting/1.jpg" style=""/>
+<img src="markdown/commands/Formatting/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1311,7 +1311,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"(\bf{example text})")</pre>
 </td>
 <td>
-<img src="README_files/commands/Formatting/1.jpg" style=""/>
+<img src="markdown/commands/Formatting/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1320,7 +1320,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"(\it{example text})")</pre>
 </td>
 <td>
-<img src="README_files/commands/Formatting/1.jpg" style=""/>
+<img src="markdown/commands/Formatting/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1329,7 +1329,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"(\textrm{example text})")</pre>
 </td>
 <td>
-<img src="README_files/commands/Formatting/1.jpg" style=""/>
+<img src="markdown/commands/Formatting/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1338,7 +1338,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\infty$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1347,7 +1347,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\partial$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1356,7 +1356,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\cdots$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1365,7 +1365,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\ldots$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1374,7 +1374,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\degree$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1383,7 +1383,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\clubsuit$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1392,7 +1392,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\diamondsuit$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/7.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1401,7 +1401,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\heartsuit$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/8.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1410,7 +1410,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\spadesuit$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/9.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1419,7 +1419,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\aleph$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/10.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1428,7 +1428,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\euro$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/11.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1437,7 +1437,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\textbackslash$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/12.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1446,7 +1446,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\diamond$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/13.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1455,7 +1455,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\uptriangle$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/14.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1464,7 +1464,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\righttriangle$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/15.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1473,7 +1473,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\downtriangle$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/16.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1482,7 +1482,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\lefttriangle$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/17.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1491,7 +1491,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\smiley$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/18.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1500,7 +1500,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\sharp$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/19.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1509,7 +1509,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\eighthnote$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/20.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1518,7 +1518,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\twonotes$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/21.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1527,7 +1527,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\sun$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/22.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1536,7 +1536,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\venus$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/23.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1545,7 +1545,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\mars$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/24.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1554,7 +1554,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\Exclam$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/25.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1563,7 +1563,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\dagger$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/26.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1572,7 +1572,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\ddagger$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/27.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1581,7 +1581,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($''$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/28.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1590,7 +1590,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($'$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/29.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1599,7 +1599,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\degree$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/30.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1608,7 +1608,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\prime$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/31.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1617,7 +1617,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\second$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/32.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1626,7 +1626,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\third$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Symbols/1.jpg" style=""/>
+<img src="markdown/commands/Symbols/33.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1635,7 +1635,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\tilde{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Decorations/1.jpg" style=""/>
+<img src="markdown/commands/Decorations/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1644,7 +1644,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\hat{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Decorations/1.jpg" style=""/>
+<img src="markdown/commands/Decorations/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1653,7 +1653,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\widehat{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Decorations/1.jpg" style=""/>
+<img src="markdown/commands/Decorations/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1662,7 +1662,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\widetilde{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Decorations/1.jpg" style=""/>
+<img src="markdown/commands/Decorations/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1671,7 +1671,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\bar{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Decorations/1.jpg" style=""/>
+<img src="markdown/commands/Decorations/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1680,7 +1680,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\dot{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Decorations/1.jpg" style=""/>
+<img src="markdown/commands/Decorations/6.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1689,7 +1689,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\underline{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Decorations/1.jpg" style=""/>
+<img src="markdown/commands/Decorations/7.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1698,7 +1698,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\mathring{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Decorations/1.jpg" style=""/>
+<img src="markdown/commands/Decorations/8.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1707,7 +1707,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($,$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Specials/1.jpg" style=""/>
+<img src="markdown/commands/Specials/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1716,7 +1716,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($|$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Specials/1.jpg" style=""/>
+<img src="markdown/commands/Specials/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1725,7 +1725,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\left( a+b \right)$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1734,7 +1734,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\left[ a+b \right]$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1743,7 +1743,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\left{ a+b \right}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1752,7 +1752,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\left| a+b \right|$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1761,7 +1761,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\| a+b \|$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses/5.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1770,7 +1770,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\lbrack a+b \rbrack$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses (Not Scalable)/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses (Not Scalable)/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1779,7 +1779,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\langle a+b \rangle$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses (Not Scalable)/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses (Not Scalable)/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1788,7 +1788,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\lceil a+b \rceil$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses (Not Scalable)/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses (Not Scalable)/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1797,7 +1797,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\lfloor a+b \rfloor$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Parentheses (Not Scalable)/1.jpg" style=""/>
+<img src="markdown/commands/Parentheses (Not Scalable)/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1806,7 +1806,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\norm{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Vector/1.jpg" style=""/>
+<img src="markdown/commands/Vector/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1815,7 +1815,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\bra{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Vector/1.jpg" style=""/>
+<img src="markdown/commands/Vector/2.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1824,7 +1824,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\ket{\Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Vector/1.jpg" style=""/>
+<img src="markdown/commands/Vector/3.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1833,7 +1833,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\braket{\Psi | \Psi}$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Vector/1.jpg" style=""/>
+<img src="markdown/commands/Vector/4.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1842,7 +1842,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\LaTeX$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Miscellanea/1.jpg" style=""/>
+<img src="markdown/commands/Miscellanea/1.jpg" style=""/>
 </td>
 </tr>
 <tr>
@@ -1851,7 +1851,7 @@ to see an interactive, searchable table of LaTeX commands supported.
 <pre>TeX(r"($\TeX$)")</pre>
 </td>
 <td>
-<img src="README_files/commands/Miscellanea/1.jpg" style=""/>
+<img src="markdown/commands/Miscellanea/2.jpg" style=""/>
 </td>
 </tr>
 </tbody>

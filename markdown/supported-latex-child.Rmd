@@ -8,18 +8,17 @@ date: "`r Sys.Date()`"
 library(latex2exp)
 library(htmltools)
 
-knitr::opts_knit$set(root.dir = "..")
 counters <- list()
 
 # create an <img> tag for each LaTeX command by plotting the example to a JPEG
 # image, then embedding the image.
 make_img <- function(g, category, ..., style="") {
-  counters[[category]] <- if (is.null(counters[[category]])) {
+  counters[[category]] <<- if (is.null(counters[[category]])) {
     1
   } else {
     counters[[category]] + 1
   }
-  path <- file.path("README_files", "commands", category)
+  path <- file.path("commands", category)
   if (!dir.exists(path)) {
     dir.create(path, recursive = TRUE)
   }
@@ -32,7 +31,7 @@ make_img <- function(g, category, ..., style="") {
   
   # Resize to ensure the output is small
   system(sprintf("/opt/homebrew/bin/mogrify -resize 200 '%s'", filename))
-  myImage <- htmltools::img(src=filename, style=style)
+  myImage <- htmltools::img(src=file.path("markdown", filename), style=style)
   return(myImage)
 }
 
