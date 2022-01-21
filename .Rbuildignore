@@ -1,0 +1,14 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^doc$
+^Meta$
+^CRAN-RELEASE$
+README_files
+README.rmd
+README.md
+cran-comments.md
+markdown
+extras
+experiment
+LICENSE.md
+^\.github$

@@ -1,4 +1,6 @@
-# latex2exp
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/stefano-meschiari/latex2exp/workflows/R-CMD-check/badge.svg)](https://github.com/stefano-meschiari/latex2exp/actions)
+<!-- badges: end -->
 
 # latex2exp
 

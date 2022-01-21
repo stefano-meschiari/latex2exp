@@ -1,6 +1,5 @@
 .Rhistory
 .Rproj.user
-.*
 *.Rcheck*
 inst/doc
 cran-comments.md
