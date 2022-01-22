@@ -119,12 +119,6 @@ test_that("Escaped symbols renders correctly", {
   expect_renders_same("\\$", '$')
 })
 
-test_that("Vectors render correctly", {
-  expect_renders_same("$\\braket{A|B}\\ket{A}$",
-                      group(langle, A * group('|', phantom(), '') * B, rangle) *
-                        group('|', A, rangle))
-})
-
 test_that("Spacing renders correctly", {
   expect_renders_same("$a\\ b$", a ~~ b)
   expect_renders_same("$a\\, b", a * phantom(.) * b)
