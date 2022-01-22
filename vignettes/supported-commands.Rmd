@@ -58,7 +58,7 @@ reactable(supported,
                   )
                 )
               }, error=function(e) {
-                stop("Stopped at ", content, " ", e)
+                warning("Couldn't render ", content, " because of error ", e)
               })
             })
           ))

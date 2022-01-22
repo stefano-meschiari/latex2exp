@@ -8,7 +8,7 @@
   * `\Upsilon` and `\varpi` for Greek letter variants
   * `\uparrow`, `\downarrow`, `\Uparrow`, `\Downarrow`, `\to`
   * `\euro` for the euro character
-  * `\langle`, `\rangle` for angle bracket
+  * `\langle`, `\rangle` for angle bracket (supported in R 4.1)
   * `\lceil`, `\rceil`, `\lfloor`, `\rfloor` for ceil/floor brackets
   * `\|` for double-pipe brackets (`\norm{expr}` is an alternative command for typesetting a vector norm).
   * Note that the angle, ceil, floor, pipe and double pipe brackets are *not* scalable delimiters, because of plotmath limitations.
