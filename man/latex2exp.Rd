@@ -2,7 +2,7 @@
 % Please edit documentation in R/latex2exp.R
 \name{latex2exp}
 \alias{latex2exp}
-\title{Converts a LaTeX string to a \code{\link{plotmath}} expression. Deprecated; use \code{\link{TeX}} instead.}
+\title{Converts a LaTeX string to a \code{\link{plotmath}} expression.}
 \usage{
 latex2exp(string, output = c("expression", "character", "ast"))
 }
@@ -15,5 +15,5 @@ latex2exp(string, output = c("expression", "character", "ast"))
 Returns an expression (see the \code{output} parameter).
 }
 \description{
-Converts a LaTeX string to a \code{\link{plotmath}} expression. Deprecated; use \code{\link{TeX}} instead.
+Deprecated; use \code{\link{TeX}} instead.
 }

@@ -13,12 +13,15 @@
 #' @importFrom stringr fixed
 NULL
 
-#' Converts a LaTeX string to a \code{\link{plotmath}} expression. Deprecated; use \code{\link{TeX}} instead.
+#' Converts a LaTeX string to a \code{\link{plotmath}} expression. 
+#'
+#' Deprecated; use \code{\link{TeX}} instead.
+#'
 #' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
 #' @param output The returned object, one of "expression" (default, returns a plotmath expression ready for plotting), "character" (returns the expression as a string), and "ast" (returns the tree used to generate the expression).
 #'
 #' @return Returns an expression (see the \code{output} parameter).
-#'
+#' @export
 latex2exp <-
   function(string, output = c('expression', 'character', 'ast')) {
     .Deprecated('TeX', 'latex2exp')
