@@ -13,3 +13,6 @@ experiment
 LICENSE.md
 ^\.github$
 ^revdep$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

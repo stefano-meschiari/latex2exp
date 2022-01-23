@@ -6,7 +6,7 @@ output:
     variant: gfm
 ---
 ```{r, setup, include=FALSE}
-knitr::opts_chunk$set(fig.width=7, fig.height=5)
+knitr::opts_chunk$set(fig.width=7, fig.height=5, fig.path = "man/figures/README-")
 ```
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/stefano-meschiari/latex2exp/workflows/R-CMD-check/badge.svg)](https://github.com/stefano-meschiari/latex2exp/actions)
@@ -14,6 +14,7 @@ knitr::opts_chunk$set(fig.width=7, fig.height=5)
 
 # latex2exp
 
+## Overview
 **latex2exp** is an R package that parses and converts LaTeX to R's custom [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). 
 
 Expressions returned by `latex2exp` can be used to create formatted text and mathematical formulas and symbols to be rendered as axis labels, annotations, legends, titles, etc. throughout R's plotting system. 
@@ -24,18 +25,13 @@ Install this package from CRAN:
 install.packages('latex2exp')
 ```
 
-You can also install from GitHub using [devtools](http://cran.r-project.org/web/packages/devtools/index.html):
+You can also install the development version from GitHub using [devtools](http://cran.r-project.org/web/packages/devtools/index.html):
 ```{r, eval=FALSE}
 devtools::install_github('stefano-meschiari/latex2exp')
 ```
 
 ```{r, child='vignettes/using-latex2exp.Rmd'}
 ```
-
-```{r, child='markdown/supported-latex-child.Rmd'}
-```
-
-## Changes
 
 ```{r, child="NEWS.md"}
 ```

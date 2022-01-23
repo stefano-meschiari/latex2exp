@@ -44,4 +44,8 @@ test_that("Equation samples render correctly", {
 test_that("Samples from GitHub issues are rendered correctly", {
   expect_renders_same("$\\left(\\frac{M}{L}\\right.$",
                       bgroup('(', frac(M, L) * phantom(.), '.'))
+  
+  expect_renders_same("$\\bar{A}^{a;a \\rightarrow i}_{x;n\\rceil}$",
+                      bar(A)[group('.', x*';'*n, rceil)]^{a*';'*a %->% i})
+  
 })

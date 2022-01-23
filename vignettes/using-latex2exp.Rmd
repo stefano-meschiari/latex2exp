@@ -44,7 +44,7 @@ TeX("\\textbf{Euler's identity} is $e^{i\\pi} = 0$.")
 You can quickly preview what a translated LaTeX string would look like by using `plot`: 
 
 ```{r plot-formula, fig.height=2, fig.width=5}
-plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2, main="")
+plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5}\frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2, main="")
 ```
 
 
@@ -89,7 +89,7 @@ print(p)
 Here are a few examples of what you can do with **latex2exp**:
 
 ```{r examples, fig.width=7, fig.height=6}
-invisible(latex2exp_examples(cex=0.9))
+latex2exp_examples(cex=0.9)
 ```
 
 ## Supported LaTeX commands

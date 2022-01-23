@@ -35,5 +35,5 @@ latex2exp_examples <- function(cex=1) {
     0.5, y, str_c("TeX(r\"(", examples, ")\")"), pos = 2, cex = 0.5 * cex, family = 'mono'
   )
   text(0.5, y, TeX(examples), pos = 4, cex=cex)
-  return(TRUE)
+  return(invisible(TRUE))
 }
