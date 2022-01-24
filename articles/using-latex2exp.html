@@ -89,13 +89,13 @@
 <p>Here’s a simple example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Use raw strings, no need to escape backslashes.</span>
-<span class="fu"><a href="../reference/TeX.html">TeX</a></span><span class="op">(</span><span class="st">r"(\textbf{Euler's identity} is $e^{i\pi} = 0$.)"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/TeX.html">TeX</a></span><span class="op">(</span><span class="st">r"(\textbf{Euler's identity} is $e^{i\pi} + 1 = 0$.)"</span><span class="op">)</span></code></pre></div>
 <p>Since R 4.0, it is recommended to use the new raw string literal syntax (see <code><a href="https://rdrr.io/r/base/Quotes.html" class="external-link">?Quotes</a></code>). The syntax looks like <code>r"(...)"</code>, where <code>...</code> can contain any character sequence, including <code>\</code>.</p>
 <p>Another option is to escape the backslash character (<code>\</code>) for LaTeX commands, such that the command will be written as <code>\\command</code> rather than <code>\command</code>. This will also work on versions of R older than 4.0:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Equivalent to the previous code fragment.</span>
 <span class="co"># Use regular strings, but escape the backslashes.</span>
-<span class="fu"><a href="../reference/TeX.html">TeX</a></span><span class="op">(</span><span class="st">"\\textbf{Euler's identity} is $e^{i\\pi} = 0$."</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/TeX.html">TeX</a></span><span class="op">(</span><span class="st">"\\textbf{Euler's identity} is $e^{i\\pi} + 1 = 0$."</span><span class="op">)</span></code></pre></div>
 <p>You can quickly preview what a translated LaTeX string would look like by using <code>plot</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/TeX.html">TeX</a></span><span class="op">(</span><span class="st">r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5}\frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'</span><span class="op">)</span>, cex<span class="op">=</span><span class="fl">2</span>, main<span class="op">=</span><span class="st">""</span><span class="op">)</span></code></pre></div>
@@ -139,14 +139,6 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/latex2exp_examples.html">latex2exp_examples</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">0.9</span><span class="op">)</span></code></pre></div>
 <p><img src="using-latex2exp_files/figure-html/examples-1.png" width="672"></p>
-</div>
-<div class="section level2">
-<h2 id="supported-latex-commands">Supported LaTeX commands<a class="anchor" aria-label="anchor" href="#supported-latex-commands"></a>
-</h2>
-<p>Run</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/latex2exp_supported.html">latex2exp_supported</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>to see an interactive, searchable table of LaTeX commands supported.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
