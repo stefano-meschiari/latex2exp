@@ -33,3 +33,6 @@ devtools::install_github('stefano-meschiari/latex2exp')
 
 ```{r, child='vignettes/using-latex2exp.Rmd'}
 ```
+
+## Supported LaTeX commands
+[Table of supported LaTeX](https://www.stefanom.io/latex2exp/articles/supported-commands.html)

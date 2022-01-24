@@ -121,3 +121,8 @@ latex2exp_examples(cex=0.9)
 ```
 
 <img src="man/figures/README-examples-1.png" width="672" />
+
+## Supported LaTeX commands
+
+[Table of supported
+LaTeX](https://www.stefanom.io/latex2exp/articles/supported-commands.html)
