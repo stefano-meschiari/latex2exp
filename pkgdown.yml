@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 2.0.2
+pkgdown_sha: ~
+articles:
+  supported-commands: supported-commands.html
+  using-latex2exp: using-latex2exp.html
+last_built: 2022-01-24T00:37Z
+
