@@ -27,7 +27,7 @@ Here's a simple example:
 
 ```{r, eval=FALSE}
 # Use raw strings, no need to escape backslashes.
-TeX(r"(\textbf{Euler's identity} is $e^{i\pi} = 0$.)")
+TeX(r"(\textbf{Euler's identity} is $e^{i\pi} + 1 = 0$.)")
 ```
 
 Since R 4.0, it is recommended to use the new raw string literal syntax (see `?Quotes`). The syntax looks like `r"(...)"`, where `...` can contain any character sequence, including `\`.
@@ -37,7 +37,7 @@ Another option is to escape the backslash character (`\`) for LaTeX commands, su
 ```{r, eval=FALSE}
 # Equivalent to the previous code fragment.
 # Use regular strings, but escape the backslashes.
-TeX("\\textbf{Euler's identity} is $e^{i\\pi} = 0$.")
+TeX("\\textbf{Euler's identity} is $e^{i\\pi} + 1 = 0$.")
 ```
 
 You can quickly preview what a translated LaTeX string would look like by using `plot`: 
@@ -90,12 +90,3 @@ Here are a few examples of what you can do with **latex2exp**:
 ```{r examples, fig.width=7, fig.height=6}
 latex2exp_examples(cex=0.9)
 ```
-
-## Supported LaTeX commands
-Run 
-
-```r
-latex2exp_supported(TRUE)
-```
-
-to see an interactive, searchable table of LaTeX commands supported.

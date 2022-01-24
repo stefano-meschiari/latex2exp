@@ -16,6 +16,7 @@ knitr::opts_chunk$set(fig.width=7, fig.height=5, fig.path = "man/figures/README-
 
 ## Overview
 **latex2exp** is an R package that parses and converts LaTeX to R's custom [plotmath expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html). 
+You can read the full documentation on the [package's website](https://stefano-meschiari.github.io/latex2exp).
 
 Expressions returned by `latex2exp` can be used to create formatted text and mathematical formulas and symbols to be rendered as axis labels, annotations, legends, titles, etc. throughout R's plotting system. 
 

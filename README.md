@@ -10,6 +10,8 @@
 **latex2exp** is an R package that parses and converts LaTeX to R’s
 custom [plotmath
 expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html).
+You can read the full documentation on the [package’s
+website](https://stefano-meschiari.github.io/latex2exp).
 
 Expressions returned by `latex2exp` can be used to create formatted text
 and mathematical formulas and symbols to be rendered as axis labels,
@@ -43,7 +45,7 @@ Here’s a simple example:
 
 ``` r
 # Use raw strings, no need to escape backslashes.
-TeX(r"(\textbf{Euler's identity} is $e^{i\pi} = 0$.)")
+TeX(r"(\textbf{Euler's identity} is $e^{i\pi} + 1 = 0$.)")
 ```
 
 Since R 4.0, it is recommended to use the new raw string literal syntax
@@ -57,7 +59,7 @@ than `\command`. This will also work on versions of R older than 4.0:
 ``` r
 # Equivalent to the previous code fragment.
 # Use regular strings, but escape the backslashes.
-TeX("\\textbf{Euler's identity} is $e^{i\\pi} = 0$.")
+TeX("\\textbf{Euler's identity} is $e^{i\\pi} + 1 = 0$.")
 ```
 
 You can quickly preview what a translated LaTeX string would look like
@@ -119,13 +121,3 @@ latex2exp_examples(cex=0.9)
 ```
 
 <img src="man/figures/README-examples-1.png" width="672" />
-
-## Supported LaTeX commands
-
-Run
-
-``` r
-latex2exp_supported(TRUE)
-```
-
-to see an interactive, searchable table of LaTeX commands supported.
