@@ -483,16 +483,15 @@ render_latex <- function(tokens, user_defined=list()) {
   str_c(rendered_tokens, collapse="")
 }
 
-#' Validates the input LaTeX string
-#' 
-#' Checks for common issues in the LaTeX string, like
-#' unmatched braces.
-#' 
-#' Also, warns if any of the less common special characters
-#' are present, indicating that perhaps the user accidentally forgot
-#' to escape backslashes.
-#'
-#' @param latex_string Input LaTeX string
+# Validates the input LaTeX string
+# 
+# Checks for common issues in the LaTeX string, like
+# unmatched braces.
+# 
+# Also, warns if any of the less common special characters
+# are present, indicating that perhaps the user accidentally forgot
+# to escape backslashes.
+#
 validate_input <- function(latex_string) {
   for (possible_slash_pattern in c("\a", "\b", "\f", "\v")) {
     if (str_detect(latex_string, fixed(possible_slash_pattern))) {

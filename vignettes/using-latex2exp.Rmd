@@ -3,8 +3,7 @@ title: "Using latex2exp"
 author: "Stefano Meschiari"
 date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_vignette:
-    toc: true
+  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using latex2exp}
   %\VignetteEngine{knitr::rmarkdown}

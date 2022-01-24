@@ -13,8 +13,6 @@
 #' @importFrom stringr fixed
 NULL
 
-#' Converts a LaTeX string to a \code{\link{plotmath}} expression. 
-#'
 #' Deprecated; use \code{\link{TeX}} instead.
 #'
 #' @param string A character vector containing LaTeX expressions. Note that any backslashes must be escaped (e.g. "$\\alpha").
@@ -28,7 +26,7 @@ latex2exp <-
     return(TeX(string, output=output))
   }
 
-#' Converts LaTeX to plotmath
+#' Converts LaTeX to a \code{\link{plotmath}} expression.
 #' 
 #' \code{TeX} converts a string comprising LaTeX commands (such as
 #' a math equation) to a \code{\link{plotmath}} expression. Plotmath

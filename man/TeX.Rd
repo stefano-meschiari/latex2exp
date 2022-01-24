@@ -2,7 +2,7 @@
 % Please edit documentation in R/latex2exp.R
 \name{TeX}
 \alias{TeX}
-\title{Converts LaTeX to plotmath}
+\title{Converts LaTeX to a \code{\link{plotmath}} expression.}
 \usage{
 TeX(
   input,

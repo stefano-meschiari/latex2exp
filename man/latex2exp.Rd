@@ -2,7 +2,7 @@
 % Please edit documentation in R/latex2exp.R
 \name{latex2exp}
 \alias{latex2exp}
-\title{Converts a LaTeX string to a \code{\link{plotmath}} expression.}
+\title{Deprecated; use \code{\link{TeX}} instead.}
 \usage{
 latex2exp(string, output = c("expression", "character", "ast"))
 }

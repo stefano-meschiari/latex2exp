@@ -1,5 +1,9 @@
 library(latex2exp)
 
+test_that("Returned values are of the correct type", {
+  expect_s3_class(TeX("$\\alpha$"), "expression")
+})
+
 test_that("Simple greek letter strings and symbols are rendered correctly", {
   expect_renders_same("$\\alpha$", alpha)
   expect_renders_same("$\\gamma$", gamma)
@@ -8,6 +12,8 @@ test_that("Simple greek letter strings and symbols are rendered correctly", {
 
 test_that("Simple text outside of math mode is rendered correctly", {
   expect_renders_same("Some simple text", paste("Some simple text"))
+  expect_renders_same("Some very, very simple text; with punctuation.", 
+                      paste("Some very, very simple text; with punctuation."))
   expect_renders_same("a + b", paste("a + b"))
   expect_renders_same("$a + b$", a+b)
 })
@@ -26,6 +32,8 @@ test_that("Operators are rendered correctly, regardless of spacing", {
   # wrap with phantom()
   expect_renders_same("$a = b = c$",
                       a * {phantom() == phantom()} * b * {phantom() == phantom()} * c)
+  expect_renders_same("$a > b < c$",
+                      a * {phantom() > phantom()} * b * {phantom() < phantom()} * c)
   
 })
 test_that("Special characters in math or text mode do not cause errors", {
