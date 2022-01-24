@@ -1,0 +1,65 @@
+---
+title: "Supported LaTeX commands"
+author: "Stefano Meschiari"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Supported LaTeX commands}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, setup, message=FALSE, echo=FALSE}
+library(latex2exp)
+library(reactable)
+library(stringr)
+library(purrr)
+library(dplyr)
+library(htmltools)
+```
+
+```{r, echo=FALSE}
+# Saves the plot to PNG and embeds it in an <img> tag using base64 data.
+# from https://stackoverflow.com/questions/50244709/how-to-store-r-ggplot-graph-as-html-code-snippet
+encodeGraphic <- function(g, ..., style="") {
+  png(tf1 <- tempfile(fileext = ".png"), ...)  
+  force(g)
+  dev.off()  # Close the file.
+  txt <- RCurl::base64Encode(readBin(tf1, "raw", file.info(tf1)[1, "size"]), "txt")  
+  myImage <- htmltools::img(src=sprintf("data:image/png;base64,%s", txt), style=style)
+  return(myImage)
+}
+
+supported <- latex2exp_supported()
+
+supported$category <- str_to_title(supported$category)
+supported <- supported %>% filter(!is.na(example))
+supported$command <- supported$example
+```
+    
+```{r, echo=FALSE}
+reactable(supported,
+          searchable=TRUE,
+          compact=TRUE,
+          pagination=FALSE,
+          style="background-color:inherit",
+          columns = list(
+            category = colDef("Category"),
+            command = colDef("LaTeX command", cell=function(content) {
+              pre(code("TeX(r\"(", strong(content), ")\")"))
+            }, minWidth = 200),
+            example = colDef("Example", cell=function(content, ...) {
+              tryCatch({
+                div(
+                  div(
+                    encodeGraphic(plot(TeX(content), cex=4.25),
+                                  width=600, height=150, 
+                                  style="max-height:70px; max-width:100%")
+                  )
+                )
+              }, error=function(e) {
+                warning("Couldn't render ", content, " because of error ", e)
+              })
+            })
+          ))
+```

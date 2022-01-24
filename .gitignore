@@ -1,6 +1,5 @@
 .Rhistory
 .Rproj.user
-.*
 *.Rcheck*
 inst/doc
 cran-comments.md
@@ -9,3 +8,8 @@ latex2exp_*.tar.gz
 Rplots.pdf
 doc
 Meta
+CRAN-RELEASE
+experiment
+/doc/
+/Meta/
+docs
