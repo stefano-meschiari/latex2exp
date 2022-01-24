@@ -8,7 +8,7 @@ Description: Parses and converts LaTeX math formulas to R's plotmath
     expressions, used to enter mathematical formulas and symbols to be rendered as
     text, axis labels, etc. throughout R's plotting system.
 License: MIT + file LICENSE
-URL: https://stefano-meschiari.github.io/latex2exp, https://github.com/stefano-meschiari/latex2exp
+URL: https://www.stefanom.io/latex2exp/, https://github.com/stefano-meschiari/latex2exp
 BugReports: https://github.com/stefano-meschiari/latex2exp/issues
 Imports: 
     stringr,
