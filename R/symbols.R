@@ -74,14 +74,13 @@ latex_supported = list(
   ),
 
   "binary operators" = list(
-    # need a phantom() here so that you could do multiple equalities.
-    # expression(a = b = c) results in a parse error.
     "=" = "$LEFT * {phantom() == phantom()} * $RIGHT",
     ">" = "$LEFT * {phantom() > phantom()} * $RIGHT",
     "<" = "$LEFT * {phantom() < phantom()} * $RIGHT",
-    "\\neq" = "$LEFT != $RIGHT",
-    "\\geq" = "$LEFT >= $RIGHT",
-    "\\leq" = "$LEFT <= $RIGHT",
+    "\\ne" = "$LEFT * {phantom() != phantom()} * $RIGHT",
+    "\\neq" = "$LEFT * {phantom() != phantom()} * $RIGHT",
+    "\\geq" = "$LEFT * {phantom() >= phantom()} * $RIGHT",
+    "\\leq" = "$LEFT * {phantom() <= phantom()} * $RIGHT",
     
     "\\div" = "$LEFT %/% $RIGHT",
     "\\pm" = "$LEFT %+-% $RIGHT",
@@ -241,6 +240,7 @@ latex_supported = list(
   ),
 
   # Characters that need to be treated in a special way by the parser
+  # when in math mode
   "specials" = list(
     "," = "list(,)",
     "|" = "group('|', phantom(), '')"

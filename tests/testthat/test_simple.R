@@ -34,6 +34,8 @@ test_that("Operators are rendered correctly, regardless of spacing", {
                       a * {phantom() == phantom()} * b * {phantom() == phantom()} * c)
   expect_renders_same("$a > b < c$",
                       a * {phantom() > phantom()} * b * {phantom() < phantom()} * c)
+  expect_renders_same("$a \\ne b \\leq c \\geq d$",
+                      {a != b} <= {c >= d})
   
 })
 test_that("Special characters in math or text mode do not cause errors", {
@@ -45,6 +47,13 @@ test_that("Special characters in math or text mode do not cause errors", {
                       a * second)
   expect_renders_same("R's plotmath system",
                       'R\'s plotmath system')
+  
+  # commas should render differently depending on whether they 
+  # are inside math mode or not.
+  expect_renders_same("a, b, c",
+                      "a, b, c")
+  expect_renders_same("$a,b,c$",
+                      list(a, b, c))
 })
 
 test_that("Grouping over deeply nested commands renders correctly", {
