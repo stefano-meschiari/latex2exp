@@ -1,4 +1,4 @@
-# 0.9.1 [02/01/2022]
+# 0.9.2 [02/01/2022]
 * Fix handling of compare operators (`=, <, >, \ge, \le`) (fixes issue #38)
 * `TeX("")` returns `expression('')` (an empty expression of length 1) (fixes issue #40)
 
