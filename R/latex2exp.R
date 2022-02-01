@@ -111,17 +111,21 @@ TeX <-
       return(rendered)
     }
     
-    
-    expression <- tryCatch(str2expression(rendered), error=function(e) {
+    rendered_expression <- tryCatch(str2expression(rendered), error=function(e) {
       stop("Error while converting LaTeX into plotmath.\n",
            "Original string: ", input, "\n",
            "Parsed expression: ", rendered, "\n",
            e)
-    })  
+    })
     
-    class(expression) <- c("latexexpression", "expression")
-    attr(expression, "latex") <- input
-    attr(expression, "plotmath") <- rendered
+    # if the rendered expression is empty, return expression('') instead.
+    if (length(rendered_expression) == 0) {
+      rendered_expression <- expression('')
+    }
     
-    expression
+    class(rendered_expression) <- c("latexexpression", "expression")
+    attr(rendered_expression, "latex") <- input
+    attr(rendered_expression, "plotmath") <- rendered
+    
+    rendered_expression
   }
