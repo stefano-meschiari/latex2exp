@@ -2,7 +2,7 @@ Package: latex2exp
 Type: Package
 Title: Use LaTeX Expressions in Plots
 Version: 0.9.2
-Date: 2022-01-20
+Date: 2022-02-01
 Authors@R: person("Stefano", "Meschiari", email="stefano.meschiari@gmail.com", role=c("aut", "cre"))
 Description: Parses and converts LaTeX math formulas to R's plotmath
     expressions, used to enter mathematical formulas and symbols to be rendered as
