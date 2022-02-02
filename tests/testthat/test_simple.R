@@ -181,3 +181,10 @@ test_that("Type and length of return value is as expected", {
   
   expect_type(TeX("$a$", output="character"), "character")
 })
+
+test_that("Consecutive operators can be parsed", {
+  expect_renders_same("$a \\pm \\pm b$",
+                      a %+-% phantom() %+-% b)
+  expect_renders_same("$a\\,\\,\\;\\; b$",
+                      a*phantom(.) * phantom(.) * phantom() ~~ phantom() ~~ b)
+})

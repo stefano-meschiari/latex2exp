@@ -48,4 +48,6 @@ test_that("Samples from GitHub issues are rendered correctly", {
   expect_renders_same("$\\bar{A}^{a;a \\rightarrow i}_{x;n\\rceil}$",
                       bar(A)[group('.', x*';'*n, rceil)]^{a*';'*a %->% i})
   
+  expect_renders_same("$\\,\\,\\mu - 3 \\sigma$",
+                      phantom(.) * phantom(.) * mu - 3 * sigma)
 })

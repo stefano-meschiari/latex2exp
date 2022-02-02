@@ -8,6 +8,7 @@
   tok$command <- command
   tok$is_command <- str_starts(command, fixed("\\"))
   tok$text_mode <- text_mode
+  tok$left_operator <- tok$right_operator <- FALSE
   class(tok) <- "latextoken2"
   tok
 }
@@ -304,6 +305,7 @@ render_latex <- function(tokens, user_defined=list()) {
   for (tok_idx in seq_along(tokens)) {
     tok <- tokens[[tok_idx]]
     tok$skip <- FALSE
+    
     tok$rendered <- if (str_detect(tok$command, "^\\\\ESCAPED@")) {
       # a character, like '!' or '?' was escaped as \\ESCAPED@ASCII_SYMBOL.
       # return it as a string.
@@ -355,15 +357,22 @@ render_latex <- function(tokens, user_defined=list()) {
       }
     }
     
-    left_operator <- str_detect(tok$rendered, fixed("$LEFT"))
-    right_operator <- str_detect(tok$rendered, fixed("$RIGHT"))
+    tok$left_operator <- str_detect(tok$rendered, fixed("$LEFT"))
+    tok$right_operator <- str_detect(tok$rendered, fixed("$RIGHT"))
     
     if (tok_idx == 1) {
       tok$left_separator <- ""
     }
     
-    if (left_operator) {
+    if (tok$left_operator) {
       if (tok_idx == 1) {
+        # Either this operator is the first token...
+        tok$rendered <- str_replace_all(tok$rendered,
+                                        fixed("$LEFT"),
+                                        "phantom()")
+      } else if (tokens[[tok_idx-1]]$right_operator) {
+        # or the previous token was also an operator.
+        # Bind the tokens using phantom()
         tok$rendered <- str_replace_all(tok$rendered,
                                         fixed("$LEFT"),
                                         "phantom()")
@@ -374,7 +383,7 @@ render_latex <- function(tokens, user_defined=list()) {
         tok$left_separator <- ""
       }
     }
-    if (right_operator) {
+    if (tok$right_operator) {
       if (tok_idx == length(tokens)) {
         tok$rendered <- str_replace_all(tok$rendered,
                                         fixed("$RIGHT"),
