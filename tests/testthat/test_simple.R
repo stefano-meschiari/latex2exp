@@ -167,3 +167,17 @@ test_that("Certain invalid LaTeX fails", {
   expect_error({ TeX("$\\bar{A$") })
   expect_error({ TeX("$\\left{\\left{A\\right}$") })
 })
+
+test_that("Type and length of return value is as expected", {
+  expect_length(TeX("$a$"), 1)
+  expect_length(TeX(c("$a$", "$b$")), 2)
+  expect_length(TeX(""), 1)
+  
+  expect_s3_class(TeX("$a$"), "expression")
+  expect_s3_class(TeX("$a$"), "latexexpression")
+  
+  expect_s3_class(TeX(""), "expression")
+  expect_s3_class(TeX(""), "latexexpression")
+  
+  expect_type(TeX("$a$", output="character"), "character")
+})

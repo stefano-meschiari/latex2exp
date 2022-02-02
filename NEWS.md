@@ -1,3 +1,7 @@
+# 0.9.2 [02/01/2022]
+* Fix handling of compare operators (`=, <, >, \ge, \le`) (fixes issue #38)
+* `TeX("")` returns `expression('')` (an empty expression of length 1) (fixes issue #40)
+
 # 0.9.0 [01/20/2022]
 
 * Completely rewritten parser that is much more robust, produces valid plotmath
@@ -15,7 +19,7 @@
   * `\bra`, `\ket`, `\braket` for representing vectors with the braket notation
   * `\smiley`, `\diamond`, `\sharp`, `\eightnote`, `\twonotes`, `\sun`, `\venus`,
     `\mars`, `\Exclam`, `\dagger`, `\ddagger`, `\(up|down|right|left)triangle`
-* Improved the appearance of round parentheses. `TeX(r"($\alpha(\beta)$)")` now renders more similarly to how plotmath renders the expression `alpha(beta)`. 
+* Improved the appearance of round parentheses. `TeX(r"($\alpha(\beta)$)")` now renders more similarly to how plotmath renders the expression `alpha(beta)`.
 * Improved the appearance of `,`, `'` and `''` in math mode.
 * Improved the appearance of `\frac` fractions. Now a small space is inserted after the fraction, so that multiple fractions are separated.
 * Added a test suite covering a large number of LaTeX expressions, edge cases, and examples from GitHub.
