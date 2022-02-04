@@ -314,7 +314,7 @@ parse_latex <- function(latex_string,
 #' Renders a LaTeX tree
 #' 
 #' Returns a string that is a valid plotmath expression, given a LaTeX tree
-#' returned by \code{\link{parse_latex}}.
+#' returned by \code{parse_latex}.
 #'
 #' @param tokens tree of tokens
 #' @param user_defined any custom definitions of commands passed to \code{\link{TeX}}
@@ -323,10 +323,7 @@ parse_latex <- function(latex_string,
 #'                         valid expressions when the LaTeX source contains mismatched
 #'                         parentheses, but makes the returned expression much 
 #'                         less tidy.
-#' @return
-#' @export
-#'
-#' @examples
+#' @return String that should be parseable as a valid plotmath expression
 render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
   if (!is.null(tokens$children)) {
     return(render_latex(tokens$children, user_defined, hack_parentheses=hack_parentheses))
