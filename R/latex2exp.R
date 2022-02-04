@@ -92,31 +92,59 @@ TeX <-
     output <- match.arg(output)
     parsed <- parse_latex(input)
     
-    rendered <- render_latex(parsed, user_defined)
-    
-    
-    if (bold && italic) { 
-      rendered <- str_c("bolditalic(", rendered, ")")
-    } else if (bold) {
-      rendered <- str_c("bold(", rendered, ")")
-    } else if (italic) {
-      rendered <- str_c("italic(", rendered, ")")
+    # Try all combinations of "hacks" in this grid, until one succeeds.
+    # As more hacks are introduced, the resulting expression will be less and
+    # less tidy, although it should still be visually equivalent to the 
+    # desired output given the latex string.
+    grid <- expand.grid(hack_parentheses = c(FALSE, TRUE))
+    successful <- FALSE
+    for (row in seq_len(nrow(grid))) {
+      # Make a deep clone of the LaTeX token tree
+      parsed_clone <- clone_token(parsed)
+      rendered <- render_latex(parsed_clone, user_defined,
+                               hack_parentheses=grid$hack_parentheses[[row]])
+      
+      if (bold && italic) { 
+        rendered <- str_c("bolditalic(", rendered, ")")
+      } else if (bold) {
+        rendered <- str_c("bold(", rendered, ")")
+      } else if (italic) {
+        rendered <- str_c("italic(", rendered, ")")
+      }
+      
+      cat_trace("Rendered as ", rendered, " with parameters ", toString(grid[row,]))
+      
+      if (output == "ast") {
+        return(parsed)
+      }
+      
+      rendered_expression <- try({
+        str2expression(rendered)
+      }, silent=TRUE) 
+      
+      if (inherits(rendered_expression, "try-error")) {
+        error <- rendered_expression
+        cat_trace("Failed, trying next combination of hacks, error:", error, 
+                  " parsed as: ", rendered)
+        
+        if (row == 1) {
+          original_error <- error
+        }
+      } else {
+        successful <- TRUE
+        break
+      }
     }
-    cat_trace("Rendered as ", rendered)
     
-    if (output == "ast") {
-      return(parsed)
+    if (!successful) {
+      stop("Error while converting LaTeX into valid plotmath.\n",
+           "Original string: ", input, "\n",
+           "Parsed expression: ", rendered, "\n",
+           original_error)
     }
     if (output == "character") {
       return(rendered)
     }
-    
-    rendered_expression <- tryCatch(str2expression(rendered), error=function(e) {
-      stop("Error while converting LaTeX into plotmath.\n",
-           "Original string: ", input, "\n",
-           "Parsed expression: ", rendered, "\n",
-           e)
-    })
     
     # if the rendered expression is empty, return expression('') instead.
     if (length(rendered_expression) == 0) {
