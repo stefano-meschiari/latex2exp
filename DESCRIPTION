@@ -1,8 +1,8 @@
 Package: latex2exp
 Type: Package
 Title: Use LaTeX Expressions in Plots
-Version: 0.9.2
-Date: 2022-02-01
+Version: 0.9.3
+Date: 2022-02-02
 Authors@R: person("Stefano", "Meschiari", email="stefano.meschiari@gmail.com", role=c("aut", "cre"))
 Description: Parses and converts LaTeX math formulas to R's plotmath
     expressions, used to enter mathematical formulas and symbols to be rendered as
@@ -10,11 +10,11 @@ Description: Parses and converts LaTeX math formulas to R's plotmath
 License: MIT + file LICENSE
 URL: https://www.stefanom.io/latex2exp/, https://github.com/stefano-meschiari/latex2exp
 BugReports: https://github.com/stefano-meschiari/latex2exp/issues
-Imports: 
+Imports:
     stringr,
     magrittr
 Encoding: UTF-8
-Suggests: 
+Suggests:
     testthat,
     knitr,
     ggplot2,

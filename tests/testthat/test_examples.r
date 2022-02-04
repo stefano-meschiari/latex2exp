@@ -47,5 +47,11 @@ test_that("Samples from GitHub issues are rendered correctly", {
   
   expect_renders_same("$\\bar{A}^{a;a \\rightarrow i}_{x;n\\rceil}$",
                       bar(A)[group('.', x*';'*n, rceil)]^{a*';'*a %->% i})
+  # https://github.com/stefano-meschiari/latex2exp/issues/43
+  expect_renders_same("$\\,\\,\\mu - 3 \\sigma$",
+                      phantom(.) * phantom(.) * mu - 3 * sigma)
   
+  expect_renders_same(sprintf("($\\mu$=%.0f) $E(\\bar{x}) \\, =$%.0f; $\\sigma_{\\bar{x}} \\, =$%.0f", 10, 12, 14),
+                      '(' * mu * '=10) ' * { E(bar(x)) * phantom(.) == 12 } * '; ' *  
+                        { sigma[bar(x)] * phantom(.) == 14 })
 })

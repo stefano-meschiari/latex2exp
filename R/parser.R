@@ -8,8 +8,24 @@
   tok$command <- command
   tok$is_command <- str_starts(command, fixed("\\"))
   tok$text_mode <- text_mode
+  tok$left_operator <- tok$right_operator <- FALSE
   class(tok) <- "latextoken2"
   tok
+}
+
+clone_token <- function(tok) {
+  if (is.list(tok)) {
+    return(lapply(tok, clone_token))
+  }
+  new_tok <- .token2(tok$command, tok$text_mode)
+  # clone all the linked tokens
+  for (field in c("children", "args", "optional_arg", "sup_arg", "sub_arg")) {
+    new_tok[[field]] <- lapply(tok[[field]], clone_token)
+  }
+  for (field in c("is_command", "left_operator", "right_operator")) {
+    new_tok[[field]] <- tok[[field]]
+  }
+  new_tok
 }
 
 .find_substring <- function(string, boundary_characters) {
@@ -295,15 +311,32 @@ parse_latex <- function(latex_string,
   }
 }
 
-render_latex <- function(tokens, user_defined=list()) {
+#' Renders a LaTeX tree
+#' 
+#' Returns a string that is a valid plotmath expression, given a LaTeX tree
+#' returned by \code{\link{parse_latex}}.
+#'
+#' @param tokens tree of tokens
+#' @param user_defined any custom definitions of commands passed to \code{\link{TeX}}
+#' @param hack_parentheses render parentheses using \code{group('(', phantom(), '.')} and
+#'                         \code{group(')', phantom(), '.')}. This is useful to return
+#'                         valid expressions when the LaTeX source contains mismatched
+#'                         parentheses, but makes the returned expression much 
+#'                         less tidy.
+#' @return
+#' @export
+#'
+#' @examples
+render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
   if (!is.null(tokens$children)) {
-    return(render_latex(tokens$children, user_defined))
+    return(render_latex(tokens$children, user_defined, hack_parentheses=hack_parentheses))
   }
   translations <- c(user_defined, latex_supported_map)
   
   for (tok_idx in seq_along(tokens)) {
     tok <- tokens[[tok_idx]]
     tok$skip <- FALSE
+    
     tok$rendered <- if (str_detect(tok$command, "^\\\\ESCAPED@")) {
       # a character, like '!' or '?' was escaped as \\ESCAPED@ASCII_SYMBOL.
       # return it as a string.
@@ -355,15 +388,22 @@ render_latex <- function(tokens, user_defined=list()) {
       }
     }
     
-    left_operator <- str_detect(tok$rendered, fixed("$LEFT"))
-    right_operator <- str_detect(tok$rendered, fixed("$RIGHT"))
+    tok$left_operator <- str_detect(tok$rendered, fixed("$LEFT"))
+    tok$right_operator <- str_detect(tok$rendered, fixed("$RIGHT"))
     
     if (tok_idx == 1) {
       tok$left_separator <- ""
     }
     
-    if (left_operator) {
+    if (tok$left_operator) {
       if (tok_idx == 1) {
+        # Either this operator is the first token...
+        tok$rendered <- str_replace_all(tok$rendered,
+                                        fixed("$LEFT"),
+                                        "phantom()")
+      } else if (tokens[[tok_idx-1]]$right_operator) {
+        # or the previous token was also an operator or an open parentheses.
+        # Bind the tokens using phantom()
         tok$rendered <- str_replace_all(tok$rendered,
                                         fixed("$LEFT"),
                                         "phantom()")
@@ -374,7 +414,7 @@ render_latex <- function(tokens, user_defined=list()) {
         tok$left_separator <- ""
       }
     }
-    if (right_operator) {
+    if (tok$right_operator) {
       if (tok_idx == length(tokens)) {
         tok$rendered <- str_replace_all(tok$rendered,
                                         fixed("$RIGHT"),
@@ -388,16 +428,16 @@ render_latex <- function(tokens, user_defined=list()) {
     }
     if (length(tok$args) > 0) {
       for (argidx in seq_along(tok$args)) {
-        args <- render_latex(tok$args[[argidx]], user_defined)
+        args <- render_latex(tok$args[[argidx]], user_defined, hack_parentheses=hack_parentheses)
         argfmt <- str_c("$arg", argidx)
         if (str_detect(tok$rendered, fixed(argfmt))) {
           tok$rendered <- str_replace_all(tok$rendered,
-                                            fixed(argfmt),
-                                            args)
+                                          fixed(argfmt),
+                                          args)
         } else {
           if (tok$rendered != "{}") {
             tok$rendered <- str_c(tok$rendered, " * {",
-                                    args, "}")
+                                  args, "}")
           } else {
             tok$rendered <- str_c("{", args, "}")    
           }
@@ -406,7 +446,7 @@ render_latex <- function(tokens, user_defined=list()) {
     } 
     
     if (length(tok$optional_arg) > 0) {
-      optarg <- render_latex(tok$optional_arg, user_defined)
+      optarg <- render_latex(tok$optional_arg, user_defined, hack_parentheses=hack_parentheses)
       tok$rendered <- str_replace_all(tok$rendered,
                                         fixed("$opt"),
                                         optarg)
@@ -417,7 +457,7 @@ render_latex <- function(tokens, user_defined=list()) {
       argfmt <- str_c("$", type)
       
       if (length(arg) > 0) {
-        rarg <- render_latex(arg, user_defined)
+        rarg <- render_latex(arg, user_defined, hack_parentheses=hack_parentheses)
         
         if (str_detect(tok$rendered, fixed(argfmt))) {
           tok$rendered <- str_replace_all(tok$rendered, fixed(argfmt), rarg)
@@ -453,12 +493,23 @@ render_latex <- function(tokens, user_defined=list()) {
       tok$right_separator <- " * phantom(.)"
     }
     
-    if (tok$command == "(" || tok$command == ")") {
-      tok$left_separator <- ""
-      tok$right_separator <- ""
-    } 
-    if (tok_idx > 1 && tokens[[tok_idx-1]]$command == "(") {
-      tok$left_separator <- ""
+    if (!hack_parentheses) {
+      if (tok$command %in% c("(", ")")) {
+        tok$left_separator <- ""
+        tok$right_separator <- ""
+      } 
+      if (tok_idx > 1 && tokens[[tok_idx-1]]$command == "(") {
+        tok$left_separator <- ""
+      }
+    } else {
+      if (tok$command %in% c("(", ")") && !tok$text_mode) {
+        cat_trace("Using hack for parentheses")
+        if (tok$command == "(") {
+          tok$rendered <- "group('(', phantom(), '.')"
+        } else if (tok$command == ")") {
+          tok$rendered <- "group(')', phantom(), '.')"
+        }
+      }
     }
     
     # If the token still starts with a "\", substitute it
