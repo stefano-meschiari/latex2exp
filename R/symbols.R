@@ -290,16 +290,17 @@ latex_supported = list(
 latex_supported_map <- Reduce(c, latex_supported)
 
 .base_separators <- c("$", "{", "}", "\\", "[", "]", ",", ";", " ")
-.math_separators <- c(.base_separators, 
-                      names(latex_supported[['arithmetic operators']]),
-                      "|",
-                      "&",
-                      "^",
-                      "_",
-                      "(",
-                      ")",
-                      "!",
-                      "?",
-                      "'",
-                      "=", ">", "<")
+.math_separators <- unique(
+  c(.base_separators, 
+  names(latex_supported[['arithmetic operators']]),
+  "|",
+  "&",
+  "^",
+  "_",
+  "(",
+  ")",
+  "!",
+  "?",
+  "'",
+  "=", ">", "<"))
 

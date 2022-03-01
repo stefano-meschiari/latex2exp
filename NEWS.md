@@ -1,3 +1,8 @@
+# 0.9.4 [01/03/2022]
+* Fixes bug where certain commands would fail outside of math mode (e.g. `TeX(r"(\alpha + \beta)")`) (fixes #45).
+* Fixes edge case where `TeX(r"($^{18}$ O)") (e.g. a free-standing superscript or
+  subscript) would not render.
+
 # 0.9.3 [02/02/2022]
 * Fix an edge case encountered with back-to-back spacing or certain types of commands (e.g. `TeX(r"(a \,\, b)"`)) (fixes issue #40)
 * Fix handling of compare operators (`=, <, >, \ge, \le`) (fixes issue #38)
