@@ -3,12 +3,12 @@
 [![R-CMD-check](https://github.com/stefano-meschiari/latex2exp/workflows/R-CMD-check/badge.svg)](https://github.com/stefano-meschiari/latex2exp/actions)
 <!-- badges: end -->
 
-# latex2exp
+# latex2exp <img src="man/logo.png" align="right">
 
 ## Overview
 
-**latex2exp** is an R package that parses and converts LaTeX to R’s
-custom [plotmath
+**latex2exp** is an R package that lets you use LaTeX in plots. It
+parses and converts LaTeX to R’s custom [plotmath
 expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html).
 You can read the full documentation on the [package’s
 website](https://stefano-meschiari.github.io/latex2exp).
@@ -48,9 +48,13 @@ Here’s a simple example:
 TeX(r"(\textbf{Euler's identity} is $e^{i\pi} + 1 = 0$.)")
 ```
 
-Since R 4.0, it is recommended to use the new raw string literal syntax
-(see `?Quotes`). The syntax looks like `r"(...)"`, where `...` can
-contain any character sequence, including `\`.
+In this example, `\textbf{}` is used to mark a fragment of text as bold,
+`$` introduces inline math mode, `^{}` typesets its contents as
+superscript, and `\pi` typesets the letter *π*.
+
+Starting with R 4.0, it is recommended to use the new raw string literal
+syntax (see `?Quotes`). The syntax looks like `r"(...)"`, where `...`
+can contain any character sequence, including `\`.
 
 Another option is to escape the backslash character (`\`) for LaTeX
 commands, such that the command will be written as `\\command` rather
