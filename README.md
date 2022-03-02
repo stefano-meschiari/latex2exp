@@ -5,8 +5,6 @@
 
 # latex2exp <img src="man/figures/logo.png" align="right">
 
-## Overview
-
 **latex2exp** is an R package that lets you use LaTeX in plots. It
 parses and converts LaTeX to R’s custom [plotmath
 expressions](http://stat.ethz.ch/R-manual/R-patched/library/grDevices/html/plotmath.html).
