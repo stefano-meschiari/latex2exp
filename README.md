@@ -3,7 +3,7 @@
 [![R-CMD-check](https://github.com/stefano-meschiari/latex2exp/workflows/R-CMD-check/badge.svg)](https://github.com/stefano-meschiari/latex2exp/actions)
 <!-- badges: end -->
 
-# latex2exp <img src="man/logo.png" align="right">
+# latex2exp <img src="man/figures/logo.png" align="right">
 
 ## Overview
 
