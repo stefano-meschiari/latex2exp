@@ -2,6 +2,7 @@ library(latex2exp)
 
 test_that("Returned values are of the correct type", {
   expect_s3_class(TeX("$\\alpha$"), "expression")
+  expect_type(TeX("$\\alpha$", output="character"), "character")
 })
 
 test_that("Simple greek letter strings and symbols are rendered correctly", {
@@ -16,6 +17,10 @@ test_that("Simple text outside of math mode is rendered correctly", {
                       paste("Some very, very simple text; with punctuation."))
   expect_renders_same("a + b", paste("a + b"))
   expect_renders_same("$a + b$", a+b)
+  expect_renders_same("\\alpha+\\beta", paste(alpha, "+", beta))
+  expect_renders_same("\\alpha,\\beta", paste(alpha, ",", beta))
+  expect_renders_same("\\alpha,a+b", paste(alpha, ",a+b"))
+  expect_renders_same("$\\alpha+\\gamma$+\\beta", alpha + gamma * '+' * beta)
 })
 
 test_that("Operators are rendered correctly, regardless of spacing", {
@@ -82,6 +87,10 @@ test_that("Superscripts and subscripts are rendered correctly", {
                       NO[phantom()-phantom()]^3)
   expect_renders_same("$NO_{-}^3$", 
                       NO[phantom()-phantom()]^3)
+  
+  expect_renders_same("$^{18}$O", phantom()^{18} * 'O')
+  expect_renders_same("$^{A}_{B}$O", phantom()[B]^{A} * 'O')
+  
 })
 
 test_that("Superscript and subscript for operators are rendered correctly", {

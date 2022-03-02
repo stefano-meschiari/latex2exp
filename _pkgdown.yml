@@ -1,4 +1,16 @@
 url: ~
+
+home:
+  title: An R package for using LaTeX in plots
+  description: latex2exp converts LaTeX into a format suitable for inclusion in base and ggplot2 plots
+  
 template:
   bootstrap: 5
-
+  opengraph:
+    image:
+      src: man/figures/logo.png
+      alt: "latex2exp logo"
+    twitter:
+      creator: "@RhymeWithEskimo"
+      site: "www.stefanom.io"
+      card: summary_large_image

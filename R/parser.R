@@ -129,8 +129,8 @@ parse_latex <- function(latex_string,
         current_fragment <- str_sub(current_fragment, 2)
         
         command <- str_c("\\",
-                         .find_substring(current_fragment, separators))
-        
+                         .find_substring(current_fragment, .math_separators))
+        cat_trace("Found token ", command, " in text_mode: ", text_mode)
         token <- .token2(command, text_mode)
         tokens <- c(tokens, token)
         
@@ -232,14 +232,6 @@ parse_latex <- function(latex_string,
           } else {
             token$command <- str_c(token$command, " ")
           }
-        }
-        i <- i + 1
-      } else if (ch == ",") {
-        if (text_mode && !is.null(token)) {
-          token$command <- str_c(token$command, ",")
-        } else {
-          token <- .token2(",", text_mode)
-          tokens <- c(tokens, token)
         }
         i <- i + 1
       } else {
@@ -360,7 +352,7 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     # empty command; if followed by arguments such as sup or sub, render as
     # an empty token, otherwise skip
     if (tok$rendered == "") {
-      if (length(tok$args) > 0) {
+      if (length(tok$args) > 0 || length(tok$sup_arg) > 0 || length(tok$sub_arg) > 0) {
         tok$rendered <- "{}"
       } else {
         tok$skip <- TRUE
