@@ -61,6 +61,24 @@ test_that("Special characters in math or text mode do not cause errors", {
                       list(a, b, c))
 })
 
+test_that("Exponentiation works correctly", {
+  expect_renders_same("$a^b$", a^b)
+  expect_renders_same("$a^{a+b}$", a^{a+b})
+  expect_renders_same("$a^{a}b$", a^{a}*b)
+  expect_renders_same("$a^ab$", a^a*b)
+  
+  expect_renders_same("$B^a(b)", B^a*(b))
+  expect_renders_same("$B^{a+b}(b)", B^{a+b}*(b))
+})
+
+test_that("Square brackets work correctly", {
+  expect_renders_same("\\alpha[b]", alpha * '[' * b * ']')
+  expect_renders_same("$\\alpha[b]$", alpha * '[' * b * ']')
+  expect_renders_same("a[b]", 'a[b]')
+  expect_renders_same("$a[b]$", a * '[' * b * ']')
+  expect_renders_same("$a[b]^c$", a * '[' * b * ']'^{c})
+})
+
 test_that("Grouping over deeply nested commands renders correctly", {
   expect_renders_same("$\\widehat{a^b_{\\hat{x^2}}}$",
                       widehat(a[hat(x^2)]^b))
@@ -143,6 +161,9 @@ test_that("Opening and closing math mode renders correctly", {
 
 test_that("Escaped symbols renders correctly", {
   expect_renders_same("\\$", '$')
+  expect_renders_same("a $\\[b\\]^{c}$", 'a ' * '[' * b * ']'^{c})
+  expect_renders_same("a $\\[b\\]_{c}$", 'a ' * '[' * b * ']'[c])
+  
 })
 
 test_that("Spacing renders correctly", {

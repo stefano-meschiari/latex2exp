@@ -116,7 +116,7 @@ latex_supported = list(
     "\\supseteq" = "$LEFT %supseteq% $RIGHT",
     "\\setminus" = "$LEFT ~ '\\\\' ~ $RIGHT",
     "\\cup" = "$LEFT ~ symbol('\\310') ~ $RIGHT",
-    "\\cap" = "$LEFT ~ symbol('\\311') ~ $RIGHT"
+    "\\cap" = "$LEFT ~ symbol('\\307') ~ $RIGHT"
   ),
   
   "other operators" = list(

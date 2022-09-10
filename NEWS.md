@@ -1,3 +1,9 @@
+# 0.9.5 (09/10/2022)
+## Bug fixes
+* Round brakets after exponent render correctly (fixes #49)
+* `\cap` now renders correctly (fixes #52)
+* Escaped and non-escaped square brackets now render correctly, including with exponents (fixes #48)
+
 # 0.9.4 (01/03/2022)
 ## Bug fixes
 * Fixes bug where certain commands would fail outside of math mode (e.g. `TeX(r"(\alpha + \beta)")`) (fixes #45).

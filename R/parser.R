@@ -336,11 +336,13 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
         arg <- "\\'"
       }
       
-      tok$rendered <- str_c("'", arg, "'")
+      
       if (tok_idx == 1) {
         tok$left_separator <- ''
       }
-      next
+      
+      str_c("'", arg, "'")
+      #next
     } else if (!tok$text_mode || tok$is_command) {
       # translate using the translation table in symbols.R
       translations[[str_trim(tok$command)]] %??% tok$command
@@ -436,9 +438,16 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     
     if (length(tok$optional_arg) > 0) {
       optarg <- render_latex(tok$optional_arg, user_defined, hack_parentheses=hack_parentheses)
-      tok$rendered <- str_replace_all(tok$rendered,
-                                        fixed("$opt"),
-                                        optarg)
+      if (str_detect(tok$rendered, fixed("$opt"))) {
+        tok$rendered <- str_replace_all(tok$rendered,
+                                          fixed("$opt"),
+                                          optarg)
+      } else {
+        # the current token is not consuming an optional argument, so render
+        # it as square brackets
+        tok$rendered <- str_c(tok$rendered, " * '[' *",
+                              optarg, " * ']'")
+      }
     }
     
     for (type in c("sub", "sup")) {
@@ -465,7 +474,6 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
       }
     }
     
-    
     # Replace all $P tokens with phantom(), and consume
     # any arguments that were not specified (e.g. if 
     # there is no argument specified for the command,
@@ -489,6 +497,9 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
       } 
       if (tok_idx > 1 && tokens[[tok_idx-1]]$command == "(") {
         tok$left_separator <- ""
+      }
+      if (tok_idx > 1 && tokens[[tok_idx]]$command == "(" && length(tokens[[tok_idx-1]]$sup_arg) > 0) {
+        tok$left_separator <- "*"
       }
     } else {
       if (tok$command %in% c("(", ")") && !tok$text_mode) {
