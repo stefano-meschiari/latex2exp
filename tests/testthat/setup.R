@@ -35,6 +35,20 @@ expect_renders_different <- function(object, expected_expression) {
   .expect_renders(object, expected_expression, negate=TRUE)
 }
 
+expect_same_expression <- function(object, expected_expression) {
+  expected_exp <- as.expression(rlang::enexpr(expected_expression))
+  act <- testthat::quasi_label(rlang::enquo(object), arg="object")
+  if (is.character(act$val)) {
+    act$val <- TeX(act$val)
+  }
+  cmp <- waldo::compare(act$val, expected_exp, ignore_attr=TRUE)
+  message <- sprintf("'%s' (TeX) not equal to '%s' (expected expression)",
+                     act$val,
+                     as.character(expected_exp))
+  expect(length(cmp) == 0, message)
+  invisible(act$val)
+}
+
 .expect_renders <- function(object, expected_expression, negate) {
   act <- testthat::quasi_label(rlang::enquo(object), arg="object")
   

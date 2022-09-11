@@ -16,6 +16,7 @@ Imports:
 Encoding: UTF-8
 Suggests:
     testthat,
+    waldo,
     knitr,
     ggplot2,
     rmarkdown,
