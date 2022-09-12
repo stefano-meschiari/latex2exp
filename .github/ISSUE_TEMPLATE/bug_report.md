@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a bug report
 title: ''
 labels: ''
 assignees: ''
@@ -12,7 +12,7 @@ Please briefly describe your problem and what output you expect.
 
 **To Reproduce**
 1. Paste the output of `sessionInfo()` (this should show, at minimum, the version of R, the platform, and the architecture you are running on)
-2. Include a short snippet of code I can use to reproduce the problem
+2. Include a short snippet of code I can use to reproduce the problem. You can use `reprex::reprex()` to quickly prepare a reproducible example.
 3. If the bug comprises unexpected output from `TeX()`, please paste a screenshot of what you see on your system. You can plot a single TeX expression by running
 ```r
 # example
