@@ -1,3 +1,7 @@
+# 0.9.6 (11/27/2022)
+## Bug fixes
+* Fixes swapped wedge and vee symbols (#55, credit to @ebolove)
+
 # 0.9.5 (09/10/2022)
 ## Bug fixes
 * Round brakets after exponent render correctly (fixes #49)
