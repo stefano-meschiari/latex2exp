@@ -377,6 +377,9 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
       } else {
         tok$rendered <- split[1,2]
       }
+      if (str_starts(tok$rendered, "0") && str_length(tok$rendered) > 1) {
+        tok$rendered <- str_c("0*", str_sub(tok$rendered, 2))
+      }
     }
     
     tok$left_operator <- str_detect(tok$rendered, fixed("$LEFT"))

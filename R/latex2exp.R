@@ -11,6 +11,7 @@
 #' @importFrom stringr str_match
 #' @importFrom stringr str_match_all
 #' @importFrom stringr fixed
+#' @importFrom stringr str_length
 NULL
 
 #' Deprecated; use \code{\link{TeX}} instead.

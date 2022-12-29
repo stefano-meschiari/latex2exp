@@ -10,6 +10,7 @@ knitr::opts_chunk$set(fig.width=7, fig.height=5, fig.path = "man/figures/README-
 ```
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/stefano-meschiari/latex2exp/workflows/R-CMD-check/badge.svg)](https://github.com/stefano-meschiari/latex2exp/actions)
+[![R-CMD-check](https://github.com/stefano-meschiari/latex2exp/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stefano-meschiari/latex2exp/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # latex2exp <img src="man/figures/logo.png" align="right">
