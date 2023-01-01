@@ -189,6 +189,13 @@ test_that("Mix of numbers and letters renders correctly", {
   expect_renders_same(TeX("$2\\alpha$"), 2*alpha)
 })
 
+test_that("Numbers render correctly", {
+  expect_renders_same(TeX("$0$"), 0)
+  expect_renders_same(TeX("$01$"), 0*1)
+  expect_renders_same(TeX("$\\beta_{02}$"), beta[0*2])
+  
+})
+
 test_that("User-defined latex renders correctly", {
   expect_renders_same(TeX("$\\mycommand$", user_defined = list(
     "\\mycommand" = "alpha"

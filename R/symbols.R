@@ -95,7 +95,6 @@ latex_supported = list(
     "\\times" = "$LEFT %*% $RIGHT",
     "\\circ" = "$LEFT ~ '\u25e6' ~ $RIGHT",
     "\\ast" = "$LEFT ~ symbol('\\053') ~ $RIGHT",
-    "\\%" = "$LEFT ~ symbol('\\045') ~ $RIGHT",
     "\\perp" = "$LEFT ~ symbol('\\136') ~ $RIGHT",
     "\\bullet" = "$LEFT ~ symbol('\\267') ~ $RIGHT",
     "\\otimes" = "$LEFT ~ symbol('\\304') ~ $RIGHT",
@@ -105,7 +104,8 @@ latex_supported = list(
     "\\wedge" = "$LEFT ~ symbol('\\331') ~ $RIGHT",
     "\\angle" = "$LEFT ~ symbol('\\320') ~ $RIGHT",
     "\\cdots" = "$LEFT ~ cdots ~ $RIGHT",
-    "\\ldots" = "$LEFT ~ ldots ~ $RIGHT"
+    "\\ldots" = "$LEFT ~ ldots ~ $RIGHT",
+    "\\mod" = "$LEFT ~ 'mod' ~ $RIGHT"
   ),
 
   "set operators" = list(
@@ -127,7 +127,8 @@ latex_supported = list(
     "\\wp" = "symbol('\\303')",
     "\\surd" = "symbol('\\326')",
     "\\neg" = "symbol('\\330')",
-    "\\ni" = "symbol('\\047')"
+    "\\ni" = "symbol('\\047')",
+    "\\pmod" = "$LEFT ~ group('(', 'mod' ~ $arg1, ')')"
   ),
 
   # Square root, sum, prod, integral, etc.
@@ -224,7 +225,18 @@ latex_supported = list(
     "\\degree" = "'\\u0b0'",
     "\\prime" = "$LEFT * minute ",
     "\\second" = "$LEFT * second ",
-    "\\third" = "$LEFT * '\\u2034'"
+    "\\third" = "$LEFT * '\\u2034'",
+    "\\%" = "symbol('\\045')",
+    "\\S" = "'\u00a7'",
+    "\\permil" = "'\u2030'",
+    "\\blacksquare" = "'\u25a0'",
+    "\\square" = "'\u25a1'",
+    "\\smwhtsquare" = "'\u25ab'",
+    "\\smblksquare" = "'\u25aa'",
+    "\\smallint" = "'\u222b'",
+    "\\ell" = "'\u2113'",
+    "\\house" = "'\u2302'",
+    "\\dots" = "'\u2026'"
   ),
 
   # Decorations

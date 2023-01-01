@@ -1,3 +1,25 @@
+# 0.9.7 (12/28/2022)
+## Bug fixes
+* In math mode, numbers that started with 0 would be displayed without it (e.g.
+  $\beta_{02}$ would render as $\beta_{2}$) (fixes #58)
+
+## New features
+The following symbols were added:
+
+* `\S` ('§')
+* `\permil` ('‰')
+* `\blacksquare` ('■')
+* `\square` ('□')
+* `\smwhtsquare` ('▫')
+* `\smblksquare` ('▪')
+* `\smallint` ('∫')
+* `\ell` ('ℓ')
+* `\house` ('⌂')
+* `\dots` ('…')
+
+The following commands were added:
+* `\pmod{x}` renders as `(mod x)`
+
 # 0.9.6 (11/27/2022)
 ## Bug fixes
 * Fixes swapped wedge and vee symbols (#55, credit to @ebolove)
