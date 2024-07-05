@@ -41,7 +41,7 @@ clone_token <- function(tok) {
 }
 
 .find_substring_matching <- function(string, opening, closing) {
-  chars <- str_split(string, "")[[1]]
+  chars <- strsplit(string, "", fixed = TRUE)[[1]]
   depth <- 0
   start_expr <- -1
   
