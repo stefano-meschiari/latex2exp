@@ -14,7 +14,7 @@ NULL
 #' @export
 #' @examples 
 #' plot(TeX("Example equation: $a \\geq b$"))
-plot.expression <- function(x, ..., main=NULL) {
+plot.expression <- function(x, ..., main = NULL) {
   oldpar <- par(no.readonly = TRUE)
   dots <- list(...)
   on.exit(suppressWarnings(par(oldpar)))
@@ -37,11 +37,11 @@ plot.expression <- function(x, ..., main=NULL) {
 #' @param ... Other parameters (not used)
 #' @return A data frame containing a table of supported LaTeX commands.
 #' @export
-latex2exp_supported <- function(show=FALSE, ...) {
+latex2exp_supported <- function(show = FALSE, ...) {
   dots <- list(...)
    
-  # the previous version of latex2exp accepted the parameter `plot` with the same
-  # meaning as show=TRUE. 
+  # the previous version of latex2exp accepted the parameter `plot` with the
+  # same meaning as show = TRUE. 
   if (!is.null(dots$plot) && dots$plot) {
     .Deprecated("Use the parameter show=TRUE instead of plot.")
     show <- TRUE
@@ -49,14 +49,15 @@ latex2exp_supported <- function(show=FALSE, ...) {
   
   if (!show) {
     supp <- lapply(latex_supported, function(it) {
-        # remove all commands that include the '@' character, which are used internally to
-        # escape certain commands.
+        # remove all commands that include the '@' character, which are used
+        # internally to escape certain commands.
         names(it)[!grepl("@", names(it), fixed = TRUE)]
       }) 
     supp <- mapply(function(category, commands) {
       # create an example suitable to demo each category of latex commands
       examples <- sapply(commands, function(commands) {
-          if (category %in% c("arithmetic operators", "binary operators", "arrows")) {
+          if (category %in%
+              c("arithmetic operators", "binary operators", "arrows")) {
           paste0("$\\alpha ", commands, " \\beta$")
         } else if (category == "set operators") {
           paste0("$A ", commands, " B$")
@@ -82,7 +83,8 @@ latex2exp_supported <- function(show=FALSE, ...) {
           paste0("$", commands, "{\\Psi}$")
         } else if (category == "layout and spacing") {
           paste0("$A ", commands, " B$")
-        } else if (category == "parentheses" || category == "parentheses (not scalable)") {
+        } else if (category == "parentheses" ||
+            category == "parentheses (not scalable)") {
           op <- commands
           if (commands == "\\left(") {
             clo <- "\\right)"
@@ -106,11 +108,11 @@ latex2exp_supported <- function(show=FALSE, ...) {
           paste0("$", commands, "$")
         }
       })
-      data.frame(category, command=commands, example=examples)
+      data.frame(category, command = commands, example = examples)
     }, names(supp), supp, SIMPLIFY = FALSE)
     
-    do.call(function(...) rbind.data.frame(..., make.row.names=FALSE, stringsAsFactors = FALSE), 
-            supp)
+    do.call(function(...) rbind.data.frame(..., make.row.names = FALSE,
+      stringsAsFactors = FALSE), supp)
   } else {
     vignette("supported-commands", package = "latex2exp")
   }

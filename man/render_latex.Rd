@@ -9,13 +9,13 @@ render_latex(tokens, user_defined = list(), hack_parentheses = FALSE)
 \arguments{
 \item{tokens}{tree of tokens}
 
-\item{user_defined}{any custom definitions of commands passed to \code{\link{TeX}}}
+\item{user_defined}{any custom definitions of commands passed to
+\code{\link{TeX}}}
 
-\item{hack_parentheses}{render parentheses using \code{group('(', phantom(), '.')} and
-\code{group(')', phantom(), '.')}. This is useful to return
-valid expressions when the LaTeX source contains mismatched
-parentheses, but makes the returned expression much 
-less tidy.}
+\item{hack_parentheses}{render parentheses using
+\code{group('(', phantom(), '.')} and \code{group(')', phantom(), '.')}.
+This is useful to return valid expressions when the LaTeX source contains
+mismatched parentheses, but makes the returned expression much less tidy.}
 }
 \value{
 String that should be parseable as a valid plotmath expression

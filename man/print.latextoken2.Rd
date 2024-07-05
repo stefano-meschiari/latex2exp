@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{print.latextoken2}
 \alias{print.latextoken2}
-\title{Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
+\title{Prints out a parsed LaTeX object, as returned by TeX(..., output = 'ast').
 This is primarily used for debugging.}
 \usage{
 \method{print}{latextoken2}(x, depth = 0, ...)
@@ -15,6 +15,6 @@ This is primarily used for debugging.}
 \item{...}{(Ignored)}
 }
 \description{
-Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
+Prints out a parsed LaTeX object, as returned by TeX(..., output = 'ast').
 This is primarily used for debugging.
 }
