@@ -6,7 +6,7 @@
   tok$sub_arg <- list()
   tok$children <- list()
   tok$command <- command
-  tok$is_command <- str_starts(command, fixed("\\"))
+  tok$is_command <- startsWith(command, "\\")
   tok$text_mode <- text_mode
   tok$left_operator <- tok$right_operator <- FALSE
   class(tok) <- "latextoken2"
@@ -34,7 +34,7 @@ clone_token <- function(tok) {
                    "]+")
   ret <- str_match(string, pattern)[1,1]
   if ((is.na(ret) || nchar(ret) == 0) && nchar(string) > 0) {
-    str_sub(string, 1, 1)
+    substring(string, 1, 1)
   } else {
     ret
   }
@@ -54,7 +54,7 @@ clone_token <- function(tok) {
     } else if (chars[i] == closing) {
       depth <- depth - 1
       if (depth == 0) {
-        return(str_sub(string, start_expr + 1, i - 1))
+        return(substring(string, start_expr + 1, i - 1))
       }
     }
   }
@@ -109,13 +109,13 @@ parse_latex <- function(latex_string, text_mode = TRUE, depth = 0, pos = 0,
   withCallingHandlers({
     while (i <= nchar(latex_string)) {
       # Look at current character, previous character, and next character
-      ch <- str_sub(latex_string, i, i)
-      prevch <- if (i == 1) "" else str_sub(latex_string, i - 1, i - 1)
+      ch <- substring(latex_string, i, i)
+      prevch <- if (i == 1) "" else substring(latex_string, i - 1, i - 1)
       nextch <- if (i == nchar(latex_string)) "" else
-        str_sub(latex_string, i + 1, i + 1)
+        substring(latex_string, i + 1, i + 1)
       
       # LaTeX string left to be processed
-      current_fragment <- str_sub(latex_string, i)
+      current_fragment <- substring(latex_string, i)
       
       cat_trace("Position: ", i, " ch: ", ch, " next: ", nextch, 
                 " current fragment: ", current_fragment, 
@@ -133,7 +133,7 @@ parse_latex <- function(latex_string, text_mode = TRUE, depth = 0, pos = 0,
       # another backslash, or a separator, or a dollar
       if (ch == "\\" && nextch != "\\") {
         # Continue until we encounter a separator
-        current_fragment <- str_sub(current_fragment, 2)
+        current_fragment <- substring(current_fragment, 2)
         
         command <- paste0("\\",
                           .find_substring(current_fragment, .math_separators))
@@ -192,14 +192,14 @@ parse_latex <- function(latex_string, text_mode = TRUE, depth = 0, pos = 0,
         # If there are spaces after the ^ or _ character,
         # consume them and advance past the spaces
         if (nextch == " ") {
-          n_spaces <- str_match(str_sub(current_fragment, 2), "\\s+")[1, 1]
+          n_spaces <- str_match(substring(current_fragment, 2), "\\s+")[1, 1]
           advance <- advance + nchar(n_spaces)
-          nextch <- str_sub(current_fragment, advance + 1, advance + 1)
+          nextch <- substring(current_fragment, advance + 1, advance + 1)
         } 
         
         # Sub or sup arguments grouped with braces. This is easy!
         if (nextch == "{") {
-          argument <- .find_substring_matching(str_sub(current_fragment,
+          argument <- .find_substring_matching(substring(current_fragment,
             advance + 1), "{", "}")
           
           # advance by two units (the content of the braces + two braces)
@@ -207,10 +207,10 @@ parse_latex <- function(latex_string, text_mode = TRUE, depth = 0, pos = 0,
         } else if (nextch == "\\") {
           # Advance until a separator is found
           argument <- paste0("\\",
-            .find_substring(str_sub(current_fragment, advance + 2), separators))
+            .find_substring(substring(current_fragment, advance + 2), separators))
           advance <- advance + nchar(argument)
         } else {
-          argument <- str_sub(current_fragment, advance + 1, advance + 1)
+          argument <- substring(current_fragment, advance + 1, advance + 1)
           advance <- advance + nchar(argument)
         }
         
@@ -381,8 +381,8 @@ render_latex <- function(tokens, user_defined = list(),
       } else {
         tok$rendered <- split[1, 2]
       }
-      if (str_starts(tok$rendered, "0") && str_length(tok$rendered) > 1) {
-        tok$rendered <- paste0("0*", str_sub(tok$rendered, 2))
+      if (startsWith(tok$rendered, "0") && str_length(tok$rendered) > 1) {
+        tok$rendered <- paste0("0*", substring(tok$rendered, 2))
       }
     }
     

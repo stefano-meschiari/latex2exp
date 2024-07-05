@@ -1,7 +1,4 @@
-#' @importFrom stringr str_sub
-#' @importFrom stringr str_match
 #' @importFrom stringr str_trim
-#' @importFrom stringr str_starts
 #' @importFrom stringr str_match
 #' @importFrom stringr str_match_all
 #' @importFrom stringr fixed
