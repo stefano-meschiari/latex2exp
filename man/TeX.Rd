@@ -54,16 +54,19 @@ The template string can include one of the following special template
 parameters:
 
 \itemize{
-\item \code{$arg1, $arg2, ...} represent the first, second, ... brace argument.
-  E.g. for \code{\\frac{x}{y}}, \code{$arg1} is \code{x} and \code{$arg2} is \code{y}.
+\item \code{$arg1, $arg2, ...} represent the first, second, ... brace
+  argument. E.g. for \code{\\frac{x}{y}}, \code{$arg1} is \code{x} and
+  \code{$arg2} is \code{y}.
 \item \code{$opt} is an optional argument in square brackets. E.g. for
   \code{\\sqrt[2]{x}}, \code{$opt} is \code{2}.
-\item \code{$sub} and \code{$sup} are arguments in the exponent (\code{^}) or subscript (\code{_})
-  following the current expression. E.g. for \code{\\sum^{x}}, \code{$sup} is \code{x}.
-\item \code{$LEFT} and \code{$RIGHT} are substituted the previous and following LaTeX expression
-   relative to the current token.
+\item \code{$sub} and \code{$sup} are arguments in the exponent (\code{^}) or
+  subscript (\code{_}) following the current expression. E.g. for
+  \code{\\sum^{x}}, \code{$sup} is \code{x}.
+\item \code{$LEFT} and \code{$RIGHT} are substituted the previous and
+  following LaTeX expression relative to the current token.
 }
-See the Examples section for an example of using the \code{user_defined} option.
+See the Examples section for an example of using the \code{user_defined}
+option.
 }
 
 \examples{
@@ -74,5 +77,6 @@ a <- 1:100
 plot(a, a^2, xlab = TeX("$\\\\alpha$"), ylab = TeX("$\\\\alpha^2$"))
 
 # create a \\variance command that takes a single argument
-TeX("$\\\\variance{X} = 10$", user_defined = list("\\\\variance" = "sigma[$arg1]^2"))
+TeX("$\\\\variance{X} = 10$",
+    user_defined = list("\\\\variance" = "sigma[$arg1]^2"))
 }

@@ -97,7 +97,7 @@ latex2exp_supported <- function(show = FALSE, ...) {
           } else if (commands == "\\left.") {
             clo <- "\\right."
           } else if (grepl("^\\\\l", commands)) {
-            clo <- paste0("\\r", str_replace(commands, fixed("\\l"), ""))
+            clo <- paste0("\\r", sub("\\l", "", commands, fixed = TRUE))
           } else if (grepl("^\\\\r", commands)) {
             return(NA)
           } else {

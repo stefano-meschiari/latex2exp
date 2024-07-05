@@ -506,7 +506,7 @@ render_latex <- function(tokens, user_defined = list(),
     
     # If the token still starts with a "\", substitute it
     # with the corresponding expression
-    tok$rendered <- str_replace(tok$rendered, "^\\\\", "")
+    tok$rendered <- sub("^\\\\", "", tok$rendered)
 
     if (tok$rendered == "{}") {
       tok$skip <- TRUE
@@ -541,7 +541,7 @@ validate_input <- function(latex_string) {
       repr <- deparse(possible_slash_pattern)
       message("latex2exp: Detected possible missing backslash: you entered ",
               repr, ", did you mean to type ", 
-              str_replace(repr, fixed("\\"), "\\\\"), "?")
+              sub("\\\\?", "?", repr))
     }
   }
   
