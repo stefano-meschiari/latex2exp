@@ -348,7 +348,7 @@ render_latex <- function(tokens, user_defined = list(),
       #next
     } else if (!tok$text_mode || tok$is_command) {
       # translate using the translation table in symbols.R
-      translations[[str_trim(tok$command)]] %??% tok$command
+      translations[[trimws(tok$command)]] %??% tok$command
     } else {
       # leave as-is
       tok$command
@@ -381,7 +381,7 @@ render_latex <- function(tokens, user_defined = list(),
       } else {
         tok$rendered <- split[1, 2]
       }
-      if (startsWith(tok$rendered, "0") && str_length(tok$rendered) > 1) {
+      if (startsWith(tok$rendered, "0") && nchar(tok$rendered) > 1) {
         tok$rendered <- paste0("0*", substring(tok$rendered, 2))
       }
     }
