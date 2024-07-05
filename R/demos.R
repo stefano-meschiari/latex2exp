@@ -32,7 +32,7 @@ latex2exp_examples <- function(cex=1) {
   y <- seq(0.95, 0.05, length.out = length(examples))
   
   text(
-    0.5, y, str_c("TeX(r\"(", examples, ")\")"), pos = 2, cex = 0.5 * cex, family = 'mono'
+    0.5, y, paste0("TeX(r\"(", examples, ")\")"), pos = 2, cex = 0.5 * cex, family = 'mono'
   )
   text(0.5, y, TeX(examples), pos = 4, cex=cex)
   return(invisible(TRUE))

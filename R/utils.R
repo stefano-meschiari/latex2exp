@@ -17,8 +17,8 @@ print.latextoken2 <- function(x, depth=0, ...) {
   token <- x
   pad <- strrep(" ", depth)
   cat(pad,
-      if (depth > 0) str_c("| :", token$command, ":"), 
-      if (!is.null(token$rendered)) str_c(" -> ", token$rendered),
+      if (depth > 0) paste0("| :", token$command, ":"), 
+      if (!is.null(token$rendered)) paste0(" -> ", token$rendered),
       "\n",
       sep="")
   

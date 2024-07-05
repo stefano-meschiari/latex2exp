@@ -1,4 +1,3 @@
-#' @importFrom stringr str_c
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_replace
@@ -105,11 +104,11 @@ TeX <-
                                hack_parentheses=grid$hack_parentheses[[row]])
       
       if (bold && italic) { 
-        rendered <- str_c("bolditalic(", rendered, ")")
+        rendered <- paste0("bolditalic(", rendered, ")")
       } else if (bold) {
-        rendered <- str_c("bold(", rendered, ")")
+        rendered <- paste0("bold(", rendered, ")")
       } else if (italic) {
-        rendered <- str_c("italic(", rendered, ")")
+        rendered <- paste0("italic(", rendered, ")")
       }
       
       cat_trace("Rendered as ", rendered, " with parameters ", toString(grid[row,]))
