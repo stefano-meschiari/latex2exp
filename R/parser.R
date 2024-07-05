@@ -397,12 +397,13 @@ render_latex <- function(tokens, user_defined = list(),
       #} else {
       #  tok$rendered <- split[1, 2]
       #}
-      tok$rendered <- sub("^([0-9\\.]+)(.+)", "\\1*\\2", tok$rendered)
+      tok$rendered <- sub("^([0-9\\.]+)([^0-9\\.].*)", "\\1*\\2", tok$rendered)
       
-      # This is not needed any more with sub()
-      #if (startsWith(tok$rendered, "0") && nchar(tok$rendered) > 1) {
-      #  tok$rendered <- paste0("0*", substring(tok$rendered, 2))
-      #}
+      if (startsWith(tok$rendered, "0") && nchar(tok$rendered) > 1) {
+        tok$rendered <- paste0("0*", substring(tok$rendered, 2))
+      }
+      # I need this to avoid double zeros before the decimal point
+      tok$rendered <- gsub("0*.", "0.", tok$rendered, fixed = TRUE)
     }
     
     tok$left_operator <- grepl("$LEFT", tok$rendered, fixed = TRUE)
