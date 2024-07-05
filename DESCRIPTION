@@ -10,10 +10,9 @@ Description: Parses and converts LaTeX math formulas to R's plotmath
 License: MIT + file LICENSE
 URL: https://www.stefanom.io/latex2exp/, https://github.com/stefano-meschiari/latex2exp
 BugReports: https://github.com/stefano-meschiari/latex2exp/issues
-Imports:
-    stringr
 Encoding: UTF-8
 Suggests:
+    tools,
     testthat,
     waldo,
     knitr,

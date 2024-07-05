@@ -29,15 +29,27 @@ clone_token <- function(tok) {
 }
 
 .find_substring <- function(string, boundary_characters) {
-  pattern <- paste0("^[^",
-    paste0("\\", boundary_characters, collapse = ""),
-                   "]+")
-  ret <- str_match(string, pattern)[1,1]
-  if ((is.na(ret) || nchar(ret) == 0) && nchar(string) > 0) {
-    substring(string, 1, 1)
-  } else {
-    ret
-  }
+  # This appears overly complex, based on the value returned by str_match()
+  #pattern <- paste0("^[^",
+  #  paste0("\\", boundary_characters, collapse = ""),
+  #                 "]+")
+  #ret <- str_match(string, pattern)[1,1]
+  #if ((is.na(ret) || nchar(ret) == 0) && nchar(string) > 0) {
+  #  substring(string, 1, 1)
+  #} else {
+  #  ret
+  #}
+  # Empty string is returned as such
+  if (nchar(string) == 0)
+    return("")
+  # Boundary characters at the beginning of the string is returned
+  first_char <- substring(string, 1, 1)
+  if (first_char %in% boundary_characters)
+    return(first_char)
+  # Otherwise, anything, starting from a boundary character is eliminated
+  boundary_pattern <- paste0("\\", boundary_characters, collapse = "")
+  pattern <- paste0("[", boundary_pattern, "].*$")
+  sub(pattern, "", string, perl = TRUE)
 }
 
 .find_substring_matching <- function(string, opening, closing) {
@@ -192,7 +204,9 @@ parse_latex <- function(latex_string, text_mode = TRUE, depth = 0, pos = 0,
         # If there are spaces after the ^ or _ character,
         # consume them and advance past the spaces
         if (nextch == " ") {
-          n_spaces <- str_match(substring(current_fragment, 2), "\\s+")[1, 1]
+          #n_spaces <- str_match(substring(current_fragment, 2), "\\s+")[1, 1]
+          n_spaces <- regmatches(current_fragment,
+            regexpr("\\s+", substring(current_fragment, 2)))
           advance <- advance + nchar(n_spaces)
           nextch <- substring(current_fragment, advance + 1, advance + 1)
         } 
@@ -332,7 +346,9 @@ render_latex <- function(tokens, user_defined = list(),
     tok$rendered <- if (grepl("^\\\\ESCAPED@", tok$command)) {
       # a character, like '!' or '?' was escaped as \\ESCAPED@ASCII_SYMBOL.
       # return it as a string.
-      arg <- str_match(tok$command, "@(\\d+)")[1,2]
+      #arg <- str_match(tok$command, "@(\\d+)")[1,2]
+      arg <- substring(regmatches(tok$command,
+        regexpr("@(\\d+)", tok$command)), 2)
       arg <- intToUtf8(arg)
       
       if (arg == "'") {
@@ -374,16 +390,19 @@ render_latex <- function(tokens, user_defined = list(),
     # the rest of the string. This is because a plotmath symbol
     # cannot start with a number.
     if (grepl("^[0-9]", tok$rendered) && !tok$text_mode) {
-      split <- str_match(tok$rendered, "(^[0-9\\.]*)(.*)")
+      # This is ultra-complex for something simple using sub()
+      #split <- str_match(tok$rendered, "(^[0-9\\.]*)(.*)")
+      #if (split[1, 3] != "") {
+      #  tok$rendered <- paste0(split[1, 2], "*", split[1, 3])
+      #} else {
+      #  tok$rendered <- split[1, 2]
+      #}
+      tok$rendered <- sub("^([0-9\\.]+)(.+)", "\\1*\\2", tok$rendered)
       
-      if (split[1, 3] != "") {
-        tok$rendered <- paste0(split[1, 2], "*", split[1, 3])
-      } else {
-        tok$rendered <- split[1, 2]
-      }
-      if (startsWith(tok$rendered, "0") && nchar(tok$rendered) > 1) {
-        tok$rendered <- paste0("0*", substring(tok$rendered, 2))
-      }
+      # This is not needed any more with sub()
+      #if (startsWith(tok$rendered, "0") && nchar(tok$rendered) > 1) {
+      #  tok$rendered <- paste0("0*", substring(tok$rendered, 2))
+      #}
     }
     
     tok$left_operator <- grepl("$LEFT", tok$rendered, fixed = TRUE)
@@ -553,11 +572,20 @@ validate_input <- function(latex_string) {
   test_string <- str_replace_fixed(latex_string, "\\{", "")
   test_string <- str_replace_fixed(test_string, "\\}", "")
     
+  n_match_all <- function(x, pattern) {
+    res <- gregexpr(pattern, x, perl = TRUE)[[1]]
+    if (length(res) == 1 && res == -1) 0 else length(res)
+  }
+  
   # check that opened and closed braces match in number
-  opened_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\{)")[[1]]) -
-    nrow(str_match_all(test_string, "\\\\left\\{")[[1]])
-  closed_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\})")[[1]]) -
-    nrow(str_match_all(test_string, "\\\\right\\}")[[1]])
+  #opened_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\{)")[[1]]) -
+  #  nrow(str_match_all(test_string, "\\\\left\\{")[[1]])
+  opened_braces <- n_match_all(test_string, "[^\\\\]*?(\\{)") -
+    n_match_all(test_string, "\\\\left\\{")
+  #closed_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\})")[[1]]) -
+  #  nrow(str_match_all(test_string, "\\\\right\\}")[[1]])
+  closed_braces <- n_match_all(test_string, "[^\\\\]*?(\\})") -
+    n_match_all(test_string, "\\\\right\\}")
   
   if (opened_braces != closed_braces) {
     stop("Mismatched number of braces in '", latex_string, "' (",
@@ -566,10 +594,12 @@ validate_input <- function(latex_string) {
   }
   
   # check that the number of \left* and \right* commands match
-  lefts <- nrow(str_match_all(test_string,
-    "[^\\\\]*\\\\left[\\(\\{\\|\\[\\.]")[[1]])
-  rights <- nrow(str_match_all(test_string,
-    "[^\\\\]*\\\\right[\\)\\}\\|\\]\\.]")[[1]])
+  #lefts <- nrow(str_match_all(test_string,
+  #  "[^\\\\]*\\\\left[\\(\\{\\|\\[\\.]")[[1]])
+  lefts <- n_match_all(test_string, "[^\\\\]*\\\\left[\\(\\{\\|\\[\\.]")
+  #rights <- nrow(str_match_all(test_string,
+  #  "[^\\\\]*\\\\right[\\)\\}\\|\\]\\.]")[[1]])
+  rights <- n_match_all(test_string, "[^\\\\]*\\\\right[\\)\\}\\|\\]\\.]")
   
   if (lefts != rights) {
     stop("Mismatched number of \\left and \\right commands in '",

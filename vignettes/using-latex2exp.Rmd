@@ -10,10 +10,9 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 ```{r, include=FALSE}
-knitr::opts_chunk$set(fig.width=7, fig.height=5, fig.retina=2)
+knitr::opts_chunk$set(fig.width = 7, fig.height = 5, fig.retina = 2)
 library(latex2exp)
 library(reactable)
-library(stringr)
 library(purrr)
 library(dplyr)
 library(ggplot2)
@@ -47,42 +46,43 @@ TeX("\\textbf{Euler's identity} is $e^{i\\pi} + 1 = 0$.")
 You can quickly preview what a translated LaTeX string would look like by using `plot`: 
 
 ```{r plot-formula, fig.height=2, fig.width=5}
-plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5}\frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2, main="")
+plot(TeX(r'(A $\LaTeX$ formula: $\frac{2hc^2}{\lambda^5}\frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex = 2, main = "")
 ```
 
 
 The following example shows plotting in base graphics:
 ```{r base-plot, warning=FALSE}
-x <- seq(0, 4, length.out=100)
+x <- seq(0, 4, length.out = 100)
 alpha <- 1:5
 
-plot(x, xlim=c(0, 4), ylim=c(0, 10), 
-     xlab='x', ylab=TeX(r'($\alpha  x^\alpha$, where $\alpha \in \{1 \ldots 5\}$)'), 
-     type='n', main=TeX(r'(Using $\LaTeX$ for plotting in base graphics!)', bold=TRUE))
+plot(x, xlim = c(0, 4), ylim = c(0, 10), 
+     xlab = 'x', ylab = TeX(r'($\alpha  x^\alpha$, where $\alpha \in \{1 \ldots 5\}$)'), 
+     type = 'n', main = TeX(r'(Using $\LaTeX$ for plotting in base graphics!)', bold = TRUE))
 
 for (a in alpha) {
-  lines(x, a*x^a, col=a)
+  lines(x, a*x^a, col = a)
 }
 
 legend('topleft', 
-       legend=TeX(sprintf(r'($\alpha = %d$)', alpha)), 
-       lwd=1, 
-       col=alpha)
+       legend = TeX(sprintf(r'($\alpha = %d$)', alpha)), 
+       lwd = 1, 
+       col = alpha)
 ```
 
 This example shows plotting in [ggplot2](https://ggplot2.tidyverse.org):
-```{r ggplot, warning=FALSE}
-x <- seq(0, 4, length.out=100)
-alpha <- 1:5
-data <- map_df(alpha, ~ tibble(v=.*x^., x=x, alpha=.))
 
-p <- ggplot(data, aes(x=x, y=v, color=as.factor(alpha))) +
+```{r ggplot, warning=FALSE}
+x <- seq(0, 4, length.out = 100)
+alpha <- 1:5
+data <- map_df(alpha, ~ tibble(v = .*x^., x = x, alpha = .))
+
+p <- ggplot(data, aes(x = x, y = v, color = as.factor(alpha))) +
     geom_line() + 
     ylab(TeX(r'($\alpha  x^\alpha$, where $\alpha \in 1\ldots 5$)')) +
     ggtitle(TeX(r'(Using $\LaTeX$ for plotting in ggplot2. I $\heartsuit$ ggplot!)')) +
-    coord_cartesian(ylim=c(-1, 10)) +
-    guides(color=guide_legend(title=NULL)) +
-    scale_color_discrete(labels=lapply(sprintf(r'($\alpha = %d$)', alpha), TeX)) 
+    coord_cartesian(ylim = c(-1, 10)) +
+    guides(color = guide_legend(title = NULL)) +
+    scale_color_discrete(labels = lapply(sprintf(r'($\alpha = %d$)', alpha), TeX)) 
     # Note that ggplot2 legend labels must be lists of expressions, not vectors of expressions
 
 print(p)
@@ -92,5 +92,5 @@ print(p)
 Here are a few examples of what you can do with **latex2exp**:
 
 ```{r examples, fig.width=7, fig.height=6}
-latex2exp_examples(cex=0.9)
+latex2exp_examples(cex = 0.9)
 ```
