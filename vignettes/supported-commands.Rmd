@@ -33,7 +33,7 @@ encodeGraphic <- function(g, ..., style="") {
 supported <- latex2exp_supported()
 
 supported$category <- str_to_title(supported$category)
-supported <- supported %>% filter(!is.na(example))
+supported <-  filter(supported, !is.na(example))
 supported$command <- supported$example
 ```
     

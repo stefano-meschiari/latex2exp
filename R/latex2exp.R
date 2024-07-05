@@ -1,4 +1,3 @@
-#' @importFrom magrittr %>%
 #' @importFrom stringr str_c
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_replace_all

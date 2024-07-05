@@ -77,18 +77,20 @@ parse_latex <- function(latex_string,
     validate_input(latex_string)
   }
   if (depth == 0) {
-    latex_string <- latex_string %>%
-      str_replace_fixed('\\|', '\\@pipe ') %>%
-      
-      str_replace_all("\\\\['\\$\\{\\}\\[\\]\\!\\?\\_\\^]", function(char) {
+    latex_string <- str_replace_fixed(latex_string, '\\|', '\\@pipe ')
+    latex_string <- str_replace_all(latex_string,
+      "\\\\['\\$\\{\\}\\[\\]\\!\\?\\_\\^]", function(char) {
         str_c("\\ESCAPED@", 
               as.integer(charToRaw(str_replace_fixed(char, "\\", ""))),
               "{}")
-      }) %>%
+      })
       
-      str_replace_all("([^\\\\]?)\\\\,", "\\1\\\\@SPACE1{}") %>%
-      str_replace_all("([^\\\\]?)\\\\;", "\\1\\\\@SPACE2{}") %>%
-      str_replace_all("([^\\\\]?)\\\\\\s", "\\1\\\\@SPACE2{}")
+    latex_string <- str_replace_all(latex_string,
+      "([^\\\\]?)\\\\,", "\\1\\\\@SPACE1{}")
+    latex_string <- str_replace_all(latex_string,
+      "([^\\\\]?)\\\\;", "\\1\\\\@SPACE2{}")
+    latex_string <- str_replace_all(latex_string,
+      "([^\\\\]?)\\\\\\s", "\\1\\\\@SPACE2{}")
     
     cat_trace("String with special tokens substituted: ", latex_string)
   }
@@ -481,13 +483,14 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     # any arguments that were not specified (e.g. if 
     # there is no argument specified for the command,
     # substitute '' for '$arg1')
-    tok$rendered <- tok$rendered %>%
-      str_replace_fixed("$P", "phantom()") %>%
-      str_replace_fixed("$arg1", "") %>%
-      str_replace_fixed("$arg2", "") %>%
-      str_replace_fixed("$sup", "") %>%
-      str_replace_fixed("$sub", "") %>%
-      str_replace_fixed("$opt", "") 
+    tkr <- tok$rendered
+    tkr <- str_replace_fixed(tkr, "$P", "phantom()")
+    tkr <- str_replace_fixed(tkr, "$arg1", "")
+    tkr <- str_replace_fixed(tkr, "$arg2", "")
+    tkr <- str_replace_fixed(tkr, "$sup", "")
+    tkr <- str_replace_fixed(tkr,"$sub", "")
+    tkr <- str_replace_fixed(tkr, "$opt", "")
+    tok$rendered <- tkr
     
     if (tok_idx != length(tokens) && tok$command == "\\frac") {
       tok$right_separator <- " * phantom(.)"
@@ -562,9 +565,8 @@ validate_input <- function(latex_string) {
          "' includes a '\\\\' command. Line breaks are not currently supported.")
   }
   
-  test_string <- latex_string %>%
-    str_replace_fixed("\\{", "") %>%
-    str_replace_fixed("\\}", "")
+  test_string <- str_replace_fixed(latex_string, "\\{", "")
+  test_string <- str_replace_fixed(test_string, "\\}", "")
     
   # check that opened and closed braces match in number
   opened_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\{)")[[1]]) -
