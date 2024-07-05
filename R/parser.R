@@ -328,7 +328,7 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     tok <- tokens[[tok_idx]]
     tok$skip <- FALSE
     
-    tok$rendered <- if (str_detect(tok$command, "^\\\\ESCAPED@")) {
+    tok$rendered <- if (grepl("^\\\\ESCAPED@", tok$command)) {
       # a character, like '!' or '?' was escaped as \\ESCAPED@ASCII_SYMBOL.
       # return it as a string.
       arg <- str_match(tok$command, "@(\\d+)")[1,2]
@@ -371,7 +371,7 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     # If the token starts with a number, break the number from
     # the rest of the string. This is because a plotmath symbol
     # cannot start with a number.
-    if (str_detect(tok$rendered, "^[0-9]") && !tok$text_mode) {
+    if (grepl("^[0-9]", tok$rendered) && !tok$text_mode) {
       split <- str_match(tok$rendered, "(^[0-9\\.]*)(.*)")
       
       if (split[1, 3] != "") {
@@ -384,8 +384,8 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
       }
     }
     
-    tok$left_operator <- str_detect(tok$rendered, fixed("$LEFT"))
-    tok$right_operator <- str_detect(tok$rendered, fixed("$RIGHT"))
+    tok$left_operator <- grepl("$LEFT", tok$rendered, fixed = TRUE)
+    tok$right_operator <- grepl("$RIGHT", tok$rendered, fixed = TRUE)
     
     if (tok_idx == 1) {
       tok$left_separator <- ""
@@ -426,7 +426,7 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
       for (argidx in seq_along(tok$args)) {
         args <- render_latex(tok$args[[argidx]], user_defined, hack_parentheses=hack_parentheses)
         argfmt <- paste0("$arg", argidx)
-        if (str_detect(tok$rendered, fixed(argfmt))) {
+        if (grepl(argfmt, tok$rendered, fixed = TRUE)) {
           tok$rendered <- str_replace_all(tok$rendered,
                                           fixed(argfmt),
                                           args)
@@ -443,7 +443,7 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     
     if (length(tok$optional_arg) > 0) {
       optarg <- render_latex(tok$optional_arg, user_defined, hack_parentheses=hack_parentheses)
-      if (str_detect(tok$rendered, fixed("$opt"))) {
+      if (grepl("$opt", tok$rendered, fixed = TRUE)) {
         tok$rendered <- str_replace_all(tok$rendered,
                                           fixed("$opt"),
                                           optarg)
@@ -462,7 +462,7 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
       if (length(arg) > 0) {
         rarg <- render_latex(arg, user_defined, hack_parentheses=hack_parentheses)
         
-        if (str_detect(tok$rendered, fixed(argfmt))) {
+        if (grepl(argfmt, tok$rendered, fixed = TRUE)) {
           tok$rendered <- str_replace_all(tok$rendered, fixed(argfmt), rarg)
         } else {
           if (type == "sup") {
@@ -551,7 +551,7 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
 #
 validate_input <- function(latex_string) {
   for (possible_slash_pattern in c("\a", "\b", "\f", "\v")) {
-    if (str_detect(latex_string, fixed(possible_slash_pattern))) {
+    if (grepl(possible_slash_pattern, latex_string, fixed = TRUE)) {
       repr <- deparse(possible_slash_pattern)
       message("latex2exp: Detected possible missing backslash: you entered ",
               repr, ", did you mean to type ", 
@@ -559,7 +559,7 @@ validate_input <- function(latex_string) {
     }
   }
   
-  if (str_detect(latex_string, fixed("\\\\"))) {
+  if (grepl("\\\\", latex_string, fixed = TRUE)) {
     stop("The LaTeX string '",
          latex_string,
          "' includes a '\\\\' command. Line breaks are not currently supported.")

@@ -51,7 +51,7 @@ latex2exp_supported <- function(show=FALSE, ...) {
     supp <- lapply(latex_supported, function(it) {
         # remove all commands that include the '@' character, which are used internally to
         # escape certain commands.
-        names(it)[!str_detect(names(it), fixed("@"))]
+        names(it)[!grepl("@", names(it), fixed = TRUE)]
       }) 
     supp <- mapply(function(category, commands) {
       # create an example suitable to demo each category of latex commands
@@ -94,9 +94,9 @@ latex2exp_supported <- function(show=FALSE, ...) {
             clo <- "\\right|"
           } else if (commands == "\\left.") {
             clo <- "\\right."
-          } else if (str_detect(commands, "^\\\\l")) {
+          } else if (grepl("^\\\\l", commands)) {
             clo <- paste0("\\r", str_replace(commands, fixed("\\l"), ""))
-          } else if (str_detect(commands, "^\\\\r")) {
+          } else if (grepl("^\\\\r", commands)) {
             return(NA)
           } else {
             clo <- op
