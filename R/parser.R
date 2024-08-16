@@ -6,7 +6,7 @@
   tok$sub_arg <- list()
   tok$children <- list()
   tok$command <- command
-  tok$is_command <- str_starts(command, fixed("\\"))
+  tok$is_command <- startsWith(command, "\\")
   tok$text_mode <- text_mode
   tok$left_operator <- tok$right_operator <- FALSE
   class(tok) <- "latextoken2"
@@ -29,19 +29,31 @@ clone_token <- function(tok) {
 }
 
 .find_substring <- function(string, boundary_characters) {
-  pattern <- str_c("^[^",
-                   str_c("\\", boundary_characters, collapse=""),
-                   "]+")
-  ret <- str_match(string, pattern)[1,1]
-  if ((is.na(ret) || nchar(ret) == 0) && nchar(string) > 0) {
-    str_sub(string, 1, 1)
-  } else {
-    ret
-  }
+  # This appears overly complex, based on the value returned by str_match()
+  #pattern <- paste0("^[^",
+  #  paste0("\\", boundary_characters, collapse = ""),
+  #                 "]+")
+  #ret <- str_match(string, pattern)[1,1]
+  #if ((is.na(ret) || nchar(ret) == 0) && nchar(string) > 0) {
+  #  substring(string, 1, 1)
+  #} else {
+  #  ret
+  #}
+  # Empty string is returned as such
+  if (nchar(string) == 0)
+    return("")
+  # Boundary characters at the beginning of the string is returned
+  first_char <- substring(string, 1, 1)
+  if (first_char %in% boundary_characters)
+    return(first_char)
+  # Otherwise, anything, starting from a boundary character is eliminated
+  boundary_pattern <- paste0("\\", boundary_characters, collapse = "")
+  pattern <- paste0("[", boundary_pattern, "].*$")
+  sub(pattern, "", string, perl = TRUE)
 }
 
 .find_substring_matching <- function(string, opening, closing) {
-  chars <- str_split(string, "")[[1]]
+  chars <- strsplit(string, "", fixed = TRUE)[[1]]
   depth <- 0
   start_expr <- -1
   
@@ -54,47 +66,53 @@ clone_token <- function(tok) {
     } else if (chars[i] == closing) {
       depth <- depth - 1
       if (depth == 0) {
-        return(str_sub(string, start_expr+1, i-1))
+        return(substring(string, start_expr + 1, i - 1))
       }
     }
   }
   if (depth != 0) {
-    stop("Unmatched '", opening, "' (opened at position: ", start_expr, ") while parsing '", string, "'")
+    stop("Unmatched '", opening, "' (opened at position: ", start_expr,
+      ") while parsing '", string, "'")
   } else {
     return(string)
   }
 }
 
 
-parse_latex <- function(latex_string,
-                        text_mode=TRUE,
-                        depth=0,
-                        pos=0,
-                        parent=NULL) {
+parse_latex <- function(latex_string, text_mode = TRUE, depth = 0, pos = 0,
+    parent = NULL) {
   input <- latex_string
 
   if (depth == 0) {
     validate_input(latex_string)
   }
   if (depth == 0) {
-    latex_string <- latex_string %>%
-      str_replace_fixed('\\|', '\\@pipe ') %>%
+    latex_string <- str_replace_fixed(latex_string, '\\|', '\\@pipe ')
+    # This one must be replaced by several calls to gsub()
+    #latex_string <- str_replace_all(latex_string,
+    #  "\\\\['\\$\\{\\}\\[\\]\\!\\?\\_\\^]", function(char) {
+    #    paste0("\\ESCAPED@", 
+    #          as.integer(charToRaw(str_replace_fixed(char, "\\", ""))),
+    #          "{}")
+    #  })
+    latex_string <- gsub("\\\\'", "\\\\ESCAPED@39{}", latex_string)
+    latex_string <- gsub("\\\\\\$", "\\\\ESCAPED@36{}", latex_string)
+    latex_string <- gsub("\\\\\\{", "\\\\ESCAPED@123{}", latex_string)
+    latex_string <- gsub("\\\\\\}", "\\\\ESCAPED@125{}", latex_string)
+    latex_string <- gsub("\\\\\\[", "\\\\ESCAPED@91{}", latex_string)
+    latex_string <- gsub("\\\\\\]", "\\\\ESCAPED@93{}", latex_string)
+    latex_string <- gsub("\\\\\\!", "\\\\ESCAPED@33{}", latex_string)
+    latex_string <- gsub("\\\\\\?", "\\\\ESCAPED@63{}", latex_string)
+    latex_string <- gsub("\\\\\\_", "\\\\ESCAPED@95{}", latex_string)
+    latex_string <- gsub("\\\\\\^", "\\\\ESCAPED@94{}", latex_string)
       
-      str_replace_all("\\\\['\\$\\{\\}\\[\\]\\!\\?\\_\\^]", function(char) {
-        str_c("\\ESCAPED@", 
-              as.integer(charToRaw(str_replace_fixed(char, "\\", ""))),
-              "{}")
-      }) %>%
-      
-      str_replace_all("([^\\\\]?)\\\\,", "\\1\\\\@SPACE1{}") %>%
-      str_replace_all("([^\\\\]?)\\\\;", "\\1\\\\@SPACE2{}") %>%
-      str_replace_all("([^\\\\]?)\\\\\\s", "\\1\\\\@SPACE2{}")
+    latex_string <- gsub("([^\\\\]?)\\\\,", "\\1\\\\@SPACE1{}", latex_string)
+    latex_string <- gsub("([^\\\\]?)\\\\;", "\\1\\\\@SPACE2{}", latex_string)
+    latex_string <- gsub("([^\\\\]?)\\\\\\s", "\\1\\\\@SPACE2{}", latex_string)
     
     cat_trace("String with special tokens substituted: ", latex_string)
   }
   
-  
-
   i <- 1
 
   tokens <- list()
@@ -103,12 +121,13 @@ parse_latex <- function(latex_string,
   withCallingHandlers({
     while (i <= nchar(latex_string)) {
       # Look at current character, previous character, and next character
-      ch <- str_sub(latex_string, i, i)
-      prevch <- if (i == 1) "" else str_sub(latex_string, i-1, i-1)
-      nextch <- if (i == nchar(latex_string)) "" else str_sub(latex_string, i+1, i+1)
+      ch <- substring(latex_string, i, i)
+      prevch <- if (i == 1) "" else substring(latex_string, i - 1, i - 1)
+      nextch <- if (i == nchar(latex_string)) "" else
+        substring(latex_string, i + 1, i + 1)
       
       # LaTeX string left to be processed
-      current_fragment <- str_sub(latex_string, i)
+      current_fragment <- substring(latex_string, i)
       
       cat_trace("Position: ", i, " ch: ", ch, " next: ", nextch, 
                 " current fragment: ", current_fragment, 
@@ -126,10 +145,10 @@ parse_latex <- function(latex_string,
       # another backslash, or a separator, or a dollar
       if (ch == "\\" && nextch != "\\") {
         # Continue until we encounter a separator
-        current_fragment <- str_sub(current_fragment, 2)
+        current_fragment <- substring(current_fragment, 2)
         
-        command <- str_c("\\",
-                         .find_substring(current_fragment, .math_separators))
+        command <- paste0("\\",
+                          .find_substring(current_fragment, .math_separators))
         cat_trace("Found token ", command, " in text_mode: ", text_mode)
         token <- .token2(command, text_mode)
         tokens <- c(tokens, token)
@@ -141,28 +160,24 @@ parse_latex <- function(latex_string,
                  ch %in% c(".", "{", "}", "[", "]", "(", ")", "|")) {
         # a \\left or \\right command has started. eat up the next character
         # and append it to the command.
-        token$command <- str_c(token$command, ch)
+        token$command <- paste0(token$command, ch)
         i <- i + 1
       } else if (ch == "{") {
-        argument <- .find_substring_matching(current_fragment,
-                                             "{",
-                                             "}")
+        argument <- .find_substring_matching(current_fragment, "{", "}")
         if (is.null(token)) {
           token <- .token2("", text_mode)
           tokens <- c(tokens, token)
         }
         
-        args <- parse_latex(argument, text_mode=text_mode,
-                            depth=depth+1, parent=token, pos=i)
+        args <- parse_latex(argument, text_mode = text_mode,
+                            depth = depth + 1, parent = token, pos = i)
         if (length(args) > 0) {
           token$args <- c(token$args, list(args))
         }
         # advance by two units (the content of the braces + two braces)
         i <- i + nchar(argument) + 2
       }  else if (ch == "[") {
-        argument <- .find_substring_matching(current_fragment,
-                                             "[",
-                                             "]")
+        argument <- .find_substring_matching(current_fragment, "[", "]")
         if (is.null(token)) {
           token <- .token2("", text_mode)
           tokens <- c(tokens, token)
@@ -170,8 +185,8 @@ parse_latex <- function(latex_string,
         
         token$optional_arg <- c(
           token$optional_arg,
-          parse_latex(argument, text_mode=text_mode,
-                      depth=depth+1, parent=token, pos=i)
+          parse_latex(argument, text_mode = text_mode,
+                      depth = depth + 1, parent = token, pos = i)
         )
         
         # advance by two units (the content of the braces + two braces)
@@ -189,31 +204,32 @@ parse_latex <- function(latex_string,
         # If there are spaces after the ^ or _ character,
         # consume them and advance past the spaces
         if (nextch == " ") {
-          n_spaces <- str_match(str_sub(current_fragment, 2), "\\s+")[1,1]
+          #n_spaces <- str_match(substring(current_fragment, 2), "\\s+")[1, 1]
+          n_spaces <- regmatches(current_fragment,
+            regexpr("\\s+", substring(current_fragment, 2)))
           advance <- advance + nchar(n_spaces)
-          nextch <- str_sub(current_fragment, advance + 1, advance+1)
+          nextch <- substring(current_fragment, advance + 1, advance + 1)
         } 
         
         # Sub or sup arguments grouped with braces. This is easy!
         if (nextch == "{") {
-          argument <- .find_substring_matching(str_sub(current_fragment, advance+1),
-                                               "{",
-                                               "}")
+          argument <- .find_substring_matching(substring(current_fragment,
+            advance + 1), "{", "}")
           
           # advance by two units (the content of the braces + two braces)
           advance <- advance + nchar(argument) + 2
         } else if (nextch == "\\") {
           # Advance until a separator is found
-          argument <- str_c("\\",
-                            .find_substring(str_sub(current_fragment, advance+2), separators))
+          argument <- paste0("\\",
+            .find_substring(substring(current_fragment, advance + 2), separators))
           advance <- advance + nchar(argument)
         } else {
-          argument <- str_sub(current_fragment, advance+1, advance+1)
+          argument <- substring(current_fragment, advance + 1, advance + 1)
           advance <- advance + nchar(argument)
         }
         
-        token[[arg_type]] <- parse_latex(argument, text_mode=text_mode,
-                                         depth=depth+1, parent=token, pos=i)
+        token[[arg_type]] <- parse_latex(argument, text_mode = text_mode,
+          depth = depth + 1, parent = token, pos = i)
         
         i <- i + advance
       } else if (ch == "$") {
@@ -230,7 +246,7 @@ parse_latex <- function(latex_string,
             token <- .token2(" ", text_mode)
             tokens <- c(tokens, token)
           } else {
-            token$command <- str_c(token$command, " ")
+            token$command <- paste0(token$command, " ")
           }
         }
         i <- i + 1
@@ -245,12 +261,12 @@ parse_latex <- function(latex_string,
           if (ch == "'") {
             ch <- "\\'"
           }
-          token$command <- str_c(token$command, ch)
-          i <- i+1
+          token$command <- paste0(token$command, ch)
+          i <- i + 1
         } else if (ch %in% c("?", "!", "@", ":", ";")) {
           # ...or escape them to avoid introducing illegal characters in the
           # plotmath expression...
-          token <- .token2(str_c("\\ESCAPED@", utf8ToInt(ch)), TRUE)
+          token <- .token2(paste0("\\ESCAPED@", utf8ToInt(ch)), TRUE)
           tokens <- c(tokens, token)
           i <- i + 1
         } else if (ch == "'") {
@@ -269,16 +285,14 @@ parse_latex <- function(latex_string,
           str <- .find_substring(current_fragment, separators)
         
           # If in math mode, ignore spaces
-          token <- .token2(str_replace_all(str,
-                                           "\\s+", ""),
-                           text_mode)
+          token <- .token2(gsub("\\s+", "", str), text_mode)
           tokens <- c(tokens, token)
           i <- i + nchar(str)
         }
       }
     }
     
-  }, error=function(e) {
+  }, error = function(e) {
     token_command <- if (is.null(token)) {
       ""
     } else {
@@ -290,7 +304,8 @@ parse_latex <- function(latex_string,
       message("Last token parsed:", token$command)
     }
     if (!is.null(parent)) {
-      message("The error happened within the arguments of :", parent$command, "\n")
+      message("The error happened within the arguments of :",
+        parent$command, "\n")
     }
   })
   
@@ -309,16 +324,18 @@ parse_latex <- function(latex_string,
 #' returned by \code{parse_latex}.
 #'
 #' @param tokens tree of tokens
-#' @param user_defined any custom definitions of commands passed to \code{\link{TeX}}
-#' @param hack_parentheses render parentheses using \code{group('(', phantom(), '.')} and
-#'                         \code{group(')', phantom(), '.')}. This is useful to return
-#'                         valid expressions when the LaTeX source contains mismatched
-#'                         parentheses, but makes the returned expression much 
-#'                         less tidy.
+#' @param user_defined any custom definitions of commands passed to
+#'   \code{\link{TeX}}
+#' @param hack_parentheses render parentheses using
+#'   \code{group('(', phantom(), '.')} and \code{group(')', phantom(), '.')}.
+#'   This is useful to return valid expressions when the LaTeX source contains
+#'   mismatched parentheses, but makes the returned expression much less tidy.
 #' @return String that should be parseable as a valid plotmath expression
-render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
+render_latex <- function(tokens, user_defined = list(),
+    hack_parentheses = FALSE) {
   if (!is.null(tokens$children)) {
-    return(render_latex(tokens$children, user_defined, hack_parentheses=hack_parentheses))
+    return(render_latex(tokens$children, user_defined,
+      hack_parentheses = hack_parentheses))
   }
   translations <- c(user_defined, latex_supported_map)
   
@@ -326,10 +343,12 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     tok <- tokens[[tok_idx]]
     tok$skip <- FALSE
     
-    tok$rendered <- if (str_detect(tok$command, "^\\\\ESCAPED@")) {
+    tok$rendered <- if (grepl("^\\\\ESCAPED@", tok$command)) {
       # a character, like '!' or '?' was escaped as \\ESCAPED@ASCII_SYMBOL.
       # return it as a string.
-      arg <- str_match(tok$command, "@(\\d+)")[1,2]
+      #arg <- str_match(tok$command, "@(\\d+)")[1,2]
+      arg <- substring(regmatches(tok$command,
+        regexpr("@(\\d+)", tok$command)), 2)
       arg <- intToUtf8(arg)
       
       if (arg == "'") {
@@ -341,11 +360,11 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
         tok$left_separator <- ''
       }
       
-      str_c("'", arg, "'")
+      paste0("'", arg, "'")
       #next
     } else if (!tok$text_mode || tok$is_command) {
       # translate using the translation table in symbols.R
-      translations[[str_trim(tok$command)]] %??% tok$command
+      translations[[trimws(tok$command)]] %??% tok$command
     } else {
       # leave as-is
       tok$command
@@ -354,7 +373,8 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     # empty command; if followed by arguments such as sup or sub, render as
     # an empty token, otherwise skip
     if (tok$rendered == "") {
-      if (length(tok$args) > 0 || length(tok$sup_arg) > 0 || length(tok$sub_arg) > 0) {
+      if (length(tok$args) > 0 || length(tok$sup_arg) > 0 ||
+          length(tok$sub_arg) > 0) {
         tok$rendered <- "{}"
       } else {
         tok$skip <- TRUE
@@ -362,28 +382,32 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     }
     
     if (tok$text_mode && !tok$is_command) {
-      tok$rendered <- str_c("'", tok$rendered, "'")
+      tok$rendered <- paste0("'", tok$rendered, "'")
     }
     
     
     # If the token starts with a number, break the number from
     # the rest of the string. This is because a plotmath symbol
     # cannot start with a number.
-    if (str_detect(tok$rendered, "^[0-9]") && !tok$text_mode) {
-      split <- str_match(tok$rendered, "(^[0-9\\.]*)(.*)")
+    if (grepl("^[0-9]", tok$rendered) && !tok$text_mode) {
+      # This is ultra-complex for something simple using sub()
+      #split <- str_match(tok$rendered, "(^[0-9\\.]*)(.*)")
+      #if (split[1, 3] != "") {
+      #  tok$rendered <- paste0(split[1, 2], "*", split[1, 3])
+      #} else {
+      #  tok$rendered <- split[1, 2]
+      #}
+      tok$rendered <- sub("^([0-9\\.]+)([^0-9\\.].*)", "\\1*\\2", tok$rendered)
       
-      if (split[1, 3] != "") {
-        tok$rendered <- str_c(split[1,2], "*", split[1,3])
-      } else {
-        tok$rendered <- split[1,2]
+      if (startsWith(tok$rendered, "0") && nchar(tok$rendered) > 1) {
+        tok$rendered <- paste0("0*", substring(tok$rendered, 2))
       }
-      if (str_starts(tok$rendered, "0") && str_length(tok$rendered) > 1) {
-        tok$rendered <- str_c("0*", str_sub(tok$rendered, 2))
-      }
+      # I need this to avoid double zeros before the decimal point
+      tok$rendered <- gsub("0*.", "0.", tok$rendered, fixed = TRUE)
     }
     
-    tok$left_operator <- str_detect(tok$rendered, fixed("$LEFT"))
-    tok$right_operator <- str_detect(tok$rendered, fixed("$RIGHT"))
+    tok$left_operator <- grepl("$LEFT", tok$rendered, fixed = TRUE)
+    tok$right_operator <- grepl("$RIGHT", tok$rendered, fixed = TRUE)
     
     if (tok_idx == 1) {
       tok$left_separator <- ""
@@ -392,85 +416,68 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     if (tok$left_operator) {
       if (tok_idx == 1) {
         # Either this operator is the first token...
-        tok$rendered <- str_replace_all(tok$rendered,
-                                        fixed("$LEFT"),
-                                        "phantom()")
-      } else if (tokens[[tok_idx-1]]$right_operator) {
+        tok$rendered <- str_replace_fixed(tok$rendered, "$LEFT", "phantom()")
+      } else if (tokens[[tok_idx - 1]]$right_operator) {
         # or the previous token was also an operator or an open parentheses.
         # Bind the tokens using phantom()
-        tok$rendered <- str_replace_all(tok$rendered,
-                                        fixed("$LEFT"),
-                                        "phantom()")
+        tok$rendered <- str_replace_fixed(tok$rendered, "$LEFT", "phantom()")
       } else {
-        tok$rendered <- str_replace_all(tok$rendered,
-                                          fixed("$LEFT"),
-                                          "")
+        tok$rendered <- str_replace_fixed(tok$rendered, "$LEFT", "")
         tok$left_separator <- ""
       }
     }
     if (tok$right_operator) {
       if (tok_idx == length(tokens)) {
-        tok$rendered <- str_replace_all(tok$rendered,
-                                        fixed("$RIGHT"),
-                                        "phantom()")
+        tok$rendered <- str_replace_fixed(tok$rendered, "$RIGHT", "phantom()")
       } else {
-        tok$rendered <- str_replace_all(tok$rendered,
-                                          fixed("$RIGHT"),
-                                          "")
-        tokens[[tok_idx+1]]$left_separator <- ""
+        tok$rendered <- str_replace_fixed(tok$rendered, "$RIGHT", "")
+        tokens[[tok_idx + 1]]$left_separator <- ""
       }
     }
     if (length(tok$args) > 0) {
       for (argidx in seq_along(tok$args)) {
-        args <- render_latex(tok$args[[argidx]], user_defined, hack_parentheses=hack_parentheses)
-        argfmt <- str_c("$arg", argidx)
-        if (str_detect(tok$rendered, fixed(argfmt))) {
-          tok$rendered <- str_replace_all(tok$rendered,
-                                          fixed(argfmt),
-                                          args)
+        args <- render_latex(tok$args[[argidx]], user_defined,
+          hack_parentheses = hack_parentheses)
+        argfmt <- paste0("$arg", argidx)
+        if (grepl(argfmt, tok$rendered, fixed = TRUE)) {
+          tok$rendered <- str_replace_fixed(tok$rendered, argfmt, args)
         } else {
           if (tok$rendered != "{}") {
-            tok$rendered <- str_c(tok$rendered, " * {",
-                                  args, "}")
+            tok$rendered <- paste0(tok$rendered, " * {", args, "}")
           } else {
-            tok$rendered <- str_c("{", args, "}")    
+            tok$rendered <- paste0("{", args, "}")
           }
         }
       }
     } 
     
     if (length(tok$optional_arg) > 0) {
-      optarg <- render_latex(tok$optional_arg, user_defined, hack_parentheses=hack_parentheses)
-      if (str_detect(tok$rendered, fixed("$opt"))) {
-        tok$rendered <- str_replace_all(tok$rendered,
-                                          fixed("$opt"),
-                                          optarg)
+      optarg <- render_latex(tok$optional_arg, user_defined,
+        hack_parentheses = hack_parentheses)
+      if (grepl("$opt", tok$rendered, fixed = TRUE)) {
+        tok$rendered <- str_replace_fixed(tok$rendered, "$opt", optarg)
       } else {
         # the current token is not consuming an optional argument, so render
         # it as square brackets
-        tok$rendered <- str_c(tok$rendered, " * '[' *",
-                              optarg, " * ']'")
+        tok$rendered <- paste0(tok$rendered, " * '[' *", optarg, " * ']'")
       }
     }
     
     for (type in c("sub", "sup")) {
-      arg <- tok[[str_c(type, "_arg")]]
-      argfmt <- str_c("$", type)
+      arg <- tok[[paste0(type, "_arg")]]
+      argfmt <- paste0("$", type)
       
       if (length(arg) > 0) {
-        rarg <- render_latex(arg, user_defined, hack_parentheses=hack_parentheses)
+        rarg <- render_latex(arg, user_defined,
+          hack_parentheses = hack_parentheses)
         
-        if (str_detect(tok$rendered, fixed(argfmt))) {
-          tok$rendered <- str_replace_all(tok$rendered, fixed(argfmt), rarg)
+        if (grepl(argfmt, tok$rendered, fixed = TRUE)) {
+          tok$rendered <- str_replace_fixed(tok$rendered, argfmt, rarg)
         } else {
           if (type == "sup") {
-            tok$rendered <- sprintf("%s^{%s}", 
-                                      tok$rendered,
-                                      rarg)
+            tok$rendered <- sprintf("%s^{%s}", tok$rendered, rarg)
           } else {
-            tok$rendered <- sprintf("%s[%s]", 
-                                      tok$rendered,
-                                      rarg)
+            tok$rendered <- sprintf("%s[%s]", tok$rendered, rarg)
           }
         } 
         
@@ -481,13 +488,14 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     # any arguments that were not specified (e.g. if 
     # there is no argument specified for the command,
     # substitute '' for '$arg1')
-    tok$rendered <- tok$rendered %>%
-      str_replace_fixed("$P", "phantom()") %>%
-      str_replace_fixed("$arg1", "") %>%
-      str_replace_fixed("$arg2", "") %>%
-      str_replace_fixed("$sup", "") %>%
-      str_replace_fixed("$sub", "") %>%
-      str_replace_fixed("$opt", "") 
+    tkr <- tok$rendered
+    tkr <- str_replace_fixed(tkr, "$P", "phantom()")
+    tkr <- str_replace_fixed(tkr, "$arg1", "")
+    tkr <- str_replace_fixed(tkr, "$arg2", "")
+    tkr <- str_replace_fixed(tkr, "$sup", "")
+    tkr <- str_replace_fixed(tkr,"$sub", "")
+    tkr <- str_replace_fixed(tkr, "$opt", "")
+    tok$rendered <- tkr
     
     if (tok_idx != length(tokens) && tok$command == "\\frac") {
       tok$right_separator <- " * phantom(.)"
@@ -498,10 +506,11 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
         tok$left_separator <- ""
         tok$right_separator <- ""
       } 
-      if (tok_idx > 1 && tokens[[tok_idx-1]]$command == "(") {
+      if (tok_idx > 1 && tokens[[tok_idx - 1]]$command == "(") {
         tok$left_separator <- ""
       }
-      if (tok_idx > 1 && tokens[[tok_idx]]$command == "(" && length(tokens[[tok_idx-1]]$sup_arg) > 0) {
+      if (tok_idx > 1 && tokens[[tok_idx]]$command ==
+          "(" && length(tokens[[tok_idx - 1]]$sup_arg) > 0) {
         tok$left_separator <- "*"
       }
     } else {
@@ -517,7 +526,7 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     
     # If the token still starts with a "\", substitute it
     # with the corresponding expression
-    tok$rendered <- str_replace(tok$rendered, "^\\\\", "")
+    tok$rendered <- sub("^\\\\", "", tok$rendered)
 
     if (tok$rendered == "{}") {
       tok$skip <- TRUE
@@ -529,12 +538,12 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
     if (tok$skip) {
       ""
     } else {
-      str_c(tok$left_separator %??% "*",
-            tok$rendered,
-            tok$right_separator %??% "")
+      paste0(tok$left_separator %??% "*",
+             tok$rendered,
+             tok$right_separator %??% "")
     }
   })
-  str_c(rendered_tokens, collapse="")
+  paste0(rendered_tokens, collapse = "")
 }
 
 # Validates the input LaTeX string
@@ -548,29 +557,36 @@ render_latex <- function(tokens, user_defined=list(), hack_parentheses=FALSE) {
 #
 validate_input <- function(latex_string) {
   for (possible_slash_pattern in c("\a", "\b", "\f", "\v")) {
-    if (str_detect(latex_string, fixed(possible_slash_pattern))) {
+    if (grepl(possible_slash_pattern, latex_string, fixed = TRUE)) {
       repr <- deparse(possible_slash_pattern)
       message("latex2exp: Detected possible missing backslash: you entered ",
               repr, ", did you mean to type ", 
-              str_replace(repr, fixed("\\"), "\\\\"), "?")
+              sub("\\\\?", "?", repr))
     }
   }
   
-  if (str_detect(latex_string, fixed("\\\\"))) {
-    stop("The LaTeX string '",
-         latex_string,
-         "' includes a '\\\\' command. Line breaks are not currently supported.")
+  if (grepl("\\\\", latex_string, fixed = TRUE)) {
+    stop("The LaTeX string '", latex_string,
+      "' includes a '\\\\' command. Line breaks are not currently supported.")
   }
   
-  test_string <- latex_string %>%
-    str_replace_fixed("\\{", "") %>%
-    str_replace_fixed("\\}", "")
+  test_string <- str_replace_fixed(latex_string, "\\{", "")
+  test_string <- str_replace_fixed(test_string, "\\}", "")
     
+  n_match_all <- function(x, pattern) {
+    res <- gregexpr(pattern, x, perl = TRUE)[[1]]
+    if (length(res) == 1 && res == -1) 0 else length(res)
+  }
+  
   # check that opened and closed braces match in number
-  opened_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\{)")[[1]]) -
-    nrow(str_match_all(test_string, "\\\\left\\{")[[1]])
-  closed_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\})")[[1]]) -
-    nrow(str_match_all(test_string, "\\\\right\\}")[[1]])
+  #opened_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\{)")[[1]]) -
+  #  nrow(str_match_all(test_string, "\\\\left\\{")[[1]])
+  opened_braces <- n_match_all(test_string, "[^\\\\]*?(\\{)") -
+    n_match_all(test_string, "\\\\left\\{")
+  #closed_braces <- nrow(str_match_all(test_string, "[^\\\\]*?(\\})")[[1]]) -
+  #  nrow(str_match_all(test_string, "\\\\right\\}")[[1]])
+  closed_braces <- n_match_all(test_string, "[^\\\\]*?(\\})") -
+    n_match_all(test_string, "\\\\right\\}")
   
   if (opened_braces != closed_braces) {
     stop("Mismatched number of braces in '", latex_string, "' (",
@@ -579,11 +595,16 @@ validate_input <- function(latex_string) {
   }
   
   # check that the number of \left* and \right* commands match
-  lefts <- nrow(str_match_all(test_string, "[^\\\\]*\\\\left[\\(\\{\\|\\[\\.]")[[1]])
-  rights <- nrow(str_match_all(test_string, "[^\\\\]*\\\\right[\\)\\}\\|\\]\\.]")[[1]])
+  #lefts <- nrow(str_match_all(test_string,
+  #  "[^\\\\]*\\\\left[\\(\\{\\|\\[\\.]")[[1]])
+  lefts <- n_match_all(test_string, "[^\\\\]*\\\\left[\\(\\{\\|\\[\\.]")
+  #rights <- nrow(str_match_all(test_string,
+  #  "[^\\\\]*\\\\right[\\)\\}\\|\\]\\.]")[[1]])
+  rights <- n_match_all(test_string, "[^\\\\]*\\\\right[\\)\\}\\|\\]\\.]")
   
   if (lefts != rights) {
-    stop("Mismatched number of \\left and \\right commands in '", latex_string, "' (",
+    stop("Mismatched number of \\left and \\right commands in '",
+         latex_string, "' (",
          lefts, " left commands, ",
          rights, " right commands.")
   }

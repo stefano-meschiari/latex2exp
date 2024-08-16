@@ -3,39 +3,43 @@
 }
 
 str_replace_fixed <- function(string, pattern, replacement) {
-  str_replace_all(string, fixed(pattern), replacement)
+  #str_replace_all(string, fixed(pattern), replacement)
+  # This is a correct replacement of str_replace_all() only if one never
+  # uses a function for replacement... This is checked in v0.9.8
+  gsub(pattern, replacement, string, fixed = TRUE)
 }
 
-#' Prints out a parsed LaTeX object, as returned by TeX(..., output='ast').
+#' Prints out a parsed LaTeX object, as returned by TeX(..., output = 'ast').
 #' This is primarily used for debugging.
 #' 
 #' @param x The object
 #' @param depth Increases padding when recursing down the parsed structure
 #' @param ... (Ignored)
 #' @export
-print.latextoken2 <- function(x, depth=0, ...) {
+print.latextoken2 <- function(x, depth = 0, ...) {
   token <- x
   pad <- strrep(" ", depth)
   cat(pad,
-      if (depth > 0) str_c("| :", token$command, ":"), 
-      if (!is.null(token$rendered)) str_c(" -> ", token$rendered),
+      if (depth > 0) paste0("| :", token$command, ":"), 
+      if (!is.null(token$rendered)) paste0(" -> ", token$rendered),
       "\n",
-      sep="")
+      sep = "")
   
-  for (children_type in c("children", "args", "optional_arg", "sup_arg", "sub_arg")) {
+  for (children_type in
+    c("children", "args", "optional_arg", "sup_arg", "sub_arg")) {
     if (length(token[[children_type]]) > 0) {
       if (children_type != "children") {
-        cat(pad, "* <", children_type, ">", "\n", sep="")
+        cat(pad, "* <", children_type, ">", "\n", sep = "")
       }
       for (tok_idx in seq_along(token[[children_type]])) {
         c <- token[[children_type]][[tok_idx]]
         if (is.list(c)) {
-          cat(pad, " | [argument ", tok_idx, "]\n", sep="")
+          cat(pad, " | [argument ", tok_idx, "]\n", sep = "")
           for (cc in c) {
-            print(cc, depth+1)
+            print(cc, depth + 1)
           }
         } else {
-          print(c, depth+1)
+          print(c, depth + 1)
         }
       }
     }

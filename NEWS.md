@@ -1,3 +1,7 @@
+# 0.9.8 (07/05/2024)
+
+* The code is reworked to eliminate dependencies to stringr and magrittr.
+
 # 0.9.7 (12/28/2022)
 ## Bug fixes
 * In math mode, numbers that started with 0 would be displayed without it (e.g.
